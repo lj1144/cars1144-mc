@@ -1,0 +1,89 @@
+options:
+    prefix: <##12121D>&a&l&lLOTTERY ≫<##A4A4C3>
+
+on tab complete of "/lottery":
+            set tab completions for position 1 to "buy" and "check"
+            set tab completions for position 2 to "<amount>"
+
+
+command /lottery [<string>] [<integer>]:
+    cooldown: 1 second
+    trigger:
+        {lottery.status} is not set
+        if arg-1 is not set:
+            send "{@prefix} Use /lottery buy to buy a ticket!" to player
+            stop
+        if arg-2 is less than 1:
+            stop
+        if arg-2 is greater than 100:
+            send "{@prefix} Greater than 100"
+            stop
+        else:
+            set {_amt} to placeholder "beasttokens_tokens_raw" from player parsed as number
+            if {lottery::pcount::%name of player%} is not set:
+                set {lottery::pcount::%name of player%} to 0
+            if arg-1 is "buy":
+                if arg-2 is set:
+                    if {_amt} is greater than 500*arg-2:
+                        make console execute command "ta remove %name of player% %500*arg-2%"
+                        loop arg-2 times:
+                            if {lottery.last} is not player:
+                                add name of player to {lottery::list::*}
+                        add arg-2 to {lottery::pcount::%name of player%}
+                        send "{@prefix} %arg-2% Ticket bought! You now have %{lottery::pcount::%name of player%}% tickets"
+                        add 500*arg-2 to {lottery::amount}
+                        broadcast "{@prefix} %player% has bought %arg-2% tickets (The jackpot is now %{lottery::amount}%) | /lottery buy <amount>"
+                        stop
+                    else:
+                        send "{@prefix} kaneganai"
+                        stop
+                if {_amt} is greater than 499:
+                    make console execute command "/ta remove %name of player% 500"
+                    add name of player to {lottery::list::*}
+                    add 1 to {lottery::pcount::%name of player%}
+                    send "{@prefix} 1 Ticket bought! You now have %{lottery::pcount::%name of player%}% tickets"
+                    add 500 to {lottery::amount}
+                    broadcast "{@prefix} %player% has bought 1 ticket! (The jackpot is now %{lottery::amount}%) | /lottery buy <amount>"
+                    stop
+            if arg-1 is "check":
+                if player is op:
+                    send "%{lottery::list::*}%"
+                    stop
+                else:
+                    send "{@prefix} The lottery will be drawn in %{lottery.time}% minutes!"
+            if arg-1 is "time" or "timeleft" or "left":
+                send "{@prefix} The lottery will be drawn in %{lottery.time}% minutes!"
+
+
+
+
+on load:
+    set {lottery.time} to 300
+    set {lottery::amount} to 8000
+
+every 5 minutes:
+    lotterycheck()
+
+function lotterycheck():
+    remove 5 from {lottery.time}
+    if {lottery.time} is less than 5:
+        set {lottery.status} to true
+        loop {lottery::pcount::*}:
+            add 1 to {_pplbought}
+        set {_w} to random element out of {lottery::list::*}
+        set {_a} to {lottery::amount}
+        broadcast "{@prefix} Lottery is closed and will now shuffle for winner!"
+        wait 5 seconds
+        broadcast ""
+        broadcast "{@prefix} &l%{_w}% has won the lottery of %{_a}%"
+        broadcast ""
+        set {lottery.last} to {_w}
+        make console execute command "/ta add %{_w}% %{_a}%"
+        delete {lottery.status}
+        clear {lottery::pcount::*}
+        clear {lottery::list::*}
+        set {lottery.time} to 300
+        set {lottery::amount} to 8000
+    if {lottery.time} is less than 65:
+        broadcast "{@prefix} The lottery will be drawn in %{lottery.time}% minutes. Use /lottery buy to get a ticket! | Current:  %{lottery::amount}% Tokens"
+        stop

@@ -1,0 +1,56 @@
+options:
+    prefix: <##AB2330>&lᴇᴢʟᴀᴠᴀʀɪꜱɪɴɢ ≫<##A95F66>
+    color1: <##AB2330>
+    color2: <##A95F66>
+
+command /randomitemlist <string> [<string>]:
+    permission: op
+    trigger:
+        if arg-1 is "add" or "set":
+            set {randomitems::%arg-2%} to player's tool
+            send "&c Added %arg-2% as %player's tool%"
+        if arg-1 is "give":
+            give player 1 of {randomitems::%arg-2%}
+        if arg-1 is "list":
+            send "%{randomitems::*}%" to player
+
+command /envoy <text> [<integer>]:
+    permission: op
+    trigger:
+        if arg-1 is "add":
+            add player's tool to {envoy::item::*}
+            send "Added %player's tool% to envoys!" to player
+            stop
+        if arg-1 is "remove":
+            {envoy::item::*} contains player's tool
+            remove player's tool from {envoy::item::*}
+            send "&cremoved %player's tool%"
+        if arg-1 is "clear":
+            clear {envoy::item::*}
+        if arg-1 is "test":
+            callenvoy()
+
+function callenvoy():
+    {y} is less than 249
+    set {_x} to random integer between -30 and 30
+    set {_z} to random integer between -30 and 30
+    set {_y} to random integer between {y}+5 and 255
+    set {_location} to location at {_x}, {_y}, {_z} in world "lavarise"
+    loop all players:
+        send title "{@color1}&lLoot Box" with subtitle "{@color2}A loot box has spawned at %{_x}% %{_y}% %{_z}%" to loop-player for 4 seconds
+    wait 1 tick
+    make console execute command "/execute in minecraft:lavarise run fill %{_x}% %{_y}% %{_z}% %{_x}% %{_y}% %{_z}% minecraft:ender_chest"
+    set block at {_location} to ender chest
+    broadcast ""
+    broadcast "{@prefix}A LOOT BOX SPAWNED AT %{_x}% %{_y}% %{_z}%"
+    broadcast ""
+    make console execute command "/execute in minecraft:lavarise run fill %{_x}-1% %{_y}-1% %{_z}-1% %{_x}+1% %{_y}-1% %{_z}+1% minecraft:bedrock"
+    launch ball large colored lime at {_location} with duration 0.1
+
+on right click:
+    event-block is ender chest
+    launch ball large colored red, purple and white fading to light green and black at event-block's location with duration 0.01
+    set {_loot::*} to {envoy::item::*}
+    set {_lootbox} to random element out of {_loot::*}
+    give player {_lootbox}
+    set event-block to air

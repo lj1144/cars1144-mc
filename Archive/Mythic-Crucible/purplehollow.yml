@@ -1,0 +1,82 @@
+LapseBlueSkill:
+  Skills:
+  - projectile{onTick=LapseBlue-Tick;sE=false;sB=false;onHit=LapseBlue-Hit;v=5;mr=100;d=100;hR=5;vR=5;hnp=true} @Forward{uel=true}
+  #@targetlocation
+  - delay 5
+  - damage{d=14} @EntitiesInRadius{r=5}
+
+LapseBlue-Tick:
+  Skills:
+  - effect:particlesphere{particle=reddust;color=#0000FF;a=100;r=0.8} 
+  - pull{v=7;to=true} @LivingEntitiesInRadius{r=15}
+  - damage{a=14;i=false} @EntitiesNearOrigin{r=4}
+    # @EIR{r=10}
+
+LapseBlue-Hit:
+  Skills:
+#    - effect:particles{p=largeexplode;amount=1} @origin
+#    - sound{s=entity.generic.explode;volume=1;pitch=1} @origin
+  - damage{a=14;i=false} @EntitiesNearOrigin{r=4}
+  
+RedSkill:
+  Skills:
+  - projectile{onTick=Red-Tick;v=0.2;mr=6;sE=false} @Forward{f=2}
+  - delay 40
+ # - blockwave{duration=30;material=blackstone;radius=25;radiusY=3;velocity=1;shape=sphere} @origin
+  - sound{s=block.nether_ore.fall;v=1;sc=hostile} @allInRadius{r=25}
+  - throw{velocity=100;velocityY=100} @allInRadius{r=25}
+  - delay 5
+  - blockwave{duration=30;material=blackstone;radius=25;radiusY=3;velocity=1;shape=sphere} @origin
+  - damage{a=50} @EIR{r=100}
+#  - projectile{onTick=Red-Tick;sE=false;sB=false;onHit=Red-Hit;v=4;mr=50;d=100;hR=5;vR=5;hnp=true;yaw=100;g=0.3;vO=1.8} @Forward
+#  - projectile{onTick=Red-Tick;onHit=Red-Hit;v=13.3;i=1;hR=1;vR=1;StopAtBlock=false;g=0.3;vO=1.8;syO=9;sso=16;sfo=-25;repeat=1;repeatInterval=30;mr=50} @Forward
+  #@targetlocation
+  #@targetlocation
+ # - projectile{onTick=Red-Tick;v=0.2;mr=50;sE=false} @Forward{f=2}
+#  - throw{velocity=40;velocityY=1} @LivingEntitiesInRadius{r=10}
+ # - delay 40
+#  - damage{d=5} @EntitiesInRadius{r=5}
+
+Red-Tick:
+  Skills:
+  - effect:particlesphere{particle=reddust;color=#FF0000;a=100;r=0.8;y=1}
+  - throw{velocity=2;velocityY=0.2;fromOrigin=true} @PIR{r=6}
+#  - pull{v=4;to=true} @LivingEntitiesInRadius{r=3}
+ # - damage{a=5;preventimmunity=true} @PIR{r=6}
+    # @EIR{r=10}
+
+Red-Hit:
+  Skills:
+#    - effect:particles{p=largeexplode;amount=1} @origin
+#    - sound{s=entity.generic.explode;volume=1;pitch=1} @origin
+  - throw{velocity=30;velocityY=4} @PIR{r=10}
+  - damage{a=30;preventimmunity=false} @EntitiesNearOrigin{r=4}
+  
+PurpleHollow:
+  Skills:
+  - projectile{onTick=Purple-Tickz;onHit=Purple-Hit;v=11;mr=50;sE=false;hnp=true} @Forward{uel=true}
+#  - throw{velocity=40;velocityY=1} @LivingEntitiesInRadius{r=10}
+  - delay 5
+#  - damage{d=5} @EntitiesInRadius{r=5}
+
+Purple-Tickz:
+  Skills:
+  - effect:particlesphere{particle=reddust;color=#800080;a=1000;r=2;y=1}
+ # - throw{velocity=2;velocityY=0.2;fromOrigin=true} @PIR{r=6}
+#  - pull{v=4;to=true} @LivingEntitiesInRadius{r=3}
+  - damage{a=5;preventimmunity=true} @PIR{r=6}
+
+Purple-Tick:
+  Skills:
+  - effect:particlesphere{particle=Sweep_Attack;color=#800080;a=1000;r=2;y=1}
+ # - throw{velocity=2;velocityY=0.2;fromOrigin=true} @PIR{r=6}
+#  - pull{v=4;to=true} @LivingEntitiesInRadius{r=3}
+  - damage{a=5;preventimmunity=true} @PIR{r=6}
+    # @EIR{r=10}
+
+Purple-Hit:
+  Skills:
+#    - effect:particles{p=largeexplode;amount=1} @origin
+#    - sound{s=entity.generic.explode;volume=1;pitch=1} @origin
+ # - throw{velocity=30;velocityY=4} @PIR{r=10}
+  - damage{a=10000;preventimmunity=false}

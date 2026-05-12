@@ -1,0 +1,143 @@
+#options:
+#  
+#  #CONFIG
+#	prefix: <##12121D>&lᴅᴜᴘᴇ07 ≫<##A4A4C3>
+#
+on tab complete of "/bounty":
+	set tab completions for position 1 to "add" and "list"
+#	set tab completions for position 2 to "<player>"
+	set tab completions for position 3 to "<amount>"
+
+##############################################
+##############################################
+##############################################
+options:
+	prefix: <##12121D>&lᴅᴜᴘᴇ07 ≫<##A4A4C3>
+on tab complete of "/bounties" and "bounty":
+	set tab completions for position 1 to "add" and "list"
+	set tab completions for position 3 to "<amount>"
+command /bounties [<text>] [<player>] [<integer>]:
+	aliases: /bounty
+	trigger:
+		if arg-1 is set:
+			if arg-1 is "add":
+				if arg-2 is set:
+					if arg-2 is set:
+						if arg-3 is set:
+							set {_amount} to "%placeholder "beasttokens_tokens_raw" from player%" parsed as number
+							if {_amount} > arg-3:
+								if {bounty::%arg-2's name%} isn't set:
+									set {bounty::%arg-2's name%} to arg-3
+									execute console command "/ta remove %player's uuid% %arg-3%"
+									broadcast ""
+									broadcast "{@prefix} &d%player% has put a &c%arg-3% token &dbounty on %arg-2%" 
+									broadcast ""
+								else:
+									add arg-3 to {bounty::%arg-2's name%}
+									broadcast ""
+									broadcast "{@prefix} &d%player% has added &c%arg-3% tokens &don %arg-2%'s bounty! (Total: %{bounty::%arg-2%}%)" 
+									broadcast ""
+							else:
+								send "{@prefix} &8| &dYou don't have enough tokens to do that" to player
+						else:
+							send "{@prefix} &dIncorrect Usage: /bounty add (player) (amount)" to player
+					else:
+						send "{@prefix} &dThat player doesn't exist!" to player
+				else:
+					send "{@prefix} &dIncorrect Usage: /bounty add (player) (amount)" to player
+			else if arg-1 is "list":
+				set {bountypage::%player's uuid%} to 1
+				bountyGUI(player, {bountypage::%player's uuid%})
+			else if arg-1 is "clear":
+				if player has permission "op":
+					clear {bounty::*}
+					send "{@prefix} &dYou have cleared all bounties!" to player
+					broadcast ""
+					broadcast "{@prefix} Bounties have been cleared by admin"
+					broadcast ""
+				else:
+					send "{@prefix} &dIncorrect Usage: /bounty (add/list)" to player
+		else:
+			set {bountypage::%player's uuid%} to 1
+			bountyGUI(player, {bountypage::%player's uuid%})
+function bountyGUI(p: player, page: integer):
+	open chest inventory with 6 rows named "&4Bounties" to {_p}
+	set slot 0,1,2,3,4,5,6,7,8,9,17,18,26,27,35,36,44,45,46,47,48,49,50,51,52 and 53 of {_p}'s current inventory to gray stained glass pane named "&b"
+	if size of {bounty::*} > ({bountypage::%{_p}'s uuid%} * 28):
+		set slot 53 of {_p}'s current inventory to arrow named "&7Next Page"
+	if {_page} > 1:
+		set slot 45 of {_p}'s current inventory to arrow named "&7Previous Page"
+	set {_slot} to 9
+	remove 1 from {_num}
+	set {_pagethingy} to {bountypage::%{_p}'s uuid%} * 28
+	set {_secondpagethingy} to {_pagethingy} - 29
+	loop sorted indices of {bounty::*} in descending order:
+		add 1 to {_num}
+		if {_num} < {_pagethingy}:
+			if {_num} > {_secondpagethingy}:
+				set {_bounty} to {bounty::%loop-value%}
+				set {_player} to loop-value parsed as offline player
+				loop 5 times:
+					add 1 to {_slot}
+					if {_slot} isn't 0,1,2,3,4,5,6,7,8,9,17,18,26,27,35,36,44,45,46,47,48,49,50,51,52 or 53:
+						set slot {_slot} of {_p}'s current inventory to {_player}'s skull named "&c%{_player}%" with lore "" and "&8[&cBounty&8]: &c%{_bounty}%"
+						stop loop
+		else:
+			stop loop
+on inventory click:
+	if name of player's current inventory is "&4Bounties":
+		cancel event
+		if event-slot is 53:
+			event-slot is arrow
+			close player's inventory
+			add 1 to {bountypage::%player's uuid%}
+			bountyGUI(player, {bountypage::%player's uuid%})
+		else if event-slot is 45:
+			event-slot is arrow
+			close player's inventory
+			remove 1 from {bountypage::%player's uuid%}
+			bountyGUI(player, {bountypage::%player's uuid%})
+on join:
+	if {bounty::%player's name%} is set:
+		broadcast "{@prefix} &d%player% joined with a bounty of &c%{bounty::%player's name%}% tokens"
+		if {bounty::%player's name%} is greater than 999:
+			apply glowing to player for 9999 days
+on resurrect attempt:
+	if {bounty::%player's name%} is set:
+		wait 1 second
+		if {bounty::%player's name%} is greater than 999:
+			apply glowing to player for 9999 days
+on consume:
+	if event-item is milk:
+		wait 1 second
+		if {bounty::%player's name%} is greater than 999:
+			apply glowing to player for 9999 days
+on quit:
+	if {bounty::%player's name%} is set:
+		broadcast "{@prefix} &d%player% left with a bounty of &c%{bounty::%player's name%}% tokens. &dClowning around and sh."
+on damage:
+	if victim is end crystal:
+		set {lasthitcrystal::%victim%} to name of attacker
+		wait 5 ticks
+		delete {lasthitcrystal::%victim%}
+function bountycheck(a: player, v: player, e: entity):
+	set {_ua} to uuid of {_a}
+	set {_uv} to uuid of {_v}
+	if {_v} is not wearing any chestplate:
+		stop
+	if {_v} is not wearing any leggings:
+		stop
+	if ip of {_a} contains ip of {_v}:
+		stop
+	if {_v}'s world is "manualevent": # W name
+		stop
+	if {lasthitcrystal::%{_e}%} is set:
+		set {_a} to {lasthitcrystal::%{_e}%}
+	if {bounty::%{_v}%} is set:
+		broadcast "" 
+		broadcast "{@prefix} &d%{_v}%'s &c%{bounty::%{_v}%}% token &dbounty has been claimed by %{_a}%" 
+		broadcast ""
+		make console execute command "/ta add %{_a}% %{bounty::%{_v}%}%"
+		clear {bounty::%{_v}%}
+on death of player:
+	bountycheck(attacker, victim, attacker)

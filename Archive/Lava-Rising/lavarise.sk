@@ -1,0 +1,313 @@
+options:
+    prefix: <##AB2330>&lᴇᴢʟᴀᴠᴀʀɪꜱɪɴɢ ≫<##A95F66>
+    color1: <##AB2330>
+    color2: <##A95F66>
+
+command /start:
+ permission: ohakam.lol
+ trigger:
+  set {game} to true
+  set {lava} to true
+  delete {faster}
+  set {y} to -24
+  send "&aStarted Game"
+  if {gamemode} is "broke":
+   set {y} to -64
+  if {gamemode} is "random":
+   set {y} to 0
+
+#on first join:
+# {servergame} is not "pvp"
+# {game} is true
+# subtract 4 from {y}
+
+command /end:
+ permission: ohakam.lol
+ trigger:
+  delete {lava}
+  delete {faster}
+  send "&cEnded Game"
+
+command /actionbar:
+ cooldown: 5 seconds
+ trigger:
+  if {lavabar::*} contains player:
+   remove player from {lavabar::*}
+   send "&cLava messages will now be sent in chat"
+  else:
+   add player to {lavabar::*}
+   send action bar "&cLava messages will now be sent in a action bar"
+
+on load:
+    set {lavaspeed} to 10
+
+command /lavaspeed <integer>:
+    permission: op
+    trigger:
+        set {lavaspeed.tick} to arg-1
+        set {lavaspeed} to arg-1
+
+every 3 minutes:
+    {lava} is true
+    {servergame} is "pvp"
+    callenvoy()
+
+every 2.5 minutes:
+    {lava} is true
+    {y} is less than 255
+    {lavaspeed} is greater than -1
+    {servergame} is "pvp"
+    set {lavaspeed} to {lavaspeed}-1
+    set {lavaspeed.tick} to {lavaspeed}
+    broadcast ""
+    broadcast "{@prefix} Lava speed has increased!"
+    broadcast ""
+
+every 1 second:
+    {lava} is true
+    {y} is less than 255
+    if {lavaspeed.tick} is less than 1:
+        console command "execute in minecraft:lavarise run fill 50 %{y}% -50 -50 %{y}% 50 lava replace air"
+        console command "execute in minecraft:lavarise run fill 50 %{y}% -50 -50 %{y}% 50 lava replace water"
+        loop all players:
+            if {lavabar::*} does not contain loop-player:
+                send "&cLava Raised! &o(Y = %{y}%)" to loop-player
+            else:
+                send action bar "&cLava Raised! &o(Y = %{y}%)" to loop-player
+        autoevents()
+        add 1 to {y}
+        set {lavaspeed.tick} to {lavaspeed}
+    else:
+        if {lavaspeed.tick} is between -1 and {lavaspeed}+1:
+            subtract 1 from {lavaspeed.tick}
+        else:
+            set {lavaspeed.tick} to {lavaspeed}
+
+
+
+function autoevents():
+    if {y} is equal to 100:
+        console command "execute in minecraft:lavarise run worldborder set 40 1000"
+    if {y} is equal to 140:
+        if {gamemode} is not "void":
+            set {faster} to true
+            loop all players:
+                if loop-player's gamemode is survival:
+                    if {gamemode} is not "broke":
+                        loop-player's world is "lavarise"
+                        apply glowing 0 to loop-player for 1 day
+                        apply strength 0 to loop-player for 1 day
+    if {y} is equal to 252:
+        loop all players:
+            if loop-player's gamemode is survival:
+                apply strength 2 to loop-player for 1 day
+                broadcast "{@prefix} Teaming is no longer allowed"
+                play sound "entity.wither.spawn" at volume 1 at pitch 2 to all players
+                send title "<##A95F66>&lTeaming is no longer allowed" to all players
+    if {y} is equal to 10:
+        broadcast "{@prefix} PvP/Permdeath will be on at Y Level 70"
+    if {y} is equal to 30:
+        broadcast "{@prefix} PvP/Permdeath will be on at Y Level 70"
+    if {y} is equal to 45:
+        broadcast "{@prefix} PvP/Permdeath will be on at Y Level 70"
+    if {y} is equal to 65:
+        broadcast "{@prefix} PvP/Permdeath will be on in less than minutes"
+    if {y} is equal to 70:
+        pvpon()
+
+
+
+#every {lavaspeed} parsed as integer seconds:
+# if {servergame} is not "pvp":
+#  if {servergame} is "broke":
+#   set {_change} to a random integer between 1 and 3
+#   if {_change} is 1:
+#    stop
+#  if {gamemode} is "void":
+#   stop
+# if {lava} is true:
+#  if {faster} is not set:
+#   if {y} is less than 255:
+#    if {y} is not set:
+#     set {y} to 0
+#    else if {y} is set:
+#     if {gamemode} is not "void" or "acid":
+#      console command "execute in minecraft:lavarise run fill 50 %{y}% -50 -50 %{y}% 50 lava replace air"
+#      console command "execute in minecraft:lavarise run fill 50 %{y}% -50 -50 %{y}% 50 lava replace water"
+#      loop all players:
+#       if {lavabar::*} does not contain loop-player:
+#        send "&cLava Raised! &o(Y = %{y}%)" to loop-player
+#       else:
+#        send action bar "&cLava Raised! &o(Y = %{y}%)" to loop-player
+#     else if {gamemode} is "acid":
+#      console command "execute in minecraft:lavarise run fill 50 %{y}% -50 -50 %{y}% 50 water replace air"
+#      console command "execute in minecraft:lavarise run fill 50 %{y}% -50 -50 %{y}% 50 water replace lava"
+#      loop all players:
+#       if {lavabar::*} does not contain loop-player:
+#        send "&9Acid Raised! &o(Y = %{y}%)" to loop-player
+#       else:
+#        send action bar "&9Acid Raised! &o(Y = %{y}%)" to loop-player
+#     add 1 to {y}
+#     wait 3 seconds
+#     if {y} is less than 130:
+#      {y} is greater than 70
+#      if {gamemode} is not "void" or "acid":
+#       console command "execute in minecraft:lavarise run fill 50 %{y}% -50 -50 %{y}% 50 lava replace air"
+#       console command "execute in minecraft:lavarise run fill 50 %{y}% -50 -50 %{y}% 50 lava replace water"
+#       loop all players:
+#        if {lavabar::*} does not contain loop-player:
+#         send "&cLava Raised! &o(Y = %{y}%)" to loop-player
+#        else:
+#         send action bar "&cLava Raised! &o(Y = %{y}%)" to loop-player
+#      else if {gamemode} is "acid":
+#       console command "execute in minecraft:lavarise run fill 50 %{y}% -50 -50 %{y}% 50 water replace air"
+#       console command "execute in minecraft:lavarise run fill 50 %{y}% -50 -50 %{y}% 50 water replace lava"
+#       loop all players:
+#        if {lavabar::*} does not contain loop-player:
+#         send "&9Acid Raised! &o(Y = %{y}%)" to loop-player
+#        else:
+#         send action bar "&9Acid Raised! &o(Y = %{y}%)" to loop-player
+#      add 1 to {y}
+#     if {y} is equal to 100:
+#      console command "execute in minecraft:lavarise run worldborder set 40 200"
+#     if {y} is equal to 140:
+#      if {gamemode} is not "void":
+#       set {faster} to true
+#       loop all players:
+#        if loop-player's gamemode is survival:
+#         if {gamemode} is not "broke":
+#          loop-player's world is "lavarise"
+#          apply glowing 0 to loop-player for 1 day
+#          apply strength 0 to loop-player for 1 day
+#     if {y} is equal to 252:
+#      loop all players:
+#       if loop-player's gamemode is survival:
+#        apply strength 2 to loop-player for 1 day
+#        broadcast "{@prefix} Teaming is no longer allowed"
+#        play sound "entity.wither.spawn" at volume 1 at pitch 2 to all players
+#        send title "<##A95F66>&lTeaming is no longer allowed" to all players
+#     if {y} is equal to 10:
+#      broadcast "{@prefix} PvP/Permdeath will be on at Y Level 70"
+#     if {y} is equal to 30:
+#      broadcast "{@prefix} PvP/Permdeath will be on at Y Level 70"
+#     if {y} is equal to 45:
+#      broadcast "{@prefix} PvP/Permdeath will be onat Y Level 70"
+#     if {y} is equal to 65:
+#      broadcast "{@prefix} PvP/Permdeath will be on in less than minutes"
+#     if {y} is equal to 70:
+#      pvpon()
+#   else if {lava} is not set:
+#    if {y} is not set:
+#     delete {y}
+
+# ============================ Void
+# ============================ Void
+# ============================ Void
+
+
+# ============================ Void
+# ============================ Void
+# ============================ Void
+
+command /setlava <integer>:
+    permission: op
+    trigger:
+        set {y} to arg-1
+        send "&c&lLava has been set to %{y}%"
+
+command /debuglava:
+    permission: op
+    trigger:
+        send "%{lava}%"
+        send "%{faster}%"
+        send "%{y}%"
+        send "&cLavaspeed: %{lavaspeed}%"
+# RUSH LAVA
+#every 2 seconds:
+# if {lava} is true:
+#  if {faster} is true:
+#   if {y} is less than 255:
+#    if {y} is not set:
+#     set {y} to 0
+#    else if {y} is set:
+#     if {gamemode} is not "void" or "acid":
+#      console command "execute in minecraft:lavarise run fill 22 %{y}% -22 -22 %{y}% 22 lava replace air"
+#      console command "execute in minecraft:lavarise run fill 22 %{y}% -22 -22 %{y}% 22 lava replace air"
+#      loop all players:
+#       if {lavabar::*} does not contain loop-player:
+#        send "&cSpeeding Lava Raised! &o(Y = %{y}%)" to loop-player
+#       else:
+#        send action bar "&cSpeeding Lava Raised! &o(Y = %{y}%)" to loop-player
+#      wait 1 seconds
+#      add 1 to {y}
+#     else if {gamemode} is "acid":
+#      console command "execute in minecraft:lavarise run fill 2 %{y}% -22 -22 %{y}% 22 water replace air"
+#      console command "execute in minecraft:lavarise run fill 22 %{y}% -22 -22 %{y}% 22 water replace air"
+#      loop all players:
+#       if {lavabar::*} does not contain loop-player:
+#        send "&9Acid Raised! &o(Y = %{y}%)" to loop-player
+#       else:
+#        send action bar "&9Acid Raised! &o(Y = %{y}%)" to loop-player
+#      wait 1 seconds
+#      add 1 to {y}
+#     if {gamemode} is "void":
+#      if {y} is less than 310:
+#       console command "execute in minecraft:lavarise run fill 38 %{y}% -38 -38 %{y}% 38 void_air"
+#       loop all players:
+#        if {lavabar::*} does not contain loop-player:
+#         send "&fSpeeding Void Raised! &o(Y = %{y}%)" to loop-player
+#        else:
+#         send action bar "&fSpeeding Void Raised! &o(Y = %{y}%)" to loop-player
+#       wait 1 seconds
+#       add 1 to {y}
+#     if {y} is equal to 254:
+#      loop all players:
+#       if loop-player's gamemode is survival:
+#        if loop-player's world is "lavarise":
+#         apply strength 2 to loop-player for 1 day
+#   else if {lava} is not set:
+#    if {y} is not set:
+#     delete {y} 
+#
+
+#every 19 ticks:
+#    if {lava} is true:
+#        if {gamemode} is "void":
+#            if {y} is less than 70:
+#                console command "execute in minecraft:lavarise run fill 38 %{y}% -38 -38 %{y}% 38 void_air replace lava"
+#                console command "execute in minecraft:lavarise run fill 38 %{y}% -38 -38 %{y}% 38 void_air replace water"
+#        if {gamemode} is not "void":
+#            if {y} is less than 256:
+#                console command "execute in minecraft:lavarise run fill 50 %{y}-2% -50 -50 %{y}-2% 50 coarse_dirt replace obsidian"                
+#                console command "execute in minecraft:lavarise run fill 50 %{y}-1% -50 -50 %{y}-1% 50 coarse_dirt replace obsidian"
+
+
+on block form of obsidian:
+    set event-block to coarse dirt
+
+					
+
+
+
+on player move:
+    if player is in world "lavarise":
+        if player's gamemode is spectator:
+            if player's x coordinate is not between -80 and 80:
+                teleport player to location(0, {y} + 10, 0, world("lavarise"))
+					
+on player move:
+    if player is in world "lavarise":
+        if player's gamemode is spectator:
+            if player's z coordinate is not between -80 and 80:
+                teleport player to location(0, {y} + 10, 0, world("lavarise"))
+
+on player move:
+    if player is in world "lavarise":
+        if player's gamemode is spectator:
+            if player's y coordinate is below -64:
+                teleport player to location(0, {y} + 10, 0, world("lavarise"))
+        else if player's gamemode is survival:
+            if player's y coordinate is below -64:
+                if {gamemode} is "void":
+                    if {servergame} is "intro":
+                        teleport player to location(0, 100, 0, world("lavarise"))

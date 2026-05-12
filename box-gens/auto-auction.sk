@@ -1,0 +1,165 @@
+options:
+    prefix: <##2CB087>&lʟᴏᴛᴜꜱᴀᴜᴄᴛɪᴏɴ ≫<##7CFCC3>
+    color: <##7CFCC3>
+
+
+command /serverauction <string> [<string>]:
+    permission: lotusgens.auctionadmin
+    trigger:
+        if arg-1 is "currencyadd" or "addcurrency":
+            if arg-2 is set:
+                if arg-2 is clear:
+                    clear {serverauction::currencylist::*}
+                    send "{@prefix} Cleared currency list"
+                    stop
+                set {serverauction::currencylist::%arg-2%} to player's tool
+                send "{@prefix} Set %arg-2% to %player's tool%"
+                send "{@prefix} List %{serverauction::currencylist::*}%"
+            else:
+                send "{@prefix} Invalid: /serverauction currencyadd <placeholder name>"
+        else if arg-1 is "itemadd" or "additem" or "item":
+            if arg-2 is "add":
+                add player's tool to {serverauction::itemlist::*}
+                send "{@prefix} Added %player's tool% to the list of items!"
+            else if arg-2 is "remove":
+                if {serverauction::itemlist::*} contains player's tool:
+                    remove player's tool from {serverauction::itemlist::*}
+                    send "{@prefix} Successfully removed your item"
+                else:
+                    send "{@prefix} Item not found in list."
+            else if arg-2 is "clear":
+                clear {serverauction::itemlist::*}
+                send "{@prefix} Cleared the list of items."
+        else if arg-1 is "start":
+            if arg-2 is set:
+                set {_rounds} to arg-2 parsed as integer
+                serverauctionfunction({_rounds})
+            else:
+                serverauctionfunction(1)
+        else:
+            send "{@prefix} Invalid: /serverauction (start/currencyadd/item)"
+
+
+every 6 hours:
+    set {_r} to random integer between 6 and 10
+    serverauctionfunction({_r})
+
+
+function serverauctionfunction(rounds: integer):
+    {serverauction::started} is not set
+    set {serverauction::started} to true
+    broadcast "" and "{@prefix} Auction will begin in 3 minutes (/warp auction)" and ""
+    make console execute command "/npc spawn 28"
+    make embed:
+        set title of embed to "LotusGens"
+        set description of embed to "An auction will begin in 3 minutes @AuctionPing"
+        set embed color of the embed to green
+#        add field named "Online Players" with value "%number of all players%"
+        set footer of embed to "- ThunderHead"
+    post last embed to channel with id "1383502039744774165"
+    set {_at} to "&"
+    post "<@%{_at}%1386488832458887179>" to channel with id "1383502039744774165"
+    wait 165 seconds
+    loop {_rounds} times:
+        broadcast "{@prefix} The next auction will begin in 15 seconds (/warp auction)"
+        wait 15 seconds
+        clear {serverauction::bidders::*}
+        set {serverauction::currentitem} to random element out of {serverauction::itemlist::*}
+        set {serverauction::currentcurrency} to random element out of {serverauction::currencylist::*}
+        set {serverauction::value} to 1
+        set {_item} to {serverauction::currentitem}
+        set {_currency} to {serverauction::currentcurrency}
+        set {serverauction.preview} to {serverauction::currentitem}
+        make console execute command "/npc spawn 26"
+        loop all players:
+            "%region at loop-player%" contains "auction"
+            send "" and "{@prefix} The item being sold: %name of {_item}%" and "{@color}Currency: %name of {_currency}%" and "" to loop-player
+        wait 12 seconds
+        set {serverauction::active} to true
+        loop all players:
+            "%region at loop-player%" contains "auction"
+            send "{@prefix} You may begin bidding with /bid <amount>." to loop-player
+        set {serverauction::timeleft} to 20
+        while {serverauction::timeleft} is greater than 0:
+            wait 1 seconds
+            subtract 1 from {serverauction::timeleft}
+            set {_pplpreview::*} to sorted indices of {serverauction::bidders::*} in descending order
+            set {_pplpreview} to first element out of {_pplpreview::*}
+            loop all players:
+                "%region at loop-player%" contains "auction"
+                send action bar "{@color} Auction ending in %{serverauction::timeleft}% seconds | %{_pplpreview}% is winning with %{serverauction::value}% " to loop-player
+        set {_ppl::*} to sorted indices of {serverauction::bidders::*} in descending order
+        set {_ppl} to first element out of {_ppl::*}
+        delete {serverauction::bidders::%{_ppl}%}
+        make console execute command "/npc despawn 26"
+        loop all players:
+            "%region at loop-player%" contains "auction"
+            send "{@prefix} %{_ppl}% has won the auction by %{serverauction::value}%!" to loop-player
+        give {_ppl} parsed as player 1 of {serverauction::currentitem}
+        set {serverauction::active} to false
+        clear {serverauction::currentitem}
+        wait 5 seconds
+        loop {serverauction::bidders::*}:
+            send "{@prefix}You have not reclaimed your items yet! (%loop-value-2% %{_currency}% {@color}) Use /reclaimbid before the next auction!" to loop-index parsed as player
+    make console execute command "/npc despawn 28"
+    delete {serverauction::started}
+
+command /bid [<integer>]:
+    cooldown: 0.1 seconds
+    trigger:
+        if "%region at player%" contains "auction":
+            if {serverauction::active} is false:
+                send "{@prefix} An auction is not currently active"
+                stop
+            if arg-1 is greater than {serverauction::value}-{serverauction::bidders::%player%}:
+                set {_worth} to amount of {serverauction::currentcurrency} in player's inventory
+                if {serverauction::bidders::%player%} is set:
+                    add {serverauction::bidders::%player%} to {_worth}
+                if {_worth} is greater than arg-1:
+                    set {_remove} to arg-1
+                    remove {_remove} of {serverauction::currentcurrency} from player's inventory
+                    add arg-1 to {serverauction::bidders::%player%}
+                    set {serverauction::timeleft} to 20
+                    broadcast "{@prefix} %player% has bid for %{serverauction::bidders::%player%}%"
+                    set {serverauction::value} to {serverauction::bidders::%player%}
+                else:
+                    send "{@prefix} Crodie ur a bit broke. Make sure its all in ur inventory!"
+            else:
+                send "{@prefix} You must bid at least %{serverauction::value}-{serverauction::bidders::%player%}+1%"
+        else:
+            send "{@prefix} /warp auction"
+        
+
+command /reclaimbid:
+    cooldown: 0.1 seconds
+    trigger:
+        if {serverauction::bidders::%player%} is set:
+            if {serverauction::active} is true:
+                send "{@prefix} You can only claim when a auction is not active"
+                stop
+            give player {serverauction::bidders::%player%} of {serverauction::currentcurrency}
+            delete {serverauction::bidders::%player%}
+        else:
+            send "{@prefix} Reclaim unavailable. Most likely expired"
+
+command /auctionpreview:
+    cooldown: 0.1 seconds
+    trigger:
+        {serverauction::currentitem} is set
+        "%region at player%" contains "auction"
+        auctionpreview(player)
+
+function auctionpreview(p: player):
+    create gui with virtual chest inventory with 1 rows named "Preview Item":
+        make gui slot 4 to {serverauction.preview}:
+            close player's inventory
+    open last gui to {_p}
+	
+
+on load:
+    set {serverauction::active} to false
+    clear {serverauction::currentcurrency}
+    clear {serverauction::value}
+    clear {serverauction::bidders::*}
+    clear {serverauction::currentitem}
+    delete {serverauction::started}

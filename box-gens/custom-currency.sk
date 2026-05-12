@@ -1,0 +1,24 @@
+# requires skript placeholders
+
+command /currency <string> <string> [<player>] [<integer>]:
+    permission: op
+    trigger:
+        if arg-1 is "give":
+            arg-4 is set
+            give arg-3 arg-4 of {economy::%arg-2%}
+        else if arg-1 is "remove":
+            arg-3 is set
+            remove arg-4 of {economy::%arg-2%} from arg-3's inventory
+        else if arg-1 is "set":
+            arg-2 is set
+            set {economy::%arg-2%} to player's tool
+            send "{@prefix} Set to %{economy::%arg-2%}%"
+                
+
+placeholderapi placeholder with the prefix "currency":
+  if the identifier is "compcoin": # The placeholder is %currency_compcoin%
+    set the result to "%amount of {economy::compcoin} in player's inventory%" parsed as integer
+  if the identifier is "amethyst": # The placeholder is %currency_amethyst%
+    set the result to "%amount of {economy::amethyst} in player's inventory%" parsed as integer
+  if the identifier is "lotus": # The placeholder is %currency_lotus%
+    set the result to "%amount of {economy::lotus} in player's inventory%" parsed as integer

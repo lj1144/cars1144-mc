@@ -1,0 +1,297 @@
+options:
+	prefix: <##12121D>&lᴅᴜᴘᴇ07 ≫<##A4A4C3>
+
+command /questfix:
+	permission: op
+	trigger:
+		broadcast " "
+		broadcast "{@prefix}&lQUESTS HAS BEEN RESET BY ADMIN"
+		broadcast " "
+		loop all players:
+			clear {completed1.%loop-player's uuid%}
+			delete {completed1}
+			clear {quest::*}
+			clear {quest::completed::*}
+			clear {quest::msg::*}
+			clear {quest::type::*}
+			clear {quest::progress::*}
+
+on load:
+	make console execute command "/questfix"
+
+command /quest:
+	trigger:
+		open chest inventory with 3 rows named "&4&lQuest" to player
+		set slot (integers between 0 and 9) and (integers between 17 and 26) of player's current inventory to gray stained glass pane named ""
+		if {quest::timer::%player's uuid%} isn't set:
+			set slot 10, 11, 12, 14, 15, 16 of player's current inventory to lime stained glass pane named ""
+			set {_cool} to "&aYour quest is available!"
+		else:
+			set slot 10, 11, 12, 14, 15, 16 of player's current inventory to red stained glass pane named ""
+			set {_cool} to "&c%{quest::timer::%player's uuid%}% minutes until you can do a quest again."
+		if {quest::timer::%player's uuid%} isn't set:
+			getquest(player)
+			set {quest::timer::%player's uuid%} to 30
+		if {quest::progress::%{_u}%} isn't set:
+			set {quest::progress::%{_u}%} to 0
+		if {quest::msg::%{_u}%} isn't set:
+			set {quest::msg::%{_u}%} to "N/A"
+		set slot 13 of player's current inventory to chest named "&4&lBi-Hourly Quest" with lore " ", "&cCurrent Quest:&a %{quest::msg::%uuid of player%}%", "&cProgress:&a %{quest::progress::%player's uuid%}%/%{quest::completed::%player's uuid%}%", " ", "&7Every two hours, you can get", "&7a quest to gain 450-500 tokens!!", " " and "%{_cool}%"
+on inventory click:
+	if name of player's inventory is "&4&lQuest":
+		cancel event
+		if event-slot is 13:
+			send "&cYou have to wait %{quest::timer::%player's uuid%}% minutes before doing your next quest!"
+every minute:
+	loop all players:
+		if {quest::timer::%loop-player's uuid%} > 0:
+			remove 1 from {quest::timer::%loop-player's uuid%}
+		else:
+			clear {quest::timer::%loop-player's uuid%}
+
+function getquest(p:player):
+	set {_u} to uuid of {_p}
+	set {_i} to random integer between 1 and 16
+	if {_i} is 1:
+		set {quest::type::%{_u}%} to "iron"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aMine 50 iron ore"
+		set {quest::completed::%{_u}%} to 50
+		send " " to {_p}
+		send "{@prefix} &7Mine 50 iron ore" to {_p}
+		send " " to {_p}
+	if {_i} is 2:
+		set {quest::type::%{_u}%} to "gold"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aMine 50 gold ore"
+		set {quest::completed::%{_u}%} to 50
+		send " " to {_p}
+		send "{@prefix} &7Mine 50 gold ore" to {_p}
+		send " " to {_p}
+	if {_i} is 3:
+		set {quest::type::%{_u}%} to "sheep"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aKill 50 sheep"
+		set {quest::completed::%{_u}%} to 50
+		send " " to {_p}
+		send "{@prefix} &7Kill 50 sheep" to {_p}
+		send " " to {_p}
+	if {_i} is 4:
+		set {quest::type::%{_u}%} to "mob1"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aKill 100 entities"
+		set {quest::completed::%{_u}%} to 100
+		send " " to {_p}
+		send "{@prefix} &7Kill 100 entities" to {_p}
+		send " " to {_p}
+	if {_i} is 5:
+		set {quest::type::%{_u}%} to "place"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aPlace 750 blocks"
+		set {quest::completed::%{_u}%} to 750
+		send " " to {_p}
+		send "{@prefix} &7Place 750 blocks" to {_p}
+		send " " to {_p}
+	if {_i} is 6:
+		set {quest::type::%{_u}%} to "kill"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aKill 5 players"
+		set {quest::completed::%{_u}%} to 5
+		send " " to {_p}
+		send "{@prefix} &7Kill 5 players" to {_p}
+		send " " to {_p}
+	if {_i} is 7:
+		set {quest::type::%{_u}%} to "kill"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aKill 10 players"
+		set {quest::completed::%{_u}%} to 10
+		send " " to {_p}
+		send "{@prefix} &7Kill 10 players" to {_p}
+		send " " to {_p}
+	if {_i} is 8:
+		set {quest::type::%{_u}%} to "obsidian"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aBreak 100 obsidian"
+		set {quest::completed::%{_u}%} to 100
+		send " " to {_p}
+		send "{@prefix} &7Mine 100 obsidian" to {_p}
+		send " " to {_p}
+	if {_i} is 9:
+		set {quest::type::%{_u}%} to "dragonslayer"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aSlay the Ender Dragon"
+		set {quest::completed::%{_u}%} to 1
+		send " " to {_p}
+		send "{@prefix} &7Kill the Ender Dragon" to {_p}
+		send " " to {_p}
+	if {_i} is 10:
+		set {quest::type::%{_u}%} to "enchant20"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aEnchant 30 items"
+		set {quest::completed::%{_u}%} to 30
+		send " " to {_p}
+		send "{@prefix} &7Enchant 30 items!" to {_p}
+		send " " to {_p}
+	if {_i} is 11:
+		set {quest::type::%{_u}%} to "experience"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aPick up 2000 experience orbs"
+		set {quest::completed::%{_u}%} to 2000
+		send " " to {_p}
+		send "{@prefix} &7Pick up 2000 xp (experience orbs)!" to {_p}
+		send " " to {_p}
+	if {_i} is 12:
+		set {quest::type::%{_u}%} to "mosh5"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aStand in mosh for 10 minutes"
+		set {quest::completed::%{_u}%} to 10
+		send " " to {_p}
+		send "{@prefix} &7Stand in mosh for 10 minutes (not straight)" to {_p}
+		send " " to {_p}
+	if {_i} is 13:
+		set {quest::type::%{_u}%} to "blazekiller"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aKill 20 blaze"
+		set {quest::completed::%{_u}%} to 20
+		send " " to {_p}
+		send "{@prefix} &7Kill 20 blaze" to {_p}
+		send " " to {_p}
+	if {_i} is 14:
+		set {quest::type::%{_u}%} to "obsidianplace"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aPlace 150 obsidian"
+		set {quest::completed::%{_u}%} to 150
+		send " " to {_p}
+		send "{@prefix} &7Place 150 obsidian" to {_p}
+		send " " to {_p}
+	if {_i} is 15:
+		set {quest::type::%{_u}%} to "tame1"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aTame 5 animals"
+		set {quest::completed::%{_u}%} to 5
+		send " " to {_p}
+		send "{@prefix} &7Tame 5 animals" to {_p}
+		send " " to {_p}
+	if {_i} is 15:
+		set {quest::type::%{_u}%} to "trade"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aTrade with a villager 15 times"
+		set {quest::completed::%{_u}%} to 15
+		send " " to {_p}
+		send "{@prefix} &7Trade with a villager 15 times" to {_p}
+		send " " to {_p}
+	if {_i} is 16:
+		set {quest::type::%{_u}%} to "riptide350"
+		set {quest::progress::%{_u}%} to 0
+		set {quest::msg::%{_u}%} to "&aRiptide 25 times while being over y level 350"
+		set {quest::completed::%{_u}%} to 25
+		send " " to {_p}
+		send "{@prefix} &7Riptide to y level 350 25 times" to {_p}
+		send " " to {_p}
+		
+function checkfinish(p: player):
+	set {_u} to {_p}'s uuid
+	if {quest::progress::%{_u}%} >= {quest::completed::%{_u}%}:
+		play sound "ui.toast.challenge_complete" to {_p}
+		clear {quest::progress::%{_u}%}
+		clear {quest::type::%{_u}%}
+		clear {quest::msg::%{_u}%}
+		set {_rand} to random integer between 450 and 500
+		send " " to {_p}
+		send "{@prefix} &7You have finished your quest! You have been given &6%{_rand}% tokens!" to {_p}
+		send " " to {_p}
+		console command "/ta add %{_p}% %{_rand}%"
+
+every 1 minute:
+	loop all players:
+		if {quest::type::%loop-player's uuid%} is "mosh5":
+			add 1 to {quest::progress::%loop-player's uuid%}
+			send action bar "<##12121D>&lQuest: <##A4A4C3>Stand in Mosh for %{quest::progress::%loop-player's uuid%}%/%{quest::completed::%loop-player's uuid%}% Minutes" to loop-player
+			checkfinish(loop-player)
+on riptide:
+	if player's y-coordinate is greater than 349:
+		if {quest::type::%player's uuid%} is "riptide350":
+			add 1 to {quest::progress::%player's uuid%}
+			send action bar "<##12121D>&lQuest: <##A4A4C3>Riptide Above Y 350 %{quest::progress::%player's uuid%}%/%{quest::completed::%player's uuid%}% Times" to player
+			checkfinish(player)
+on tame:
+	if {quest::type::%player's uuid%} is "tame1":
+		add 1 to {quest::progress::%player's uuid%}
+		send action bar "<##12121D>&lQuest: <##A4A4C3>Tamed %{quest::progress::%player's uuid%}%/%{quest::completed::%player's uuid%}% Animals" to player
+		checkfinish(player)
+
+on player pickup xp:
+	if {quest::type::%player's uuid%} is "experience":
+		add 1 to {quest::progress::%player's uuid%}
+		send action bar "<##12121D>&lQuest: <##A4A4C3>Picked Up %{quest::progress::%player's uuid%}%/%{quest::completed::%player's uuid%}% XP" to player
+		checkfinish(player)
+on player trade:
+	if {quest::type::%player's uuid%} is "trade":
+		add 1 to {quest::progress::%player's uuid%}
+		send action bar "<##12121D>&lQuest: <##A4A4C3>Traded %{quest::progress::%player's uuid%}%/%{quest::completed::%player's uuid%}% Times" to player
+		checkfinish(player)
+on enchant:
+	if {quest::type::%player's uuid%} is "enchant20":
+		add 1 to {quest::progress::%player's uuid%}
+		send action bar "<##12121D>&lQuest: <##A4A4C3>Enchanted %{quest::progress::%player's uuid%}%/%{quest::completed::%player's uuid%}% Items" to player
+		checkfinish(player)
+
+on place:
+	if event-block is obsidian:
+		if {quest::type::%player's uuid%} is "obsidianplace":
+			add 1 to {quest::progress::%player's uuid%}
+			send action bar "<##12121D>&lQuest: <##A4A4C3>Placed %{quest::progress::%player's uuid%}%/%{quest::completed::%player's uuid%}% Obsidian" to player
+			checkfinish(player)
+
+on break:
+	if event-block is gold ore or deepslate gold ore:
+		if {quest::type::%player's uuid%} is "gold":
+			add 1 to {quest::progress::%player's uuid%}
+			send action bar "<##12121D>&lQuest: <##A4A4C3>Mined %{quest::progress::%player's uuid%}%/%{quest::completed::%player's uuid%}% Gold Ore" to player
+			checkfinish(player)
+	if event-block is iron ore or deepslate iron ore:
+		if {quest::type::%player's uuid%} is "iron":
+			add 1 to {quest::progress::%player's uuid%}
+			send action bar "<##12121D>&lQuest: <##A4A4C3>Mined %{quest::progress::%player's uuid%}%/%{quest::completed::%player's uuid%}% Iron Ore" to player
+			checkfinish(player)
+	if event-block is obsidian:
+		if {quest::type::%player's uuid%} is "obsidian":
+			add 1 to {quest::progress::%player's uuid%}
+			send action bar "<##12121D>&lQuest: <##A4A4C3>Mined %{quest::progress::%player's uuid%}%/%{quest::completed::%player's uuid%}% Obsidian" to player
+			checkfinish(player)
+
+on place:
+	if {quest::type::%player's uuid%} is "place":
+		add 1 to {quest::progress::%player's uuid%}
+		send action bar "<##12121D>&lQuest: <##A4A4C3>Placed %{quest::progress::%player's uuid%}%/%{quest::completed::%player's uuid%}% Blocks" to player
+		checkfinish(player)
+		
+on death:
+	if {quest::type::%attacker's uuid%} is "mob" or "mob1":
+		add 1 to {quest::progress::%attacker's uuid%}
+		send action bar "<##12121D>&lQuest: <##A4A4C3>Killed %{quest::progress::%attacker's uuid%}%/%{quest::completed::%attacker's uuid%}% Mobs" to attacker
+		checkfinish(attacker)
+
+on death of player:
+	if {quest::type::%attacker's uuid%} is "kill":
+		add 1 to {quest::progress::%attacker's uuid%}
+		send action bar "<##12121D>&lQuest: <##A4A4C3>Killed %{quest::progress::%attacker's uuid%}%/%{quest::completed::%attacker's uuid%}% Players" to attacker
+		checkfinish(attacker)
+
+on death of blaze:
+	if {quest::type::%attacker's uuid%} is "blazekiller":
+		add 1 to {quest::progress::%attacker's uuid%}
+		send action bar "<##12121D>&lQuest: <##A4A4C3>Killed %{quest::progress::%attacker's uuid%}%/%{quest::completed::%attacker's uuid%}% Blaze" to attacker
+		checkfinish(attacker)
+
+on death of sheep:
+	if {quest::type::%attacker's uuid%} is "sheep":
+		add 1 to {quest::progress::%attacker's uuid%}
+		send action bar "<##12121D>&lQuest: <##A4A4C3>Killed %{quest::progress::%attacker's uuid%}%/%{quest::completed::%attacker's uuid%}% Sheep" to attacker
+		checkfinish(attacker)
+
+on death of ender dragon:
+	if {quest::type::%attacker's uuid%} is "dragonslayer":
+		add 1 to {quest::progress::%attacker's uuid%}
+		send action bar "<##12121D>&lQuest: <##A4A4C3>Killed %{quest::progress::%attacker's uuid%}%/%{quest::completed::%attacker's uuid%}% Ender Dragon" to attacker
+		checkfinish(attacker)

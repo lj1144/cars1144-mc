@@ -1,0 +1,125 @@
+# Simple Coinflip
+# by sluhtie#1234
+
+options:
+    prefix: <##12121D>&lᴅᴜᴘᴇ07 ≫<##A4A4C3>
+    no-perms: &8[&c&l!&8] <##9A52FF>You don't have permissions to perform this action!
+    broadcast: true
+    min-bid: 10
+
+on quit:
+    if {cfrequests::*} contains name of player:
+        make console execute command "/ta add %player% %{cfrequests::%name of player%::bid}%"
+        delete {cfrequests::%name of player%::bid}
+        remove player from {cfrequests::*}
+
+
+command /coinflip [<string>] [<number>]:
+    aliases: cf
+    executable by: players
+    trigger:
+        if arg-1 = "list":
+            coinflipGameGUI(player, 1)
+        else if arg-1 = "delete" or "remove":
+            {cfrequests::*} does not contain name of player:
+                send "{@prefix} &7You didn't place a bid!"
+                stop
+            make console execute command "/ta add %player% %{cfrequests::%name of player%::bid}%"
+            send "{@prefix} &7Your bid has been removed!"
+            delete {cfrequests::%name of player%::bid}
+            remove name of player from {cfrequests::*}
+        else if arg-1 = "bid":
+            if arg-2 is not set:
+                send "{@prefix} Usage: &c/cf bid <amount>"
+                stop
+            if arg-2 < {@min-bid}:
+                send "{@prefix} &cYou need to bid at least {@min-bid} tokens!"
+                stop
+            if "%placeholder "beasttokens_tokens_raw" from player%" parsed as number < arg-2:
+                send "{@prefix} &cYou don't have enough money!"
+                stop
+            if {cfrequests::*} contains name of player:
+                send "{@prefix} &7You already placed made a bid!"
+                stop
+            if "%placeholder "beasttokens_tokens_raw" from player%" parsed as number > arg-2:
+                add name of player to {cfrequests::*}
+                set {cfrequests::%name of player%::bid} to arg-2
+                make console execute command "/ta remove %player% %arg-2%"
+                send "{@prefix} &7You have placed a bid of &6%arg-2% tokens"
+                broadcast "{@prefix} &7%player% has placed a coinflip for &6%{cfrequests::%name of player%::bid}% tokens (/cf list)"
+        else if arg-1 = "test543":
+            create a gui with virtual chest inventory with 1 rows named "SPIN TEST":
+                make gui slot 1 to gray stained glass pane named ""
+                loop all players:
+                    add name of loop-player to {_test::*}
+                open last gui to player
+                loop 10 times:
+                    make gui slot 2 to skull of random element out of {_test::*} parsed as player
+                    wait 5 ticks
+        else:
+            coinflipGameGUI(player, 1)
+
+
+on inventory click:
+    name of event-inventory starts with "&8» &6Coin&eFlip &8[&7Page"
+    cancel event
+    coinflipGameGUI(player, {-page::%uuid of player%}-1) if clicked slot = red dye named "&cBack &8(&e%{-page::%uuid of player%}-1%&8)"
+    coinflipGameGUI(player, {-page::%uuid of player%}+1) if clicked slot = lime dye named "&aNext page &8(&e%{-page::%uuid of player%}+1%&8)"
+    clicked slot = player head
+    set {_p::*} to unformatted name of clicked slot split at " "
+    set {_host} to first element out of {_p::*}
+    set {_bid} to {cfrequests::%{_host}%::bid}
+    if {_host} = name of player:
+        send "{@prefix} &cYou can't play against yourself!"
+    else if {cfrequests::*} does not contain {_host}:
+        send "{@prefix} &cPlayer not found!"
+    else if "%placeholder "beasttokens_tokens_raw" from player%" parsed as number < {_bid}:
+        send "{@prefix} &cYou don't have enough money!"
+    else:
+        make console execute command "/ta remove %player% %{_bid}%"
+        set {_x::*} to ({_host}) and name of player
+        remove {_host} from {cfrequests::*}
+#        create a gui with virtual chest inventory with 1 rows named "SPIN TEST":
+#            open last gui to player
+#            set {_timed} to 0.2
+#            set {_loopd} to a random integer between 30 and 45
+#            loop {_loopd} times:
+#                open last gui to player
+        set {_winner} to random element out of {_x::*}
+#                make gui slot 4 to skull of {_winner} parsed as player
+#                play sound "block.note_block.bell" at volume 1 at pitch 1 to player
+#                wait 5 ticks
+        remove {_winner} from {_x::*}
+        set {_looser} to "%{_x::*}%"
+        send "{@prefix} &7You have won against &a%{_looser}% &7in coinflip! &8(&a+%{_bid}*2% tokens&8)" to {_winner} parsed as player
+        send "{@prefix} &7You have lost against &c%{_winner}% &7in coinflip! &8(&c-%{_bid}% tokens&8)" to {_looser} parsed as player
+        broadcast "{@prefix} &7Player &a%{_winner}% &7has won against &c%{_looser}% &7in coinflip with a stake of &e%{_bid}%" if {@broadcast} = true
+        make console execute command "/ta add %{_winner}% %{_bid}*2%"
+        delete {cfrequests::%{_host}%::bid}
+#        remove {_host} from {cfrequests::*}
+        coinflipGameGUI(player, {-page::%uuid of player%})
+
+function coinflipGameGUI(p: player, page: number=1):
+    set {_list::*} to {cfrequests::*}
+    set {_nextpage} to ({_page}+1) if (1st element of (pagination({_list::*}, {_page}+1, 21)) is set)
+    set {_previouspage} to ({_page}-1) if (1st element of (pagination({_list::*}, {_page}-1, 21)) is set)
+    set {_verified::*} to pagination({_list::*}, {_page}, 21)
+    set {_chest} to chest inventory with 5 rows named "&8» &6Coin&eFlip &8[&7Page %{_page}%&8]"
+    set {_slots::*} to (numbers between 10 and 16), (numbers between 19 and 25) and (numbers between 28 and 34)
+    set {_n} to 1
+    set slot (integers between 0 and 8), (17, 26, 35, 44, 9, 18, 27 and 36) and (integers from 37 to 44) of {_chest} to gray stained glass pane named " "
+    loop {_verified::*}:
+        set slot ({_n}st element of {_slots::*}) of {_chest} to (skull of loop-value parsed as player named "&e%loop-value% &8[&6%{cfrequests::%loop-value%::bid}% tokens&8]" with lore "&8▶ &7ᴄʟɪᴄᴋ ᴛᴏ ᴀᴄᴄᴇᴘᴛ")
+        add 1 to {_n}
+    set slot 38 of {_chest} to red dye named "&cBack &8(&e%{_previouspage}%&8)" if {_previouspage} is set
+    set slot 42 of {_chest} to lime dye named "&aNext page &8(&e%{_nextpage}%&8)" if {_nextpage} is set
+    set {-page::%uuid of {_p}%} to {_page}
+    open {_chest} to {_p}
+
+function pagination(objects: objects, page: number, elementsPerPage: number) :: objects:
+    set {_page} to floor({_page})
+    set {_elementsPerPage} to floor({_elementsPerPage})
+    set {_startIndex} to ({_page} -1)*{_elementsPerPage}
+    loop {_elementsPerPage} times:
+        add (({_startIndex} + loop-value)th element out of {_objects::*}) to {_objs::*}
+    return {_objs::*}

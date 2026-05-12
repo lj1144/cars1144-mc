@@ -1,0 +1,155 @@
+options:
+  
+  #CONFIG
+    prefix: <##AB2330>&lᴇᴢʟᴀᴠᴀʀɪꜱɪɴɢ ≫<##A95F66>
+
+on tab complete of "/bounty":
+    set tab completions for position 1 to "add" and "list"
+#    set tab completions for position 2 to "<player>"
+    set tab completions for position 3 to "<amount>"
+
+command bounty <string> [<player>] [<integer>]:
+    cooldown: 5 seconds
+    trigger:
+        #Checks if the value isn't negative
+        if arg-1 is "add":
+            if player is arg-2:
+                send "{@prefix} &8| &dYou cannot give yourself bounties."
+                stop
+            if arg-3 > 0:
+            #Checks if the player has enough tokens to bounty
+                if arg-3 is not greater than 500:
+                    send "{@prefix} &8| &dBounty must be greater than 500 tokens!"
+                    stop
+                set {_amount} to "%placeholder "beasttokens_tokens_raw" from player%" parsed as number
+                if arg-3 < {_amount}:
+                    make console execute command "/ta remove %player's uuid% %arg-3%"
+                #Adds the bounty to the defined player
+                    add arg-3 to {bounty::%arg-2's uuid%}
+                    broadcast ""
+                    broadcast "{@prefix} &d%player% has put a &c%arg-3% token &dbounty on %arg-2%" 
+                    broadcast ""
+                    apply glowing to arg-2 for 9999 days
+                else:
+                    send "{@prefix} &8| &dYou don't have enough tokens to do that"
+                    send "%arg-3%  to %{_amount}%"
+        if arg-1 is "delete":
+            if player is op:
+                clear {bounty::%arg-2's uuid%}
+                broadcast "{@prefix} %arg-2%'s bounty has been forcibly delete"
+                stop
+            else:
+                send "{@prefix} &dNice try but negative numbers won't work"
+        else if arg-1 is "list":
+            send " "  to player
+            send "&4&lBounties" to player
+            #Checks the bounty of all online players using loop
+            loop all players:
+                if {bounty::%loop-player's uuid%} is set:
+                    send "&c%loop-player% &4%{bounty::%loop-player's uuid%}% token(s)" to player
+            send " " to player
+
+
+
+#A command to list all bounties
+command listbounties:
+    cooldown: 10 seconds
+    trigger:
+#        bountyGUI(player, 1)
+#        stop
+        #Pretty much just sending msg
+        send " "  to player
+        send "&4&lBounties" to player
+        #Checks the bounty of all online players using loop
+        loop all players:
+            if {bounty::%loop-player's uuid%} is set:
+                send "&c%loop-player% &4%{bounty::%loop-player's uuid%}% token(s)" to player
+        send " " to player
+
+
+on join:
+    if {bounty::%player's uuid%} is set:
+        {servergame} is "intro"
+        broadcast "{@prefix} &d%player% joined with a bounty of &c%{bounty::%player's uuid%}% tokens. Kill them when PvP is on for the reward!"
+        apply glowing to player for 9999 days
+
+
+on consume:
+    wait 1 second
+    if {bounty::%player's uuid%} is set:
+        apply glowing to player for 9999 days
+
+#on quit:
+#    #Checks if the player has a bounty when they leave to broadcast
+#    if {bounty::%player's uuid%} is set:
+#        broadcast "{@prefix} &d%player% left with a bounty of &c%{bounty::%player's uuid%}% tokens. &dClowning around and sh."
+
+
+on damage:
+    if victim is end crystal:
+        set {lasthitcrystal::%victim%} to name of attacker
+        wait 5 ticks
+        delete {lasthitcrystal::%victim%}
+
+function bountycheck(a: player, v: player, e: entity):
+    #Gets the uuid of victim and attacker
+    set {_ua} to uuid of {_a}
+    set {_uv} to uuid of {_v}
+
+on death of player:
+    set {_v} to victim
+    set {_a} to attacker
+    set {_ua} to uuid of {_a}
+    set {_uv} to uuid of {_v}
+    if {_v} is not wearing any chestplate:
+        stop
+    if {_v} is not wearing any leggings:
+        stop
+    if ip of {_a} contains ip of {_v}:
+        stop
+    if {bounty::%{_uv}%} is set:
+        #Broadcast part
+        broadcast "" 
+        broadcast "{@prefix} &d%{_v}%'s &c%{bounty::%{_uv}%}% token &dbounty has been claimed by %{_a}%" 
+        broadcast ""
+        #Increase tokens of player by the bounty
+        make console execute command "/ta add %{_a}% %{bounty::%{_uv}%}%"
+        clear {bounty::%{_uv}%}
+
+on death of player:
+    bountycheck(attacker, victim, attacker)
+
+
+on inventory click:
+    name of event-inventory starts with "&8» &c&lBounty &8[&7Page"
+    cancel event
+    bountyGUI(player, {-page::%uuid of player%}-1) if clicked slot = red dye named "&cBack &8(&e%{-page::%uuid of player%}-1%&8)"
+    bountyGUI(player, {-page::%uuid of player%}+1) if clicked slot = lime dye named "&aNext page &8(&e%{-page::%uuid of player%}+1%&8)"
+    close player's inventory
+
+
+function bountyGUI(p: player, page: number=1):
+    set {_list::*} to {bounty::*}
+    set {_nextpage} to ({_page}+1) if (1st element of (bountyinaction({_list::*}, {_page}+1, 21)) is set)
+    set {_previouspage} to ({_page}-1) if (1st element of (bountyinaction({_list::*}, {_page}-1, 21)) is set)
+    set {_verified::*} to bountyinaction({_list::*}, {_page}, 21)
+    set {_chest} to chest inventory with 5 rows named "&8» &c&lBounty &8[&7Page %{_page}%&8]"
+    set {_slots::*} to (numbers between 10 and 16), (numbers between 19 and 25) and (numbers between 28 and 34)
+    set {_n} to 1
+    set slot (integers between 0 and 8), (17, 26, 35, 44, 9, 18, 27 and 36) and (integers from 37 to 44) of {_chest} to gray stained glass pane named " "
+    loop {_verified::*}:
+        set {_play} to name of loop-value
+        set slot ({_n}st element of {_slots::*}) of {_chest} to (skull of {_play} parsed as player named "&e%loop-value%" with lore "&8[&c%{bounty::%uuid of loop-value%}% tokens&8]")
+        add 1 to {_n}
+    set slot 38 of {_chest} to red dye named "&cBack &8(&e%{_previouspage}%&8)" if {_previouspage} is set
+    set slot 42 of {_chest} to lime dye named "&aNext page &8(&e%{_nextpage}%&8)" if {_nextpage} is set
+    set {-page::%uuid of {_p}%} to {_page}
+    open {_chest} to {_p}
+
+function bountyinaction(objects: objects, page: number, elementsPerPage: number) :: objects:
+    set {_page} to floor({_page})
+    set {_elementsPerPage} to floor({_elementsPerPage})
+    set {_startIndex} to ({_page} -1)*{_elementsPerPage}
+    loop {_elementsPerPage} times:
+        add (({_startIndex} + loop-value)th element out of {_objects::*}) to {_objs::*}
+    return {_objs::*}

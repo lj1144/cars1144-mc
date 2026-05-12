@@ -1,0 +1,154 @@
+# requires beasttokens
+# ngl my skripts were tarsh
+options:
+    prefix: <##AB2330>&lᴇᴢʟᴀᴠᴀʀɪꜱɪɴɢ ≫<##A95F66>
+
+command /shop:
+	trigger:
+		shop(player)
+
+on load:
+    clear {winsbought::%uuid of player%}
+
+function shop(p: player):
+	set {_tokens} to placeholder "beasttokens_tokens_raw" from {_p} parsed as number
+	create a gui with virtual chest inventory with 1 rows named "&c&lShop   &8- &6Balance: %{_tokens}%":
+		make gui slot (integers between 0 and 50) to gray stained glass pane named ""
+		set {_winmultiply} to {winsbought::%uuid of {_p}%}+1
+		make gui slot 3 to "end crystal" parsed as item named "&c&lRank Upgrade" with lore " " and "&aPrice: &6%1000*{_winmultiply}% Tokens":
+			set {_amount} to placeholder "beasttokens_tokens_raw" from {_p} parsed as number
+			if (500*{_winmultiply})-1 < {_amount}:
+				make console execute command "/ta remove %{_p}% %500*{_winmultiply}%"
+				make player execute command "/lp user %{_p}% promote winners"
+				play sound "entity.experience_orb.pickup" to {_p}
+				add 1 to {winsbought::%uuid of {_p}%}
+			else:
+				send "&c&lYou don't have enough tokens to buy this one"
+			close {_p}'s inventory
+		make gui slot 5 to "apple" parsed as item named "&c&lSurvival Shop" with lore " " and "&aClick to open survival shop":
+			close {_p}'s inventory
+			survivalshop(player)
+	open last gui to {_p}
+
+function survivalshop(p: player):
+	if {_p} is {_p}:
+		if {_p}'s world is not "lavarise":
+			send "&c&lYou must be in the map to use this command" to {_p}
+			stop
+		else:
+			if {_p}'s gamemode is not survival:
+				send "&c&lYou must be in survival to use this command" to {_p}
+				stop
+		{gamemode} is not "hardcore" or "broke"
+		set {_tokens} to placeholder "beasttokens_tokens_raw" from {_p} parsed as number
+		create a gui with virtual chest inventory with 4 rows named "&c&lMYSTERY HACK   &8- &6Balance: %{_tokens}%":
+			make gui slot (integers between 0 and 50) to gray stained glass pane named ""
+			make gui slot 10 to "grindstone" parsed as item with lore " " and "&aPrice: &650 Tokens":
+				set {_amount} to placeholder "beasttokens_tokens_raw" from {_p} parsed as number
+				if 49 < {_amount}:
+					make console execute command "/ta remove %{_p}% 50"
+					give {_p} 1 of grindstone
+					play sound "entity.experience_orb.pickup" to {_p}
+				else:
+					send "&c&lYou don't have enough tokens to buy this one"
+				close {_p}'s inventory
+			make gui slot 11 to "netherite chestplate" parsed as item named "&c&lFull Max Set" with lore " " and "&aPrice: &62000 Tokens":
+				set {_amount} to placeholder "beasttokens_tokens_raw" from {_p} parsed as number
+				if 1999 < {_amount}:
+					if {gamemode} is "random" or "hardcore":
+						stop
+					make console execute command "/ta remove %{_p}% 2000"
+					if {gamemode} is "insane":
+						give {_p} 1 of {maxkit.insane}
+					else:
+						give {_p} 1 of {maxkit.normal}
+					play sound "entity.experience_orb.pickup" to {_p}
+				else:
+					send "&c&lYou don't have enough tokens to buy this one"
+				close {_p}'s inventory
+			make gui slot 12 to "wither skeleton skull" parsed as item named "&5&lWither" with lore " " and "&aPrice: &62000 Tokens":
+				set {_amount} to placeholder "beasttokens_tokens_raw" from {_p} parsed as number
+				if 1999 < {_amount}:
+					make console execute command "/ta remove %{_p}% 2000"
+					give {_p} 6 of wither skeleton skull
+					give {_p} 64 of soul sand
+					play sound "entity.experience_orb.pickup" to {_p}
+				else:
+					send "&c&lYou don't have enough tokens to buy this one"
+				close {_p}'s inventory
+			make gui slot 13 to "water bucket" parsed as item with lore " " and "&aPrice: &625 Tokens":
+				set {_amount} to placeholder "beasttokens_tokens_raw" from {_p} parsed as number
+				if 24 < {_amount}:
+					make console execute command "/ta remove %{_p}% 25"
+					give {_p} 1 of water bucket
+					play sound "entity.experience_orb.pickup" to {_p}
+				else:
+					send "&c&lYou don't have enough tokens to buy this one"
+				close {_p}'s inventory
+			make gui slot 14 to "netherite pickaxe" parsed as item named "&e&lFortune IV" with lore " " and "&aPrice: &6750 Tokens":
+				set {_amount} to placeholder "beasttokens_tokens_raw" from {_p} parsed as number
+				if 749 < {_amount}:
+					make console execute command "/ta remove %{_p}% 750"
+					give {_p} 1 of {maxkit.fortune4}
+					play sound "entity.experience_orb.pickup" to {_p}
+				else:
+					send "&c&lYou don't have enough tokens to buy this one"
+			make gui slot 15 to "enchanted golden apple" parsed as item with lore " " and "&aPrice: &61000 Tokens":
+				set {_amount} to placeholder "beasttokens_tokens_raw" from {_p} parsed as number
+				if 999 < {_amount}:
+					make console execute command "/ta remove %{_p}% 1000"
+					give {_p} 1 of enchanted golden apple
+					play sound "entity.experience_orb.pickup" to {_p}
+				else:
+					send "&c&lYou don't have enough tokens to buy this one"
+			make gui slot 16 to "elytra" parsed as item with lore " " and "&aPrice: &6400 Tokens":
+				set {_amount} to placeholder "beasttokens_tokens_raw" from {_p} parsed as number
+				if 399 < {_amount}:
+					make console execute command "/ta remove %{_p}% 4000"
+					give {_p} 1 of elytra
+					play sound "entity.experience_orb.pickup" to {_p}
+				else:
+					send "&c&lYou don't have enough tokens to buy this one"
+				close {_p}'s inventory
+			make gui slot 19 to "tnt" parsed as item with lore " " and "&aPrice: &6255 Tokens":
+				if {gamemode} is "bull":
+					send "&cSorry and but you can't but this. At least not on this mode"
+					stop
+				set {_amount} to placeholder "beasttokens_tokens_raw" from {_p} parsed as number
+				if 254 < {_amount}:
+					make console execute command "/ta remove %{_p}% 500"
+					give {_p} 16 of tnt
+					play sound "entity.experience_orb.pickup" to {_p}
+				else:
+					send "&c&lYou don't have enough tokens to buy this one"
+				close {_p}'s inventory
+			make gui slot 20 to "mace" parsed as item with lore " " and "&aPrice: &6750 Tokens":
+				if {gamemode} is "bull":
+					send "&cSorry and but you can't but this. At least not on this mode"
+					stop
+				set {_amount} to placeholder "beasttokens_tokens_raw" from {_p} parsed as number
+				if 749 < {_amount}:
+					make console execute command "/ta remove %{_p}% 5000"
+					give {_p} 1 of mace
+					play sound "entity.experience_orb.pickup" to {_p}
+				else:
+					send "&c&lYou don't have enough tokens to buy this one"
+				close {_p}'s inventory
+			make gui slot 21 to "wind charge" parsed as item with lore " " and "&aPrice: &6150 Tokens":
+				if {gamemode} is "bull":
+					send "&cSorry and but you can't but this. At least not on this mode"
+					stop
+				set {_amount} to placeholder "beasttokens_tokens_raw" from {_p} parsed as number
+				if 149 < {_amount}:
+					make console execute command "/ta remove %{_p}% 750"
+					give {_p} 16 of wind charge
+					play sound "entity.experience_orb.pickup" to {_p}
+				else:
+					send "&c&lYou don't have enough tokens to buy this one"
+				close {_p}'s inventory
+		open last gui to {_p}
+
+command /setmaxset <text>:
+	permission: op
+	trigger:
+		set {maxkit.%arg-1%} to player's tool

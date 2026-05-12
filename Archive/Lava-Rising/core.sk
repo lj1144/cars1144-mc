@@ -1,0 +1,563 @@
+options:
+    prefix: <##AB2330>&lᴇᴢʟᴀᴠᴀʀɪꜱɪɴɢ ≫<##A95F66>
+
+on skript start:
+    set {serverstatus} to "lobby"
+    delete {servergame}
+    delete {y}
+    delete {game}
+    delete {lava}
+    set {gamevotetime} to false
+
+command /fixserver:
+    permission: ezlavarising.fixserver
+    trigger:
+        set {serverstatus} to "lobby"
+        delete {servergame}
+        delete {y}
+        delete {game}
+        set {gamevotetime} to false
+        delete {lava}
+        teleport all players to location(0, 103, 0, world("world"))
+        loop all players:
+            clear loop-player's inventory
+
+
+command /mutechat:
+    permission: ezlavarising.mutechat
+    trigger:
+        if {globalchat} is not set:
+            set {globalchat} to true
+            broadcast ""
+            broadcast "{@prefix} Chat has been muted"
+            broadcast ""
+        else:
+            delete {globalchat}
+            broadcast ""
+            broadcast "{@prefix} Chat has been unmuted"
+            broadcast ""
+
+on chat:
+    if {globalchat} is set:
+        if player has permission "ezlavarising.mutechat.bypass":
+            stop
+        cancel event
+        send "{@prefix} Chat is currently disabled"
+
+on join:
+    join(player)
+
+every 2.5 seconds:
+    if {serverstatus} is "lobby":
+        loop all players:
+            send action bar "Next event will start at 3+ players" to loop-player
+        set {playercountstart} to number of all players
+        if {playercountstart} is greater than 1:
+            restartlavarising()
+            set {serverstatus} to "setup"
+        delete {playercountstart}
+
+
+on death of player:
+    if victim is in world "lavarise":
+        wait 1 second
+        send title "&c&lYou Died" with subtitle "&cDw. There will be infinite rounds<3" to victim
+
+command /startcheck:
+    permission: op
+    trigger:
+        if {servergame} is not "pvp":
+            kick player
+        else:
+            wait 9 seconds
+            kick player
+
+on region enter:
+    wait 1 tick
+    if "%region at player%" contains "infparkour":
+        teleport player to location(0,100,0, world "world", -90, 0)
+        wait 3 ticks
+        make console execute command "/ip forcejoin %player%"
+
+command /discord:
+    trigger:
+        send ""
+        send "{@prefix} Join the discord &l&n<link:https://discord.gg/pDARVhStJZ>discord.gg/pDARVhStJZ"
+        send ""
+
+on join:
+    if {servergame} is "pvp":
+        wait 1.5 seconds
+        send ""
+        send "{@prefix} You joined a bit late, but dont worry! There will be more rounds. Type /pvplobby if youd like to go to a PvP arena!"
+        send ""
+
+on first join:
+    wait 5 seconds
+    send ""
+    send "{@prefix} This is a lava rising server just incase you are wondering<3 And welcome to the server!"
+    send ""
+    wait 5 seconds
+    send ""
+    send "{@prefix} The objective is to be the last one standing when PvP is on. The prize is a free rank!"
+    send ""
+
+on world change:
+ set player's flight state to false
+
+command /broadcast [<text>]:
+	aliases: /bc, /announce, /alert
+	permission: ezlavarising.broadcast
+	trigger:
+		if arg-1 is set:
+			broadcast ""
+			broadcast "{@prefix} &l%colored arg-1%"
+			broadcast ""
+			play sound "block.note_block.bit" at volume 1 at pitch 3 to all players
+command /bc [<text>]:
+    permission: ezlavarising.broadcast
+    trigger:
+        if arg-1 is set:   
+            make player execute command "/broadcast %arg-1%"
+
+command /top:
+    aliases: /stuck
+    cooldown: 30 seconds
+    trigger:
+        {servergame} = "intro"
+        set {_x} to round(random number between -50 and 50)
+        set {_z} to round(random number between -50 and 50)
+        teleport player to location({_x}, 200, {_z}, world "lavarise")
+
+command /updatenotes [<text>]:
+    permission: op
+    trigger:
+        clear {updatesnotes::*}
+        set {updatenotes} to colored arg-1
+        send "{@prefix} Set the update notes to %colored arg-1%"
+        wait 1 second
+        send ""
+        send "{@prefix} &lUPDATE: %{updatenotes}%"
+        send ""
+        loop all players:
+            add loop-player to {updatesnotes::*}
+
+on first join:
+    add uuid of player to {updatenotes::new::*}
+    wait 30 seconds
+    remove uuid of player from {updatenotes::new::*}
+
+on join:
+    if {updatenotes::new::*} contains uuid of player:
+        stop
+    if {updatesnotes::*} does not contain player:
+        wait 5 seconds
+        send ""
+        send "{@prefix} &lUPDATE: %{updatenotes}%"
+        send ""
+        add player to {updatesnotes::*}
+
+command /votegm [<text>]:
+    trigger:
+        if arg-1 is "check":
+            if player is op:
+                send "%{gamemodevote::players::*}% | Insane %{gamemodevote::mode::insane}% | Normal %{gamemodevote::mode::normal}% | Void  %{gamemodevote::mode::void}% | GAMEMODE: %{gamemode}%"
+        if {gamevotetime} is false:
+            send "&c&oIt is not time yet..."
+            stop
+        if {gamemodevote::players::*} contains uuid of player:
+            send "{@prefix} You already voted!"
+            stop
+        create a gui with virtual chest inventory with 2 rows named "&c&lVOTE NEXT GAMEMODE":
+            make gui slot 0 to "diamond sword" parsed as item named "&c&lNormal Mode" with lore "&5&oCLICK TO VOTE FOR NORMAL MODE":
+                if player has permission "ezlavarising.premium":
+                    add 4 to {gamemodevote::mode::normal}
+                    add uuid of player to {gamemodevote::players::*}
+                    close player's inventory
+                    send "{@prefix} Since you have premium rank, your vote counted for 4 normal!"
+                    if player is op:
+                        add 44 to {gamemodevote::mode::normal}
+#                        add uuid of player to {gamemodevote::players::*}
+                        close player's inventory
+                        send "{@prefix} Since you have op rank, your vote counted for 44 normal!"
+                    stop
+                add 1 to {gamemodevote::mode::normal}
+                add uuid of player to {gamemodevote::players::*}
+                close player's inventory
+                send "{@prefix} You voted for normal mode!"
+            make gui slot 1 to "netherite sword" parsed as item named "&4&lInsane Mode" with lore "&5&oCLICK TO VOTE FOR INSANE MODE":
+                if player has permission "ezlavarising.premium":
+                    add 4 to {gamemodevote::mode::insane}
+                    add uuid of player to {gamemodevote::players::*}
+                    close player's inventory
+                    send "{@prefix} Since you have premium rank, your vote counted for 4 insane!"
+                    stop
+                add 1 to {gamemodevote::mode::insane}
+                add uuid of player to {gamemodevote::players::*}
+                close player's inventory
+                send "{@prefix} You voted for insane mode!"
+            make gui slot 2 to "barrier" parsed as item named "&f&lVoid Mode" with lore "&5&oCLICK TO VOTE FOR VOID MODE":
+                if player has permission "ezlavarising.premium":
+                    add 4 to {gamemodevote::mode::void}
+                    add uuid of player to {gamemodevote::players::*}
+                    close player's inventory
+                    send "{@prefix} Since you have premium rank, your vote counted for 4 void!"
+                    stop
+                add 1 to {gamemodevote::mode::void}
+                add uuid of player to {gamemodevote::players::*}
+                close player's inventory
+                send "{@prefix} You voted for void mode!"
+            make gui slot 3 to "brick" parsed as item named "&e&lAnti-Bull Bull Mode" with lore "&5&oCLICK TO VOTE FOR NO BULL MODE":
+                if player has permission "ezlavarising.premium":
+                    add 4 to {gamemodevote::mode::bull}
+                    add uuid of player to {gamemodevote::players::*}
+                    close player's inventory
+                    send "{@prefix} Since you have premium rank, your vote counted for 4 anti bull!"
+                    stop
+                add 1 to {gamemodevote::mode::bull}
+                add uuid of player to {gamemodevote::players::*}
+                close player's inventory
+                send "{@prefix} You voted for insane mode!"
+            #make gui slot 4 to "bedrock" parsed as item named "&5&lThis mode has been removed" with lore "&5&kCLICK TO VOTE FOR ADVANCEDBOX MODE" and "&c&oWarning, this mode is bull":
+            #    cancel event
+            #    stop
+#            make gui slot 4 to "purple stained glass" parsed as item named "&5&lLucky Block Mode" with lore "&5&oCLICK TO VOTE FOR LUCKY BLOCK MODE" and "&c&oWarning, this mode is bull":
+#                if player has permission "ezlavarising.premium":
+#                    add 4 to {gamemodevote::mode::lucky}
+#                    add uuid of player to {gamemodevote::players::*}
+#                    close player's inventory
+#                    send "{@prefix} Since you have premium rank, your vote counted for 4 lucky block!"
+#                    stop
+#                add 1 to {gamemodevote::mode::lucky}
+#                add uuid of player to {gamemodevote::players::*}
+#                close player's inventory
+#                send "{@prefix} You voted for lucky block mode!"
+#            make gui slot 4 to "wind charge" parsed as item named "&6&lRandom Item Mode" with lore "&5&oCLICK TO VOTE FOR RANDOM MODE":
+#                if player has permission "ezlavarising.premium":
+#                    add 4 to {gamemodevote::mode::random}
+#                    add uuid of player to {gamemodevote::players::*}
+#                    close player's inventory
+#                    send "{@prefix} Since you have premium rank, your vote counted for 4 random!"
+#                    stop
+#                add 1 to {gamemodevote::mode::random}
+#                add uuid of player to {gamemodevote::players::*}
+#                close player's inventory
+#                send "{@prefix} You voted for random mode!"
+#            make gui slot 5 to "end crystal" parsed as item named "&d&lChaos Mode" with lore "&5&oCLICK TO VOTE FOR CHAOS MODE":
+#                if player has permission "ezlavarising.premium":
+#                    add 4 to {gamemodevote::mode::chaos}
+#                    add uuid of player to {gamemodevote::players::*}
+#                    close player's inventory
+#                    send "{@prefix} Since you have premium rank, your vote counted for 4 chaos!"
+#                    stop
+#                add 1 to {gamemodevote::mode::chaos}
+#                add uuid of player to {gamemodevote::players::*}
+#                close player's inventory
+#                send "{@prefix} You voted for chaos mode!"
+#            make gui slot 6 to "light gray candle" parsed as item named "&6&l&nHardcore Mode" with lore "&5&oCLICK TO VOTE FOR HARDCORE MODE":
+#                if player has permission "ezlavarising.premium":
+#                    add 4 to {gamemodevote::mode::hardcore}
+#                    add uuid of player to {gamemodevote::players::*}
+#                    close player's inventory
+#                    send "{@prefix} Since you have premium rank, your vote counted for 4 hardcore!"
+#                    stop
+#                add 1 to {gamemodevote::mode::hardcore}
+#                add uuid of player to {gamemodevote::players::*}
+#                close player's inventory
+#                send "{@prefix} You voted for hardcore mode!"
+#            make gui slot 7 to "water bucket" parsed as item named "&a&lAcid Mode" with lore "&5&oCLICK TO VOTE FOR ACID MODE":
+#                if player has permission "ezlavarising.premium":
+#                    add 4 to {gamemodevote::mode::acid}
+#                    add uuid of player to {gamemodevote::players::*}
+#                    close player's inventory
+#                    send "{@prefix} Since you have premium rank, your vote counted for 4 acid!"
+#                    stop
+#                add 1 to {gamemodevote::mode::acid}
+#                add uuid of player to {gamemodevote::players::*}
+#                close player's inventory
+#                send "{@prefix} You voted for acid mode!"
+#            make gui slot 8 to "iron axe" parsed as item named "&f&lIron Age Mode" with lore "&5&oCLICK TO VOTE FOR IRON AGE MODE":
+#                if player has permission "ezlavarising.premium":
+#                    add 4 to {gamemodevote::mode::ironage}
+#                    add uuid of player to {gamemodevote::players::*}
+#                    close player's inventory
+#                    send "{@prefix} Since you have premium rank, your vote counted for 4 ironage!"
+#                    stop
+#                add 1 to {gamemodevote::mode::ironage}
+#                add uuid of player to {gamemodevote::players::*}
+#                close player's inventory
+#                send "{@prefix} You voted for ironage mode!"
+        open last gui to player
+
+on load:
+    clear {modifiers::list::*}
+    add "Random Items" to {modifiers::list::*}
+    add "Fast lava" to {modifiers::list::*}
+
+function randommodifier():
+    clear {modifiers::active::*}
+
+    
+
+function resetvotegm():
+    set {gamevotetime} to true
+    clear {gamemodevote::players::*}
+    clear {gamemodevote::mode::*}
+#    set {gamemodevote::mode::insane} to 0
+    set {gamemodevote::mode::normal} to 5
+#    set {gamemodevote::mode::void} to 0
+#    set {gamemodevote::mode::bull} to 0
+#    set {gamemodevote::mode::lucky} to 0
+#    set {gamemodevote::mode::random} to 0
+#    set {gamemodevote::mode::chaos} to 0
+#    set {gamemodevote::mode::hardcore} to 0
+#    set {gamemodevote::mode::acid} to 0
+#    set {gamemodevote::mode::ironage} to 0
+#    delete {gamemodevote::mode::ironage::name}
+#    delete {gamemodevote::mode::acid::name}
+#    delete {gamemodevote::mode::harcore::name}
+#    delete {gamemodevote::mode::insane::name}
+    delete {gamemodevote::mode::normal::name}
+#    delete {gamemodevote::mode::void::name}
+#    delete {gamemodevote::mode::bull::name} 
+#    delete {gamemodevote::mode::lucky::name}
+#    delete {gamemodevote::mode::random::name}
+#    delete {gamemodevote::mode::chaos::name}
+
+
+function restartlavarising():
+    set {serverstatus} to "setup"
+    clear {tempused::*}
+    make console execute command "/end"
+    loop all players:
+        teleport loop-player to location(0, 103, 0, world("world"))
+        remove glowing from loop-player's active potion effects
+        remove strength from loop-player's active potion effects
+    loop all players:
+        clear loop-player's inventory
+    make console execute command "/effect clear @a"
+    make console execute command "/execute in minecraft:lavarise run end"
+    loop all players:
+        clear loop-player's inventory
+
+    # VOTE AND GAMEMODE
+    resetvotegm()
+#    broadcast ""
+#    broadcast "{@prefix}&l PLEASE VOTE FOR THE NEXT GAMEMODE. USING &n&o/votegm"
+#    broadcast ""
+#    wait 1 second
+#    loop all players:
+#        if loop-player is not op:
+#            make console execute command "sudo %loop-player% votegm"
+#    wait 1 second
+#    broadcast "{@prefix} VOTING ENDS IN 20 seconds"
+#    wait 5 seconds
+#    broadcast "{@prefix} VOTING ENDS IN 15 seconds"
+#    wait 5 seconds
+#    broadcast "{@prefix} VOTING ENDS IN 10 seconds"
+#    wait 5 seconds
+#    broadcast "{@prefix} VOTING ENDS IN 5 seconds"
+#    wait 6 second
+    finishrestart()
+
+function finishrestart():
+#    set {gamevotetime} to false
+#    set {gamemodevote::mode::%{gamemode.last}%} to 0
+    set {_gm::*} to sorted indices of {gamemodevote::mode::*} in descending order
+#    broadcast "&c&lThe next gamemode is,"
+#    wait 1 second
+    set {_gm} to first element out of {_gm::*}
+#    wait 1 second
+#    set {gamemodevote::mode::acid::name} to "acid"
+#    set {gamemodevote::mode::harcore::name} to "hardcore"
+#    set {gamemodevote::mode::insane::name} to "insane"
+    set {gamemodevote::mode::normal::name} to "normal"
+#    set {gamemodevote::mode::void::name} to "void"
+#    set {gamemodevote::mode::bull::name} to "antibull"
+#    set {gamemodevote::mode::lucky::name} to "lucky"
+#    set {gamemodevote::mode::random::name} to "random"
+#    set {gamemodevote::mode::chaos::name} to "chaos"
+#    set {gamemodevote::mode::ironage::name} to "ironage"
+    broadcast "&c&l%{_gm}%"
+    set {gamemode} to "%{_gm}%"
+    set {gamemode.last} to "%{_gm}%"
+    delete {failsave.2}
+    wait 2 seconds
+    make console execute command "/mv regen lavarise -s"
+    broadcast "{@prefix} Resetting map w/ a new seed"
+    wait 3 seconds
+    make console execute command "/mv confirm"
+    #broadcast "{@prefix} Please wait about 40 seconds to teleport. (This is to avoid crashing)"
+    wait 10 seconds
+    make console execute command "/execute in minecraft:lavarise run worldborder set 100"
+    make console execute command "/execute in minecraft:lavarise run gamerule fallDamage false"
+    make console execute command "/execute in minecraft:lavarise run gamerule doMobSpawning false"
+    make console execute command "/execute in minecraft:lavarise run gamerule doImmediateRespawn true"
+    make console execute command "/execute in minecraft:lavarise run gamerule randomTickSpeed 100"
+    make console execute command "/rg flag __global__ -w lavarise pvp deny"
+    make console execute command "/rg flag __global__ -w lavarise firespread deny"
+    wait 6 seconds
+    make console execute command "/ip forceleave everyone"
+    wait 10 ticks
+    set {serverstatus} to "game"
+    loop all players:
+        close loop-player's inventory
+        kitmode(loop-player)
+        set loop-player's gamemode to survival
+
+    set {y} to 0
+    teleport all players to location(0, 250, 0, world("lavarise"))
+    clear {shoplimit::totem::*}
+    wait 5 seconds
+    loop all players:
+        if loop-player is not in world "lavarise":
+            teleport loop-player to location(0, 250, 0, world("lavarise"))
+            close loop-player's inventory
+            kitmode(loop-player)
+    if highest solid block at location(0, 0, 0, world "lavarise") is water:
+        broadcast "{@prefix} Water world detected. Giving extra blocks and placing village"
+        wait 2 seconds
+        give all players 192 of cobblestone
+        give all players 64 of dirt
+        wait 6 seconds
+        make console execute command "/execute in minecraft:lavarise positioned 20 64 20 run place structure minecraft:village_plains"
+        wait 2 seconds
+        make console execute command "/execute in minecraft:lavarise positioned -20 64 -20 run place structure minecraft:mansion"
+        broadcast "{@prefix} NOTE: Water world restarts have been dsiabled due to crashes"
+    newround()
+    gamestart()
+
+
+function gamestart():
+    set {servergame} to "intro"
+    make console execute command "/rg flag -w lavarise __global__ tnt deny"
+    make console execute command "/rg flag -w lavarise __global__ other-explosion deny"
+    make console execute command "/rg flag -w lavarise __global__ pvp deny"
+    make console execute command "/execute in minecraft:lavarise run gamerule fireDamage false"
+    make console execute command "/execute in minecraft:lavarise run difficulty hard"
+    make console execute command "/execute in minecraft:lavarise run gamerule announceAdvancements false"
+    make console execute command "/execute in minecraft:lavarise run gamerule keepInventory true"
+    make console execute command "/execute in minecraft:lavarise run difficulty peaceful"
+    send title "<##A95F66>&lʟᴀᴠᴀ ʀɪꜱɪɴɢ ʀᴇᴄᴏᴅᴇᴅ | ʙʏ ᴄᴀʀꜱ1144" to all players
+    set {lavaspeed} to 8
+    broadcast "&7&l[&4&l&c&lezLavaRising&4&l&7&l] &a&lLava Rising Recoded | By cars1144"
+    make console execute command "/execute in minecraft:lavarise run worldborder set 100"
+    if {gamemode} is "void":
+        make console execute command "/execute in minecraft:lavarise run worldborder set 75"
+    wait 10 seconds
+    broadcast "{@prefix} Lava will now start to rise"
+    make console execute command "/execute in minecraft:lavarise run worldborder set 100"
+    if {gamemode} is "void":
+        make console execute command "/execute in minecraft:lavarise run worldborder set 75"
+    send title "<##A95F66>&lLava is rising!" to all players
+    make console execute command "/start"
+    play sound "entity.wither.spawn" at volume 1 at pitch 2 to all players
+    if {gamemode} is "lucky":
+        make console execute command "/rg flag -w lavarise __global__ tnt allow"
+        make console execute command "/rg flag -w lavarise __global__ other-explosion allow"
+        make console execute command "/execute in minecraft:lavarise run difficulty hard"
+        make console execute command "/execute in minecraft:lavarise run gamerule announceAdvancements false"
+        make console execute command "/execute in minecraft:lavarise run gamerule keepInventory true"
+        make console execute command "/execute in minecraft:lavarise run difficulty hard"
+
+
+function pvpon():
+    broadcast "{@prefix} PVP AND PERMADEATH IS NOW ON"
+    set {servergame} to "pvp"
+    clear {antibreak::*}
+    send title "<##A95F66>&lPvP + Permadeath is now on!" to all players
+    play sound "entity.wither.spawn" at volume 1 at pitch 2 to all players
+    make console execute command "/rg flag -w lavarise __global__ pvp allow"
+    make console execute command "/rg flag -w lavarise __global__ tnt allow"
+    make console execute command "/rg flag -w lavarise __global__ other-explosion allow"
+    make console execute command "/execute in minecraft:lavarise run gamerule fireDamage true"
+    make console execute command "/execute in minecraft:lavarise run gamerule keepInventory false"
+    make console execute command "execute in minecraft:lavarise run difficulty hard"
+    liveset()
+    loop all players:
+        make console execute command "/effect clear %loop-player%"
+    wait 3 seconds
+    loop all players:
+        if {bounty::%loop-player's uuid%} is set:
+            apply glowing to loop-player for 9999 days
+            add loop-player to {_bount}
+    broadcast "{@prefix} Players with bounties: %{_bount}%"
+    wait 3 second
+    send title "<##A95F66>&lReminder: Max teams = 5" to all players
+    broadcast "{@prefix} Reminder: Max teams = 5"
+
+
+
+function join(p: player):
+    wait 1 ticks
+    remove glowing from {_p}'s active potion effects
+    remove strength from {_p}'s active potion effects
+    if {servergame} is "pvp":
+        teleport {_p} to location(0, {y}+10, 0, world("lavarise"))
+        set {_p}'s gamemode to spectator 
+#        wait 8 seconds
+#        resetpvp({_p})
+        stop
+    if {serverstatus} is "lobby" or "setup":
+        resetpvp({_p})
+        clear {_p}'s inventory
+    else if {serverstatus} is "game":
+        if {_p}'s world is "world" or "lobby":
+            clear {_p}'s inventory
+            teleport {_p} to highest solid block at location(0, 0, 0, world "lavarise")
+            kitmode({_p})
+            set {_p}'s gamemode to survival
+            if {servergame} is "pvp":
+                resetpvp({_p})
+        else:
+            if {servergame} is "pvp":
+                resetpvp({_p})
+
+on world change:
+    wait 1 tick
+    if player's world is "lavarise":
+        set player's flight state to false
+
+function kitmode(p: player):
+    loop 3 times:
+        clear {_p}'s inventory
+        make console execute command "/xp set %{_p}% 0l"
+        make console execute command "/clear %{_p}%"
+        wait 1 second
+    if {_p} has permission "ezlavarising.premium":
+        give {_p} 24 of golden apple
+        {gamemode} is not "chaos"
+        give {_p} 1 of shulker box
+    if {gamemode} is "normal" or "acid":
+        make console execute command "/kit tools %{_p}%"
+        stop
+    if {gamemode} is "ironage":
+        make console execute command "/kit ironage %{_p}%"
+        stop
+    else if {gamemode} is "insane":
+        make console execute command "/kit insane %{_p}%"
+        stop
+    else if {gamemode} is "hardcore":
+        make console execute command "/kit hardcore %{_p}%"
+        stop
+    else if {gamemode} is "void":
+        make console execute command "/kit void %{_p}%"
+        stop
+    else if {gamemode} is "bull":
+        make console execute command "/kit bull %{_p}%"
+        stop
+    else if {gamemode} is "chaos":
+        make console execute command "/kit chaos %{_p}%"
+        stop
+    else if {gamemode} is "random" or "lucky":
+        make console execute command "/kit random %{_p}%"
+        if {gamemode} is "lucky":
+            make console execute command "/luckyblock give %{_p}% YELLOW 24"
+            make console execute command "/luckyblock give %{_p}% WHITE 24"
+            make console execute command "/luckyblock give %{_p}% RED 24"
+            make console execute command "/luckyblock give %{_p}% PURPLE 24"
+            make console execute command "/luckyblock give %{_p}% PINK 24"
+            make console execute command "/luckyblock give %{_p}% ORANGE 24"
+            make console execute command "/luckyblock give %{_p}% MAGENTA 24"
+            make console execute command "/luckyblock give %{_p}% LIME 24"
+        stop

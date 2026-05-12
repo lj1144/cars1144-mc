@@ -1,0 +1,46 @@
+on armor change:
+    if {gamemode} is "chaos" or "ironage":
+        stop
+    new armor item is not any gold armor
+    if new armor item is enchanted with protection 4:
+        set {_item} to new armor item
+        remove protection from enchantments of {_item}
+        enchant {_item} with protection 2
+        set new armor item to {_item}
+
+on armor change:
+    {gamemode} is "ironage"
+    if new armor item  is not enchanted with protection 7:
+        set new armor item to air
+
+on shoot:
+    if {gamemode} is "advanced":
+        stop
+    if shooter's tool is enchanted with power 5 or power 4 or power 3:
+        set {_item} to shooter's tool
+        remove power from enchantments of {_item}
+        enchant {_item} with power 2
+        set shooter's tool to {_item}
+    if shooter's offhand is enchanted with power 5 or power 4 or power 3:
+        set {_item} to shooter's offhand
+        remove power from enchantments of {_item}
+        enchant {_item} with power 2
+        set shooter's offhand to {_item}
+
+on left click:
+    if {gamemode} is "advanced":
+        stop
+    if player's tool is enchanted with knockback 2:
+        set {_item} to player's tool
+        remove knockback from enchantments of {_item}
+        enchant {_item} with knockback 1
+        set player's tool to {_item}
+    if player's tool is enchanted with fire aspect 1:
+        set {_item} to player's tool
+        remove fire aspect from enchantments of {_item}
+        set player's tool to {_item}
+    if player's offhand is enchanted with knockback 2:
+        set {_item} to player's offhand
+        remove knockback from enchantments of {_item}
+        enchant {_item} with knockback 1
+        set player's offhand to {_item}

@@ -1,0 +1,201 @@
+# Simple Coinflip
+# by sluhtie#1234
+
+options:
+    prefix: <##12121D>&lᴅᴜᴘᴇ07 ≫<##A4A4C3>
+    no-perms: &8[&c&l!&8] <##9A52FF>You don't have permissions to perform this action!
+    broadcast: true
+    min-bid: 10
+
+on quit:
+    if {duelrequests::*} contains name of player:
+        make console execute command "/ta add %player% %{duelrequests::%name of player%::bid}%"
+        delete {duelrequests::%name of player%::bid}
+        remove player from {duelrequests::*}
+
+
+command /duelwager [<string>] [<number>]:
+    aliases: wager
+    trigger:
+        if arg-1 = "list":
+            duelGameGUI(player, 1)
+        else if arg-1 = "delete" or "remove":
+            {duelrequests::*} does not contain name of player:
+                send "{@prefix} &cYou didn't place a bid!"
+                stop
+            make console execute command "/ta add %player% %{duelrequests::%name of player%::bid}%"
+            send "{@prefix} &cYour bid has been removed!"
+            delete {duelrequests::%name of player%::bid}
+            remove name of player from {duelrequests::*}
+        else if arg-1 = "bid":
+            if arg-2 is not set:
+                send "{@prefix} Usage: &c/wager bid <amount>"
+                stop
+            if arg-2 < {@min-bid}:
+                send "{@prefix} &cYou need to bid at least {@min-bid} tokens!"
+                stop
+            if "%placeholder "beasttokens_tokens_raw" from player%" parsed as number < arg-2:
+                send "{@prefix} &cYou don't have enough money!"
+                stop
+            if {duelrequests::*} contains name of player:
+                send "{@prefix} &cYou already placed made a bid!"
+                stop
+            if "%placeholder "beasttokens_tokens_raw" from player%" parsed as number > arg-2:
+                add name of player to {duelrequests::*}
+                set {duelrequests::%name of player%::bid} to arg-2
+                make console execute command "/ta remove %player% %arg-2%"
+                send "{@prefix} &cYou have placed a bid of &6%arg-2% tokens"
+                broadcast "{@prefix} &c%player% has placed a duel wager for &6%{duelrequests::%name of player%::bid}% tokens (/wager list)"
+        else if arg-1 = "fix" or "reset":
+            clear {duelrequests::*}
+            clear {pvpduels::list::*}
+            broadcast "{@prefix} Wagers reset by admin"
+        else:
+            send "{@prefix} Usage: &c/wager <bid/list/delete> [amount]"
+
+on inventory click:
+    name of event-inventory starts with "&8» &c&lDUEL WAGERS &8[&7Page"
+    cancel event
+    duelGameGUI(player, {-page::%uuid of player%}-1) if clicked slot = red dye named "&cBack &8(&e%{-page::%uuid of player%}-1%&8)"
+    duelGameGUI(player, {-page::%uuid of player%}+1) if clicked slot = lime dye named "&aNext page &8(&e%{-page::%uuid of player%}+1%&8)"
+    clicked slot = player head
+    set {_p::*} to unformatted name of clicked slot split at " "
+    set {_host} to first element out of {_p::*}
+    set {_bid} to {duelrequests::%{_host}%::bid}
+    if {_host} = name of player:
+        send "{@prefix} &cYou can't play against yourself!"
+    else if {duelrequests::*} does not contain {_host}:
+        send "{@prefix} &cPlayer not found!"
+    else if "%placeholder "beasttokens_tokens_raw" from player%" parsed as number < {_bid}:
+        send "{@prefix} &cYou don't have enough money!"
+    else:
+        make console execute command "/ta remove %player% %{_bid}%"
+
+#        set {_x::*} to ({_host}) and name of player
+#        set {_winner} to random element out of {_x::*}
+#        remove {_winner} from {_x::*}
+#        set {_looser} to "%{_x::*}%"
+        remove {_host} from {duelrequests::*}
+        set {pvpduels::list::%{_host}%} to name of player
+        set {pvpduels::list::%{_host}%::bid} to {_bid}
+        set {pvpduels::list::%player%} to ({_host})
+        set {pvpduels::list::%{_host}%::bid} to {_bid}
+        set {_rx} to round(random number between -5000 and 5000)
+        set {_rz} to round(random number between -5000 and 5000)
+        teleport player to highest solid block at location({_rx}, 0, {_rz}, world "world")
+        teleport {_host} to highest solid block at location({_rx}, 0, {_rz}, world "world")
+        make console execute command "/minecraft:tp %{_host}% %player%"
+        wait 10 ticks
+        make console execute command "/pvptag %player%"
+        make console execute command "/pvptag %{_host}%"
+        close player's inventory
+        if {duelrequests::*} contains name of player:
+            remove name of player from {duelrequests::*}
+#            delete {duelrequests::%name of player%::bid}
+#            make console execute command "/ta pay %name of player% %{duelrequests::%name of player%::bid}%"
+
+on death of player:
+    if {pvpduels::list::*} contains name of victim or victim:
+        set {_loser} to name of victim
+        set {_winner} to {pvpduels::list::%name of victim%}
+        set {_bid} to {duelrequests::%{_loser}%::bid}
+        if {lasthitcrystal::%attacker%} is set:
+            set {_winner} to {lasthitcrystal::%attacker%}
+        send "{@prefix} &cYou have won against &a%{_loser}% &cin duel! &8(&a+%{_bid}*2% tokens&8)" to {_winner} parsed as player
+        send "{@prefix} &cYou have lost against &c%{_winner}% &cin duel! &8(&c-%{_bid}% tokens&8)" to {_loser} parsed as player
+        broadcast "{@prefix} &cPlayer &a%{_winner} parsed as player% &chas won against &c%{_loser} parsed as player% &cin duel with a stake of &e%{_bid}%"# if {@broadcast} = true
+        make console execute command "/ta add %{_winner}% %{_bid}*2%"
+        delete {duelrequests::%{_winner}%::bid}
+        remove name of victim from {duelrequests::*}
+        remove name of attacker from {duelrequests::*}
+        delete {pvpduels::list::%{_winner}%}
+#        delete {pvpduels::list::%{_winner}%}
+#        remove name of player from {pvpduels::list::%name of player%}
+#        delete {pvpduels::list::%{_winner}%::bid}
+        delete {pvpduels::list::%name of victim%::bid}
+        delete {pvpduels::list::%name of attacker%::bid}
+        delete {pvpduels::list::%{_loser}%::bid}
+        delete {pvpduels::list::%{_loser}%}
+        remove attacker from {pvpduels::list::*}
+        remove victim from {pvpduels::list::*}
+        remove {_loser} from {pvpduels::list::*}
+        delete {duelrequests::%name of attacker%::bid}
+        remove {_winner} from {pvpduels::list::*}
+        delete {pvpduels::list::%{_winner}%::bid}
+        delete {pvpduels::list::%name of attacker%::bid}
+        delete {pvpduels::list::%{_loser}%::bid}
+        delete {pvpduels::list::%{_loser}%}
+#        remove player from {pvpduels::list::*}
+        remove name of victim from {pvpduels::list::*}
+        remove name of attacker from {pvpduels::list::*}
+
+on quit:
+    if {pvpduels::list::*} contains name of player or player:
+        set {_loser} to name of player
+        set {_winner} to {pvpduels::list::%name of player%}
+        set {_bid} to {duelrequests::%{_loser}%::bid}
+        if {lasthitcrystal::%player%} is set:
+            set {_winner} to {lasthitcrystal::%player%}
+        send "{@prefix} &cYou have won against &a%{_loser}% &cin duel! &8(&a+%{_bid}*2% tokens&8)" to {pvpduels::list::%name of player%::*}
+        send "{@prefix} &cYou have lost against &c%{_winner}% &cin duel! &8(&c-%{_bid}% tokens&8)" to player
+        broadcast "{@prefix} &cPlayer &a%{pvpduels::list::%name of player%}% &chas won against &c%player% &cin duel with a stake of &e%{_bid}%"# if {@broadcast} = true
+        make console execute command "/ta add %{pvpduels::list::%name of player%}% %{_bid}*2%"
+        delete {duelrequests::%{_host}%::bid}
+        remove name of player from {duelrequests::*}
+        delete {pvpduels::list::%name of player%}
+        delete {pvpduels::list::%{_winner}%}
+        remove name of player from {pvpduels::list::%name of player%}
+        delete {pvpduels::list::%{_winner}%::bid}
+        delete {pvpduels::list::%name of player%::bid}
+        delete {pvpduels::list::%{_loser}%::bid}
+        delete {pvpduels::list::%{_loser}%}
+        remove player from {pvpduels::list::*}
+        remove name of player from {pvpduels::list::*}
+
+on shoot:
+    if {pvpduels::list::*} contains shooter:
+        projectile is not arrow
+        send "{@prefix} You cannot do this while being in a duel."
+        cancel event
+
+on elytra boost:
+    if {pvpduels::list::*} contains player:
+        send "{@prefix} Please finish your duel before typing any command!"
+        cancel event
+
+on command:
+    if {pvpduels::list::*} contains player:
+        send "{@prefix} Please finish your duel before typing any command!"
+        cancel event
+
+every 3 seconds:
+    loop all players:
+        if {pvpduels::list::*} contains loop-player:
+            set {_l} to location of {pvpduels::list::%loop-player%} parsed as player
+            send action bar "&cThere Location: %{_l}%" to loop-player
+
+
+function duelGameGUI(p: player, page: number=1):
+    set {_list::*} to {duelrequests::*}
+    set {_nextpage} to ({_page}+1) if (1st element of (duelpagination({_list::*}, {_page}+1, 21)) is set)
+    set {_previouspage} to ({_page}-1) if (1st element of (duelpagination({_list::*}, {_page}-1, 21)) is set)
+    set {_verified::*} to duelpagination({_list::*}, {_page}, 21)
+    set {_chest} to chest inventory with 5 rows named "&8» &c&lDUEL WAGERS &8[&7Page %{_page}%&8]"
+    set {_slots::*} to (numbers between 10 and 16), (numbers between 19 and 25) and (numbers between 28 and 34)
+    set {_n} to 1
+    set slot (integers between 0 and 8), (17, 26, 35, 44, 9, 18, 27 and 36) and (integers from 37 to 44) of {_chest} to gray stained glass pane named " "
+    loop {_verified::*}:
+        set slot ({_n}st element of {_slots::*}) of {_chest} to (skull of loop-value parsed as player named "&e%loop-value% &8[&6%{duelrequests::%loop-value%::bid}% tokens&8]" with lore "&8▶ &7ᴄʟɪᴄᴋ ᴛᴏ ᴀᴄᴄᴇᴘᴛ")
+        add 1 to {_n}
+    set slot 38 of {_chest} to red dye named "&cBack &8(&e%{_previouspage}%&8)" if {_previouspage} is set
+    set slot 42 of {_chest} to lime dye named "&aNext page &8(&e%{_nextpage}%&8)" if {_nextpage} is set
+    set {-page::%uuid of {_p}%} to {_page}
+    open {_chest} to {_p}
+
+function duelpagination(objects: objects, page: number, elementsPerPage: number) :: objects:
+    set {_page} to floor({_page})
+    set {_elementsPerPage} to floor({_elementsPerPage})
+    set {_startIndex} to ({_page} -1)*{_elementsPerPage}
+    loop {_elementsPerPage} times:
+        add (({_startIndex} + loop-value)th element out of {_objects::*}) to {_objs::*}
+    return {_objs::*}

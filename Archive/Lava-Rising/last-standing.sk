@@ -1,0 +1,129 @@
+options:
+    prefix: <##AB2330>&lᴇᴢʟᴀᴠᴀʀɪꜱɪɴɢ ≫<##A95F66>
+    color:  <##AB2330>
+
+
+on load:
+    delete {failsafe.1}
+
+
+
+
+
+function liveset():
+    clear {playersleft::*}
+    delete {failsafe.1}
+
+
+on death of player:
+    set {_loc} to victim's location
+    if victim is in world "lavarise":
+        if {servergame} is "pvp":
+            wait 2 ticks
+            set victim's gamemode to spectator
+            lms()
+            wait 1 second
+            teleport victim to {_loc}
+            wait 5 ticks
+            wait 8 seconds
+            resetpvp(victim)
+            #send victim title "{@color}You Died" with subtitle "<##A95F66>Return to spawn doing /spawn" for 4 seconds
+
+on quit:
+    if {playersleft::*} contains player:
+        remove player from {playersleft::*}
+        wait 5 ticks
+        lms()
+
+every 1 minute:
+    lms()
+
+
+function winner(p: player):
+    make console execute command "/ta add %{_p}% 750"
+    make console execute command "/svar add wins 1 %{_p}%"
+    apply resistance 6 to {_p} for 12 seconds
+    broadcast ""
+    broadcast "{@prefix} &l&n%{_p}% HAS WON THE GAME!"
+#    loop 10 times:
+#        launch burst firework colored dark red at {_p} timed 0.5
+#        wait 1 second
+function lms():
+    if {servergame} is not "pvp":
+        stop
+    clear {_lmsvar::*}
+    loop all players:
+        if loop-player is in world "lavarise":
+            if loop-player's gamemode is survival:
+                add loop-player to {_lmsvar::*}
+    if {servergame} is "pvp":
+        if size of {_lmsvar::*} is less than 2:
+            set {_p} to first element out of {_lmsvar::*}
+            broadcast "set first element"
+            if {_lmsvar::*} is not set:
+                make console execute command "/fixserver"
+            winner({_p})
+            set {y} to 0
+            set {servergame} to "end"
+            make console execute command "/end"
+            broadcast "ended"
+            play sound "entity.ender_dragon.death" at volume 1 at pitch 2 to all players
+            wait 10 seconds
+            endgame()
+
+
+
+
+
+
+
+
+command /debugcheck:
+    permission: op
+    trigger:
+        send "%{playersleft::*}%" to player
+        wait 2 seconds
+        send "%{servergame}%"
+        send "Failsafe: %{failsafe.1}%"
+        send "%{serverstatus}%"
+        send "%{y}%"
+#        endcheck()
+
+function endgame():
+    if {endrestart} is true:
+        set {endrestart} to false
+        broadcast ""
+        broadcast "{@prefix} SERVER IS RESTARTING"
+        broadcast ""
+        wait 3 seconds
+        make console execute command "/fixserver"
+        wait 5 ticks
+        make console execute command "/restart"
+        stop
+    broadcast "&c&lENDING GAME"
+    {failsave.2} is not set
+    set {failsave.2} to true
+    set {serverstatus} to "lobby"
+    delete {servergame}
+    delete {failsafe.1}
+    teleport all players to location(0, 103, 0, world("world"))
+    delete {alive::*}
+    wait 3 seconds
+    teleport all players to location(0, 103, 0, world("world"))
+    loop all players:
+        wait 1 second
+        teleport loop-player to location(0, 103, 0, world("world"))
+
+
+
+
+
+command /schedulerestart:
+    permission: op
+    trigger:
+        send "{@prefix} Server has been scheduled to restart when the next round ends"
+        set {endrestart} to true
+        wait 5 seconds
+        broadcast ""
+        broadcast "{@prefix} The server has been scheduled to restart when this round ends!"
+        broadcast ""

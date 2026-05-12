@@ -1,0 +1,125 @@
+# Built with the coinflip skript
+
+options:
+    prefix: <##12121D>&lᴅᴜᴘᴇ07 ≫<##A4A4C3>
+    no-perms: &8[&c&l!&8] <##9A52FF>You don't have permissions to perform this action!
+    broadcast: true
+    min-bid: 10
+
+
+
+
+command /auction [<string>] [<number>]:
+    aliases: ah
+    executable by: players
+    cooldown: 5 seconds
+    trigger:
+        if arg-1 = "list":
+            auctionGUI(player, 1)
+        else if arg-1 = "delete" or "remove":
+            if {auction::*} does not contain name of player:
+                send "{@prefix} &7You didn't place a auction!"
+                stop
+            send "{@prefix} &7Your auction has been removed!"
+            delete {auction::%name of player%::bid}
+            give player {auction::%name of player%::item}
+            delete {auction::%name of player%::item}
+            remove name of player from {auction::*}
+        else if arg-1 = "sell":
+            if arg-2 is not set:
+                send "{@prefix} Usage: &c/ah sell <amount>"
+                stop
+            if {auction::*} contains name of player:
+                send "{@prefix} &cCurrently, this skript does not support multiple item sellings."
+                stop
+            if player's tool is air:
+                stop
+            if player's tool is lime dye:
+                stop
+            if player's tool is red dye:
+                stop
+            set {_max} to placeholder "beasttokens_topbal_raw_1" from player parsed as number
+            if arg-2 is greater than {_max}:
+                send "{@prefix} Nobody has that many token"
+                stop
+            add name of player to {auction::*}
+            set {auction::%name of player%::bid} to arg-2
+            set {auction::%name of player%::item} to player's tool
+            set player's tool to air
+            send "{@prefix} &7You have placed %player's tool% on the auction for &6%arg-2% tokens"
+            broadcast "{@prefix} &7%player% is selling &r%{auction::%name of player%::item}%&7 on the auction for &6%{auction::%name of player%::bid}% tokens (/ah list)"
+        else if arg-1 = "reset":
+            loop {auction::*}:
+                delete {auction::%loop-value%::bid}
+                delete {auction::%loop-value%::item}
+                clear {auction::*}
+                broadcast ""
+                broadcast "{@prefix} The auction has been reset by a admin"
+                broadcast ""
+        else:
+            auctionGUI(player, 1)
+            send "{@prefix} Usage: &c/ah <sell/list/delete> [amount]"
+
+on inventory click:
+    name of event-inventory starts with "&8» &a&lAuctionHouse &8[&7Page"
+    cancel event
+    auctionGUI(player, {-page::%uuid of player%}-1) if clicked slot = red dye# named "&cBack &8(&e%{-page::%uuid of player%}-1%&8)"
+    auctionGUI(player, {-page::%uuid of player%}+1) if clicked slot = lime dye #named "&aNext page &8(&e%{-page::%uuid of player%}+1%&8)"
+    if name of clicked slot is " ":
+        close player's inventory
+        stop
+    if clicked slot is air:
+        stop
+    if clicked slot is lime dye:
+        stop
+    if clicked slot is red dye:
+        stop
+    set {_p::*} to unformatted name of clicked slot split at " "
+    set {_host} to first element out of {_p::*}
+    set {_bid} to {auction::%{_host}%::bid}
+    if {_host} = name of player:
+        make player execute command "ah delete"
+    else if {auction::*} does not contain {_host}:
+        send "{@prefix} &cPlayer not found!"
+    else if "%placeholder "beasttokens_tokens_raw" from player%" parsed as number < {_bid}:
+        send "{@prefix} &cYou don't have enough money!"
+    else:
+        if player has enough space for {auction::%{_host}%::item}:
+            make console execute command "/ta remove %player% %{_bid}%"
+            make console execute command "/ta add %{_host}% %{_bid}%"
+            give player {auction::%{_host}%::item}
+            send "{@prefix} &7You have bought %{auction::%{_host}%::item}% &8(&c-%{_bid}% tokens&8)" to player
+            send "{@prefix} &7%player% has bought %{auction::%{_host}%::item}%!" to {_host} parsed as player
+            delete {auction::%{_host}%::bid}
+            delete {auction::%{_host}%::item}
+            remove {_host} from {auction::*}
+            auctionGUI(player, {-page::%uuid of player%})
+        else:
+            send "{@prefix} You do not have enough space!"
+            stop
+    close player's inventory
+
+function auctionGUI(p: player, page: number=1):
+    set {_list::*} to {auction::*}
+    set {_nextpage} to ({_page}+1) if (1st element of (ahinaction({_list::*}, {_page}+1, 21)) is set)
+    set {_previouspage} to ({_page}-1) if (1st element of (ahinaction({_list::*}, {_page}-1, 21)) is set)
+    set {_verified::*} to ahinaction({_list::*}, {_page}, 21)
+    set {_chest} to chest inventory with 5 rows named "&8» &a&lAuctionHouse &8[&7Page %{_page}%&8]"
+    set {_slots::*} to (numbers between 10 and 16), (numbers between 19 and 25) and (numbers between 28 and 34)
+    set {_n} to 1
+    set slot (integers between 0 and 8), (17, 26, 35, 44, 9, 18, 27 and 36) and (integers from 37 to 44) of {_chest} to gray stained glass pane named " "
+    loop {_verified::*}:
+        set slot ({_n}st element of {_slots::*}) of {_chest} to ({auction::%loop-value%::item} named "&e%loop-value% &8[&6%{auction::%loop-value%::bid}% tokens&8]" with lore "&8Item Name: &r%{auction::%loop-value%::item}%" )
+        add 1 to {_n}
+    set slot 38 of {_chest} to red dye named "&cBack &8(&e%{_previouspage}%&8)" if {_previouspage} is set
+    set slot 42 of {_chest} to lime dye named "&aNext page &8(&e%{_nextpage}%&8)" if {_nextpage} is set
+    set {-page::%uuid of {_p}%} to {_page}
+    open {_chest} to {_p}
+
+function ahinaction(objects: objects, page: number, elementsPerPage: number) :: objects:
+    set {_page} to floor({_page})
+    set {_elementsPerPage} to floor({_elementsPerPage})
+    set {_startIndex} to ({_page} -1)*{_elementsPerPage}
+    loop {_elementsPerPage} times:
+        add (({_startIndex} + loop-value)th element out of {_objects::*}) to {_objs::*}
+    return {_objs::*}

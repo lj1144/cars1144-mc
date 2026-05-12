@@ -1,0 +1,51 @@
+options:
+	prefix: <##872CC0>&lʟᴏᴛᴜꜱɢᴇɴꜱ ≫<##AF69E5> 
+
+function limitGaps(p: player):
+    {_p}'s world contains "world"
+    set {_n} to amount of golden apples in {_p}'s inventory
+    {_n} > 128
+    remove ({_n} - 128) of golden apples from {_p}'s inventory
+    if {gapstaken::%{_p}'s uuid%} is set:
+        add {_n} - 128 to {gapstaken::%{_p}'s uuid%}
+    else:
+        set {gapstaken::%{_p}'s uuid%} to {_n} - 128
+    send "{@prefix} You have too many golden apples! Do /reclaimgaps in spawn to get them back!" to {_p}
+on region exit:
+    wait 1 tick
+    "%region at player%" does not contain "spawn"
+    limitGaps(player)
+on inventory slot change:
+    player's inventory contains golden apple
+    "%region at player%" doesn't contain "spawn"
+    limitGaps(player)
+#on pickup of golden apple:
+#    "%event-region%" doesn't contain "spawn"
+#    limitGaps(player)
+command /reclaimgaps:
+    trigger:
+        if "%region at player%" doesn't contain "spawn":
+            send "{@prefix} You aren't inside of spawn!" to player
+            stop
+        if {gapstaken::%player's uuid%} > 0:
+            set {_n} to {gapstaken::%player's uuid%}
+            set {_e} to mod({_n}, 64)
+            set {_a} to ({_n} - {_e})
+            set {_t} to 0
+            loop ({_a} / 60) times:
+                if player can hold 64 golden apples:
+                    give player 64 golden apples
+                    remove 64 from {gapstaken::%player's uuid%}
+                    add 64 to {_t}
+                else:
+                    stop loop
+            if player can hold {_e} of golden apples:
+                give player {_e} of golden apples
+                add {_e} to {_t}
+                remove {_e} from {gapstaken::%player's uuid%}
+            if {_t} > 0:
+                send "{@prefix} You reclaimed %{_t}%x Golden Apples! You have %{gapstaken::%player's uuid%}% left to reclaim!" to player
+            else:
+                send "{@prefix} You don't have enough inventory space to claim golden apples!" to player
+        else:
+            send "{@prefix} You don't have any gaps to reclaim!" to player

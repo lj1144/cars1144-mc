@@ -1,0 +1,154 @@
+#--------------------------------- COMMENTS ---------------------------------#
+
+
+
+#LifeSteal RECODEv0.1
+#edited: 2022-04-13
+#author: muyao
+
+
+
+#REQUIRES:
+#Skript (obviously)
+#SkQuery
+
+
+
+#--------------------------------- FIRST RUNS ---------------------------------#
+
+options:
+    prefix: <##12121D>&lᴅᴜᴘᴇ07 ≫<##A4A4C3>
+
+#Debug command to update all the hearts of online players
+command /fixhearts:
+    permission: op
+    trigger:
+        loop all players:
+            updatehearts(loop-player)
+
+
+on join:
+    if {hearts::%player's uuid%} is not set:
+        set {hearts::%player's uuid%} to 10
+    if player's world is "manualevent":
+        stop
+    updatehearts(player)
+on respawn:
+    wait 1 ticks
+    updatehearts(player)
+
+on first join:
+	set {hearts::%player's uuid%} to 10 
+	updatehearts(player)
+
+
+command heartserverreset:
+	cooldown: 5 seconds
+	trigger:
+		command sender is console:
+			broadcast "{@prefix} HEARTS WILL GLOBALLY RESET!"
+			wait 3 seconds
+			clear {hearts::*}
+			wait 3 seconds
+			broadcast "{@prefix} Please rejoin"
+			loop all players:
+				kick loop-player
+		command sender is player:
+			send "&cThis is a console only command!"
+
+#A command to list the people with the most hearts
+
+#command /heartwithdraw [<number>]:
+#	trigger:
+#		if arg-1 is set:
+#			send "{@prefix} Currently, you cannot withdraw specific numbers. Please just use /heartwithdraw"
+#			stop
+#		if {hearts::%player's uuid%} is less than 11:
+#		else:
+#			give player 1 of {coreitems::heart}
+#			subtract 1 from {hearts::%player's uuid%}
+#			send "%{coreitems::heart}%"
+#			send "{@prefix} Success"
+#			updatehearts(player)
+
+
+
+#A rank command to give everyone online 1 heart
+#command giveallheart:
+#	permission: dupe07.allheart1
+#	trigger:
+#		if {giveheartdelay::*} contains uuid of player:
+#			stop
+#		#Gets all the online players
+#		loop all players:
+#			#Gives all the online players 1 heart
+#			make console execute command "/kit give heart %loop-player%"
+#		#Broadcast
+#		broadcast ""
+#		broadcast "{@prefix} &7%player% has given everyone &c1 heart &7with their rank!"
+#		broadcast ""
+#		add uuid of player to {giveheartdelay::*}
+#		wait 24 hours
+#		remove uuid of player from {giveheartdelay::*}
+
+command /setheart <player> <integer>:
+	permission: op
+	trigger:
+		set {hearts::%arg-1's uuid%} to arg-2
+		updatehearts(arg-1)
+
+on right click:
+	if player's tool is enchanted with unbreaking 10:
+		if player's tool is red dye:
+			add 1 to {hearts::%player's uuid%}
+			remove 1 of player's tool from player's inventory
+			updatehearts(player)
+	
+#A command to bounty other players
+
+
+
+
+#A command to list all bounties
+
+
+
+
+#A command to share hearts with other people
+
+
+
+#---------------------------------- FUNCTION ----------------------------------#
+
+on quit:
+    if {hearts::%uuid of player%} is less than 11:
+        delete {hearts::%uuid of player%}
+
+#Updates the hearts of players. I used a function because its convinent and will be used alot
+function updatehearts(p: player):
+	#Does the changing and shit
+	set {_u} to uuid of {_p}
+	set {_p}'s maximum health to {hearts::%{_u}%}
+	if {hearts::%{_u}%} is greater than 19:
+		set {hearts::%{_u}%} to 20
+		set {_p}'s maximum health to {hearts::%{_u}%}
+	if {hearts::%{_u}%} is less than 10:
+		set {hearts::%{_u}%} to 10
+		set {_p}'s maximum health to {hearts::%{_u}%}
+
+command /heartshop:
+	trigger:
+		create a gui with virtual chest inventory with 1 rows named "&c&lHeart Shop":
+			set {_math} to {hearts::%uuid of player%} - 9
+			set {_cost} to 500 * {_math}
+			make gui slot 4 to chest named "&c&lHeart Container" with lore " ", "&cCost:&6 %{_cost}% Tokens":
+				set {_tokens} to placeholder "beasttokens_tokens_raw" from player parsed as number
+				if {_tokens} is greater than {_cost}:
+					add 1 to {hearts::%uuid of player%}
+					updatehearts(player)
+					make console execute command "/ta remove %player% %{_cost}%"
+					close player's inventory
+				else:
+					send "{@prefix} You do not have enough tokens!"
+					close player's inventory
+		open last gui to player

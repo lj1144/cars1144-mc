@@ -1,0 +1,38 @@
+theworld:
+  Id: armor_stand
+  Display: '<gradient:#7F00FF:#CBA6F7>&lᴛʜᴇ ᴡᴏʀʟᴅ</gradient>'
+  Options:
+    Unbreakable: true
+    HideFlags: true
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#5B008C>&l&m= &r <#7F00FF>Skill: <#CBA6F7>(Freeze Time)'
+  - '&8&l&m▏&r &7[Right Click]&f ➤&7 Freezes players in a radius'
+  - '&7<italic><#7F00FF>"a new world order"</italic>'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Enchantments:
+  - DURABILITY:1
+  Skills:
+  - effect:particles{p=mobSpell;amount=2;speed=0.5;y=0.4;hs=0.3;vs=0.8;color=;color=#3F1761;repeat=60;repeatInterval=4} @self ~onTimer:60
+  - effect:particles{p=mobSpell;amount=2;speed=0.5;y=0.4;hs=0.3;vs=0.8;color=;color=#060309;repeat=60;repeatInterval=4} @self ~onTimer:60
+  - skill{s=freezetime} ~onUse
+  - skill{s=lksantiplace} ~onBlockPlace
+  
+theworldoverheaven:
+  Id: armor_stand
+  Display: '&8&l&m&k*&7&l&m&k*&f&l&m&k*&r&7&l&m &f&l&m *&r &f&l&m &7&l&m=&8&l&m}&r&f&lTHE WORLD OVER HEAVEN&8&l&m{&7&l&m=&f&l&m &r &f&l&m* &7&l&m &f&l&m&k*&7&l&m&k*&8&l&m&k*'
+  Options:
+    Unbreakable: true
+  Enchantments:
+  - DAMAGE_ALL:7
+  Lore:
+  - '&8&l&m*&r &f&oSTAND OVER ASCENSIONS'
+  - '&8&l&m*&r &fOriginalContent'
+  - '&f&l&m*---=---=---=---=---=---=---=---=---*'
+  - '&5&l&m= &r &7Skill: &dFreeze Time'
+  - '&8&l&m*&r &7Left click + Crouching &f>>&7 Freezes time for people in a radius'
+  - '&f&l&m*---=---=---=---=---=---=---=---=---*'
+  Skills:
+  - effect:particles{p=mobSpell;amount=2;speed=0.5;y=0.4;hs=0.3;vs=0.8;color=;color=#FFFFFF;repeat=60;repeatInterval=4} @self ~onTimer:60
+  - effect:particles{p=mobSpell;amount=2;speed=0.5;y=0.4;hs=0.3;vs=0.8;color=;color=#FFFFFF;repeat=60;repeatInterval=4} @self ~onTimer:60
+  - skill{s=freezetimeheaven} ~onUse

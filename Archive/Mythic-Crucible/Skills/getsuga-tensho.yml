@@ -1,0 +1,43 @@
+getsugatensho:
+  Cooldown: 70
+  OnCooldownSkills:
+  - am{m="&cSkill on cooldown for <caster.skill.getsugatensho.cooldown> seconds."} @self
+  Conditions:
+  - crouching true
+  - holding{m=oblivion_sword} true
+  - skillOnCooldown{skill=globalcooldown} false
+  Skills:
+  - skill{s=globalcooldown}
+  - effect:sound{s=entity.evoker.prepare_attack;v=2;p=0.7} @self
+  - effect:sound{s=block.enchantment_table.use;v=2;p=1.5} @self
+  - effect:sound{s=entity.ender_dragon.growl;v=2;p=0.3} @self
+  - effect:sound{s=item.trident.riptide_3;v=2;p=0.5} @self
+  - projectile{onTick=getsugaTick;onHit=getsugaHit;oE=getsugaEnd;v=16;i=1;hR=1.5;vR=1.5;StopAtBlock=true;HitNonPlayers=true} @TargetLocation
+getsugaTick:
+  Skills:
+  - effect:particles{color=#4B0E0E;amount=185;speed=0;hR=1;vR=1;hS=1.9;vS=2.9} @origin
+  - effect:particles{color=#0A0A0A;amount=185;speed=0;hR=1;vR=1;hS=1.9;vS=2.9} @origin
+
+  - delay 8
+  - effect:particles{color=#4B0E0E;amount=185;speed=0;hR=1;vR=1;hS=1.9;vS=2.9} @origin
+  - effect:particles{color=#0A0A0A;amount=185;speed=0;hR=1;vR=1;hS=1.9;vS=2.9} @origin
+
+  - delay 8
+  - effect:particles{color=#270A08;amount=100;speed=0;hR=1;vR=1;hS=1.9;vS=2} @origin
+  - delay 8
+  - effect:particles{color=#270A08;amount=50;speed=0;hR=1;vR=1;hS=1.9;vS=1} @origin
+
+  #- effect:particles{p=mobSpell;amount=32;speed=0.5;hR=1;vR=1;hS=0.6;vS=0.6;color=#000000} @origin
+getsugaHit:
+  Skills:
+  #- damage{a=58;ia=false;preventimmunity=false;pk=true}
+  - effect:sound{s=entity.generic.explode;v=0.3;p=0.4}
+  - effect:sound{s=entity.lightning_bolt.thunder;v=0.1;p=2}
+  - effect:sound{s=entity.elder_guardian.curse;v=0.1;p=2}
+getsugaEnd:
+  Skills:
+  - damage{a=40;ia=false;preventimmunity=false;pk=true} @EIR{r=20}
+  - blockwave{duration=60;radius=10;radiusY=5;velocity=4;shape=sphere} @origin
+  - effect:sound{s=entity.generic.explode;v=0.3;p=0.4}
+  - effect:sound{s=entity.lightning_bolt.thunder;v=0.1;p=2}
+  - effect:sound{s=entity.elder_guardian.curse;v=0.1;p=2}

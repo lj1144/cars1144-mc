@@ -1,0 +1,86 @@
+swastika:
+  Cooldown: 30
+  Conditions:
+  - skillOnCooldown{skill=globalcooldown} false
+  Skills:
+  - skill{s=globalcooldown}
+#  - effect:particlering{p=falling_dust;material=redstone_block;a=64;hs=0;vs=1;y=2;r=6;points=8} @self
+  - effect:particlering{p=falling_dust;material=redstone_block;a=1;hs=0;vs=0;y=0.05;r=6;points=112} @self
+#  - effect:particleline{particle=endRod;amount=1;fromOrigin=true;yStartOffset=0;distanceBetween=0.1} @Forward{f=5;lockpitch=true}
+#  - particleline{particle=falling_dust;fromorigin=true;origin=@forward{lockpitch=true;rot=180;f=5}} @Forward{f=5;lockpitch=true}
+#  - particleline{particle=end_rod;fromorigin=true;origin=@forward{lockpitch=true;rot=-45;f=5}} @Forward{f=5;rot=45;lockpitch=true}
+#  - particleline{particle=end_rod;fromorigin=true;origin=@forward{lockpitch=true;rot=-45}} @Forward{f=2;rot=45;lockpitch=true}
+
+  - particleline{particle=end_rod;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=180}} @Forward{f=7.07;lockpitch=true;rot=-135}
+  - particleline{particle=end_rod;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=0}} @Forward{f=7.07;lockpitch=true;rot=45}
+  - particleline{particle=end_rod;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=-90}} @Forward{f=7.07;lockpitch=true;rot=-45}
+  - particleline{particle=end_rod;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=90}} @Forward{f=7.07;lockpitch=true;rot=135}
+  - particleline{particle=end_rod;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=180}} @Forward{f=5;lockpitch=true;rot=0}
+  - particleline{particle=end_rod;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=90}} @Forward{f=5;lockpitch=true;rot=-90}
+  #- particleline{particle=end_rod;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=-45}} @Forward{f=5;lockpitch=true;rot=45}
+snowflake:
+  Cooldown: 20
+  Conditions:
+  - holding{m=cryocorecascade} true
+  OnCooldownSkills:
+  - am{m="&cSkill on cooldown for <caster.skill.snowflake.cooldown> seconds."} @self
+  Skills:
+  - Aura{onTick=snowflakefx;interval=20;duration=120} @self
+#  - damage{a=1;pi=true;cd=2;damagecause=FREEZE} @PIR{r=15}
+
+
+snowflakefx:
+  Skills:
+#  - damage{a=2;ia=true;ie=true;pi=true;damagecause=FREEZE} @EIR{r=15}
+  - freeze{ticks=240} @PIR{r=15}
+  - potion{type=SLOW;duration=18;level=3} @PIR{r=15}
+  - particlering{particle=snowflake;radius=15;points=256;amount=1} @self
+  - effect:sound{s=block.snow.break;v=1;p=0.5} @PIR{r=15}
+  - effect:sound{s=entity.zombie_villager.cure;v=0.2;p=2} @PIR{r=15}
+ # - effect:sound{s=block.respawn_anchor.charge;v=1;p=0.5} @self
+ # - prison{material=PACKED_ICE;radius=4;duration=100;breakable=true} @PIR{r=15}
+  - particleline{particle=reddust;color=#ffffff;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=180}} @Forward{f=5;lockpitch=true;rot=0}
+  
+  - particleline{particle=reddust;color=#ffffff;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=-65}} @Forward{f=5;lockpitch=true;rot=115}
+  
+  - particleline{particle=reddust;color=#ffffff;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=-115}} @Forward{f=5;lockpitch=true;rot=65}
+  
+  - particleline{particle=reddust;color=#ffffff;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=-15}} @Forward{f=3;lockpitch=true;rot=0}
+  - particleline{particle=reddust;color=#ffffff;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=15}} @Forward{f=3;lockpitch=true;rot=0}
+  - particleline{particle=reddust;color=#ffffff;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=165}} @Forward{f=3;lockpitch=true;rot=180}
+  - particleline{particle=reddust;color=#ffffff;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=-165}} @Forward{f=3;lockpitch=true;rot=180}
+  - particleline{particle=reddust;color=#ffffff;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=130}} @Forward{f=3;lockpitch=true;rot=115}
+  - particleline{particle=reddust;color=#ffffff;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=100}} @Forward{f=3;lockpitch=true;rot=115}
+  
+  - particleline{particle=reddust;color=#ffffff;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=-50}} @Forward{f=3;lockpitch=true;rot=-65}
+  - particleline{particle=reddust;color=#ffffff;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=-80}} @Forward{f=3;lockpitch=true;rot=-65}
+  
+  - particleline{particle=reddust;color=#ffffff;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=50}} @Forward{f=3;lockpitch=true;rot=65}
+  - particleline{particle=reddust;color=#ffffff;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=80}} @Forward{f=3;lockpitch=true;rot=65}
+  - particleline{particle=reddust;color=#ffffff;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=-130}} @Forward{f=3;lockpitch=true;rot=-115}
+  - particleline{particle=reddust;color=#ffffff;fromorigin=true;origin=@forward{lockpitch=true;f=5;rot=-100}} @Forward{f=3;lockpitch=true;rot=-115}
+#  - damage{a=10} @EIR{r=15}
+ # - delay 10
+ # - damage{a=10} @EIR{r=15}
+ # - delay 10
+ # - damage{a=10} @EIR{r=15}
+ # - delay 10
+ # - damage{a=10} @EIR{r=15}
+ # - delay 10
+ # - damage{a=10} @PIR{r=15}
+ # - delay 10
+  #- particleline{particle=end_rod;fromorigin=true;origin=@forward{lockpitch=true;rot=135;f=5}} @forward{f=5;lockpitch=true;rot=-135}
+  #- particleline{particle=end_rod;fromorigin=true;origin=@forward{lockpitch=true;rot=135;f=5}} @forward{f=5;lockpitch=true;rot=-135}
+
+
+ 
+#  - delay 1
+#  - effect:particlering{p=falling_dust;material=redstone_block;a=1;hs=0;vs=0;y=0.05;r=5;points=96} @self
+#  - delay 1
+#  - effect:particlering{p=falling_dust;material=redstone_block;a=1;hs=0;vs=0;y=0.05;r=4;points=80} @self
+#  - delay 1
+#  - effect:particlering{p=falling_dust;material=redstone_block;a=1;hs=0;vs=0;y=0.05;r=3;points=64} @self
+#  - delay 1
+#  - effect:particlering{p=falling_dust;material=redstone_block;a=1;hs=0;vs=0;y=0.05;r=2;points=48} @self
+#  - delay 1
+#  - effect:particlering{p=falling_dust;material=redstone_block;a=1;hs=0;vs=0;y=0.05;r=1;points=32} @self

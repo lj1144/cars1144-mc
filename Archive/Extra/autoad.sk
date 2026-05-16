@@ -1,0 +1,62 @@
+# How to use:
+# Download the command macros mod and create two macros that will execute at the same interval (10000)
+# 1. The first macro will be your advertise command /ad -server- -advertisement
+# 2. The second macro will be to join back your server /join -server-
+#
+# https://www.curseforge.com/minecraft/mc-mods/command-macros
+# When you are ready to start the advertising, press button 1, wait around 4 seconds then press button 2. Press them btoh when you want to stop
+
+
+command /fastad:
+  permission: op
+  trigger:
+    set {fastad} to true
+    loop {ads::*}:
+      set {ads::%loop-index%} to random integer between 1 and 5
+    send "&cturned on fast ad for 10 mins"
+    wait 15 minutes
+    set {fastad} to false
+
+command /advertiseserver:
+  permission: lotusgens.adserver
+  cooldown: 2 minutes
+  trigger:
+    set {_i} to random integer between 1 and 2
+    if {_i} is 1:
+      make console execute command "adkick Crltical"
+    if {_i} is 2:
+      make console execute command "adkick Affiong"
+
+command /adkick [<player>]:
+    permission: lotusgens.adkick
+    trigger:
+        send "&cKicked %arg-1% to advertise!" to player
+        make console execute command "/minecraft:ban %arg-1%"
+        wait 9 seconds
+        make console execute command "/minecraft:pardon %arg-1%"
+
+
+on join:
+ player is op
+ set player's gamemode to creative
+command /ad [<text>]:
+    permission: op
+    trigger:
+        if player is player:
+            if {ads::%player%} is 1:
+                send "&ckicking"
+                set {ads::%player%} to a random integer between 120 and 360
+                if {fastad} is true:
+                    set {ads::%player%} to a random integer between 12 and 30
+                wait 5 seconds
+                make console execute command "/minecraft:ban %player%"
+                wait 9 seconds
+                make console execute command "/minecraft:pardon %player%"
+                stop
+            else if {ads::%player%} is not set:
+                set {ads::%player%} to a random integer between 120 and 360
+                send "&cWelcoem to the auto ad"
+            else:
+                subtract 1 from {ads::%player%}
+                send "%{ads::%player%}%"
+                stop

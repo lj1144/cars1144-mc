@@ -1,0 +1,78 @@
+infinitevoid:
+  Id: structure_void
+  Display: '&8&l&m&k*&7&l&m&k*&f&l&m&k*&r&7&l&m &f&l&m *&r &f&l&m &7&l&m=&8&l&m}&r&f&lɪɴꜰɪɴɪᴛᴇ ᴠᴏɪᴅ&8&l&m{&7&l&m=&f&l&m &r &f&l&m* &7&l&m &f&l&m&k*&7&l&m&k*&8&l&m&k*'
+  Options:
+    Unbreakable: true
+  Enchantments:
+  - DAMAGE_ALL:1
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#DADAFD>&l&m= &r <#EBEBFF>Skill: <#B6A5F5>(Domain Expansion)'
+  - '&8&l&m▏&r &7[Right click]&f ➤&7 Activates the inner world of Limitless'
+  - '&7<italic><#C9BFFC>"Perception, Communication. When granted everything, you can’t do anything."'
+  - '&f&l&m*---=---=---=---=---=---*'
+
+  Hide:
+  - ENCHANTS
+  Skills:
+  - skill{s=infinity} ~onUse
+  
+infinitevoidcustom:
+  Id: structure_void
+  Display: '&8&l&m&k*&7&l&m&k*&f&l&m&k*&r&7&l&m &f&l&m *&r &f&l&m &7&l&m=&8&l&m}&r&f&lINFINITE VOID&8&l&m{&7&l&m=&f&l&m &r &f&l&m* &7&l&m &f&l&m&k*&7&l&m&k*&8&l&m&k*'
+  CustomModelData: 1111
+  Options:
+    Unbreakable: true
+  Enchantments:
+  - DAMAGE_ALL:1
+  Lore:
+  - '&8&l&m*&r &f&oT'
+  - '&8&l&m*&r &fPerception, Comunication. When granted everything, you cant do anything'
+  - '&f&l&m*---=---=---=---=---=---=---=---=---*'
+  - '&f&l&m= &r &7Skill: &7Domain Expansion'
+  - '&8&l&m*&r &7Left click + Crouching &f>>&7 Activates the inner world of Limitless'
+  - '&f&l&m*---=---=---=---=---=---=---=---=---*'
+  Hide:
+  - ENCHANTS
+  Skills:
+  - skill{s=infinitycustom} ~onUse
+  
+malevolentshrine:
+  Id: weeping_vines
+  Display: '&8&l&m&k*&4&l&m&k*&c&l&m&k*&r&4&l&m &c&l&m *&r &c&l&m &4&l&m=&8&l&m}&r&c&lMALEVOLENT SHRINE&8&l&m{&4&l&m=&c&l&m &r &c&l&m* &4&l&m &c&l&m&k*&4&l&m&k*&8&l&m&k*'
+  CustomModelData: 1111
+  Options:
+    Unbreakable: true
+  Enchantments:
+  - DAMAGE_ALL:1
+  Lore:
+  - '&8&l&m*&r &c&oT'
+  - '&8&l&m*&r &cPunishment, Retribution. Within this Shrine, judgment is inevitable.'
+  - '&c&l&m*---=---=---=---=---=---=---=---=---*'
+  - '&c&l&m= &r &7Skill: &7Domain Expansion'
+  - '&8&l&m*&r &7Left click + Crouching &c>>&7 Activates the Malevolent Shrine, where fate is sealed'
+  - '&c&l&m*---=---=---=---=---=---=---=---=---*'
+  Hide:
+  - ENCHANTS
+  Skills:
+  - skill{s=malevoelntcrossfx} ~onUse
+  
+  
+greymirage:
+  Id: dead_tube_coral
+  Display: '&8&l&m&k*&f&l&m&k*&7&l&m&k*&r&f&l&m &7&l&m *&r&7&lGREY MIRAGE&7&l&m &r &7&l&m* &f&l&m &7&l&m&k*&f&l&m'
+  Options:
+    Unbreakable: true
+  Enchantments:
+  - DAMAGE_ALL:1
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#DADAFD>&l&m= &r <#EBEBFF>Skill: <#B6A5F5>(Simple Domain)'
+  - '&8&l&m▏&r &7[Right click]&f ➤&7 Creates a barrier that lessens your damage'
+  - '&7<italic><#C9BFFC>"make sure to bring protection!"'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Hide:
+  - ENCHANTS
+  Skills:
+  - skill{s=greymirage} ~onUse
+  

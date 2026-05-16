@@ -1,0 +1,402 @@
+oblivion_helmet:
+  Id: iron_helmet
+  EquipmentSet: Oblivion
+  Display: '<#5A13A0>&lᴏ<#651CA6>&lʙ<#7025AC>&lʟ<#7C2DB2>&lɪ<#8736B8>&lᴠ<#923FBE>&lɪ<#A044C8>&lᴏ<#AD49D2>&lɴ <#C853E5>&lʜ<#B947DE>&lᴇ<#AA3CD7>&lʟ<#9A30D0>&lᴍ<#8B25C9>&lᴇ<#7C19C2>&lᴛ'
+  Enchantments:
+  - PROTECTION_ENVIRONMENTAL:4
+  - DURABILITY:1
+  Options:
+    Unbreakable: true
+  Hide:
+  - ENCHANTS
+  Trim:
+    Material: amethyst
+    Pattern: silence
+  Attributes:
+    Head:
+      Armor: 3.01
+      ArmorToughness: 3
+      Damage: 0.5%
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#B682F1>&l&m= &r <#D7A8F8>Skill: <#C084FC>&f(Ohm<&sq>s Law)'
+  - '&8&l&m▏&r &7[Passive]&f ➤&7 Occasionally gives absorption when being hit'
+  - ''
+  - '<#B682F1>&l&m= &r <#D7A8F8>Enchants:'
+  - '&8&l&m▏&r <#C084FC>Protection &fIV'
+  - '&7<italic><#9F7AEA>"Ultimate defense."'
+  - '&f&l&m*---=---=---=---=---=---*'
+
+oblivion_chestplate:
+  Id: iron_chestplate
+  EquipmentSet: Oblivion
+  Display: '<#5A13A0>&lᴏ<#631AA5>&lʙ<#6D22AA>&lʟ<#7629AF>&lɪ<#7F30B4>&lᴠ<#8938B9>&lɪ<#923FBE>&lᴏ<#9B42C5>&lɴ <#AD49D2>&lᴄ<#B64CD8>&lʜ<#BF50DF>&lᴇ<#C853E5>&lꜱ<#BB49DF>&lᴛ<#AF40D9>&lᴘ<#A236D4>&lʟ<#952CCE>&lᴀ<#8923C8>&lᴛ<#7C19C2>&lᴇ'
+  Enchantments:
+  - PROTECTION_ENVIRONMENTAL:4
+  - DURABILITY:1
+  Options:
+    Unbreakable: true
+  Hide:
+  - ENCHANTS
+  Trim:
+    Material: amethyst
+    Pattern: silence
+  Attributes:
+    Chest:
+      Armor: 8.01
+      ArmorToughness: 3
+      Damage: 0.5%
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#B682F1>&l&m= &r <#D7A8F8>Skill: <#C084FC>&f(Ohm<&sq>s Law)'
+  - '&8&l&m▏&r &7[Passive]&f ➤&7 Occasionally gives absorption when being hit'
+  - ''
+  - '<#B682F1>&l&m= &r <#D7A8F8>Enchants:'
+  - '&8&l&m▏&r <#C084FC>Protection &fIV'
+  - '&7<italic><#9F7AEA>"Ultimate defense."'
+  - '&f&l&m*---=---=---=---=---=---*'
+
+oblivion_leggings:
+  Id: iron_leggings
+  EquipmentSet: Oblivion
+  Display: '<#5A13A0>&lᴏ<#651CA6>&lʙ<#7025AC>&lʟ<#7C2DB2>&lɪ<#8736B8>&lᴠ<#923FBE>&lɪ<#9B42C5>&lᴏ<#A446CB>&lɴ <#B64CD8>&lʟ<#BF50DF>&lᴇ<#C853E5>&lɢ<#B947DE>&lɢ<#AA3CD7>&lɪ<#9A30D0>&lɴ<#8B25C9>&lɢ<#7C19C2>&lꜱ'
+  Enchantments:
+  - PROTECTION_ENVIRONMENTAL:4
+  - DURABILITY:1
+  Options:
+    Unbreakable: true
+  Hide:
+  - ENCHANTS
+  Trim:
+    Material: amethyst
+    Pattern: silence
+  Attributes:
+    Legs:
+      Armor: 6.01
+      ArmorToughness: 3
+      Damage: 0.5%
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#B682F1>&l&m= &r <#D7A8F8>Skill: <#C084FC>&f(Ohm<&sq>s Law)'
+  - '&8&l&m▏&r &7[Passive]&f ➤&7 Occasionally gives absorption when being hit'
+  - ''
+  - '<#B682F1>&l&m= &r <#D7A8F8>Enchants:'
+  - '&8&l&m▏&r <#C084FC>Protection &fIV'
+  - '&7<italic><#9F7AEA>"Ultimate defense."'
+  - '&f&l&m*---=---=---=---=---=---*'
+
+oblivion_boots:
+  Id: iron_boots
+  EquipmentSet: Oblivion
+  Display: '<#5A13A0>&lᴏ<#681EA8>&lʙ<#7629AF>&lʟ<#8434B7>&lɪ<#923FBE>&lᴠ<#9D43C6>&lɪ<#A847CE>&lᴏ<#B24BD5>&lɴ <#C853E5>&lʙ<#B545DC>&lᴏ<#A236D4>&lᴏ<#8F28CB>&lᴛ<#7C19C2>&lꜱ'
+  Enchantments:
+  - PROTECTION_ENVIRONMENTAL:4
+  - DURABILITY:1
+  Options:
+    Unbreakable: true
+  Hide:
+  - ENCHANTS
+  Trim:
+    Material: amethyst
+    Pattern: silence
+  Attributes:
+    Feet:
+      Armor: 3.01
+      ArmorToughness: 3
+      Damage: 0.5%
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#B682F1>&l&m= &r <#D7A8F8>Skill: <#C084FC>&f(Ohm<&sq>s Law)'
+  - '&8&l&m▏&r &7[Passive]&f ➤&7 Occasionally gives absorption when being hit'
+  - ''
+  - '<#B682F1>&l&m= &r <#D7A8F8>Enchants:'
+  - '&8&l&m▏&r <#C084FC>Protection &fIV'
+  - '&7<italic><#9F7AEA>"Ultimate defense."'
+  - '&f&l&m*---=---=---=---=---=---*'
+
+oblivion_sword:
+  Id: iron_sword
+  Display: '<#5A13A0>&lᴏ<#681EA8>&lʙ<#7629AF>&lʟ<#8434B7>&lɪ<#923FBE>&lᴠ<#9D43C6>&lɪ<#A847CE>&lᴏ<#B24BD5>&lɴ <#C853E5>&lꜱ<#B545DC>&lᴡ<#A236D4>&lᴏ<#8F28CB>&lʀ<#7C19C2>&lᴅ'
+  Options:
+    Unbreakable: true
+  Enchantments:
+  - DAMAGE_ALL:6
+  - DURABILITY:3
+  - FIRE_ASPECT:2
+  Attributes:
+    Hand:
+      Damage: 7
+      AttackSpeed: -0.55
+  Hide:
+  - ENCHANTS
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#B682F1>&l&m= &r <#D7A8F8>Skill: <#C084FC>(Getsuga Tenshō)'
+  - '&8&l&m▏&r &7[Click + Crouch]&f ➤&7 Shoot a LARGE wave of energy from your sword'
+  - ''
+  - '<#B682F1>&l&m= &r <#D7A8F8>Enchants:'
+  - '&8&l&m▏&r <#C084FC>Sharpness VI'
+  - '&8&l&m▏&r <#C084FC>Unbreaking III'
+  - '&8&l&m▏&r <#C084FC>Fire Aspect II'
+  - '&7<italic><#9F7AEA>"Legendary"'
+  - '&f&l&m*---=---=---=---=---=---*'  
+  Skills:
+  - skill{s=getsugatensho} ~onSwing
+
+
+dragondance:
+  Id: dragon_breath
+  Display: '<#AD1457>&lᴅ<#BE2866>&lʀ<#CF3B75>&lᴀ<#DF4F83>&lɢ<#F06292>&lᴏ<#F06292>&lɴ <#F06292>&lᴅ<#F06292>&lᴀ<#F06292>&lɴ<#F06292>&lᴄ<#F06292>&lᴇ'
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#AD1457>&l&m= &r <#AD1457>Skill: <#F06292>(Consumable)'
+  - '&8&l&m▏&r &7[Right click]&f ➤&7 A mystical dance that ups ATK + SPD'
+  - '&7<italic><#F06292>"lOOKED SPOOKED CAUSE I HIT DRAGON DANCE"'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Skills:
+  - skill{s=DRAGONDANCE} ~onUse
+  
+malignhelmet:
+  Id: iron_helmet
+  EquipmentSet: Malign
+  Display: '<#F25C5C>&lᴍ<#F35F5F>&lᴀ<#F36161>&lʟ<#F46464>&lɪ<#F46666>&lɢ<#F56969>&lɴ <#F66E6E>&lʜ<#F77070>&lᴇ<#F87373>&lʟ<#F87575>&lᴍ<#F97878>&lᴇ<#F97A7A>&lᴛ'
+  Enchantments:
+  - PROTECTION_ENVIRONMENTAL:4
+  - DURABILITY:4
+  - MENDING:1
+  Hide:
+  - ENCHANTS
+  Trim:
+    Material: redstone
+    Pattern: silence
+  Attributes:
+    Head:
+      Armor: 3
+      ArmorToughness: 3
+      Damage: 0.25%
+  CustomDurability:
+    Durability: 814
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#F25C5C>&l&m= &r <#FA7D7D>Skill: <#FF6B6B>&f(Imprison)'
+  - '&8&l&m▏&r &7[Attack]&f ➤&7 Has a chance to temporarily freeze your opponent.'
+  - '&8▏&7(FULL SET SKILL)'
+  - ''
+  - '<#F25C5C>&l&m= &r <#FA7D7D>Enchants:'
+  - '&8&l&m▏&r <#FF6B6B>Protection &fIV'
+  - '&8&l&m▏&r <#FF6B6B>Unbreaking &fIV'
+  - '&8&l&m▏&r <#FF6B6B>Mending &fI'
+  - '&7<italic><#FF7E79>"Worn for conquest."'
+  - '&f&l&m*---=---=---=---=---=---*'
+malignchestplate:
+  Id: iron_chestplate
+  EquipmentSet: Malign
+  Display: '<#F25C5C>&lᴍ<#F35E5E>&lᴀ<#F36060>&lʟ<#F46262>&lɪ<#F46464>&lɢ<#F56666>&lɴ <#F66A6A>&lᴄ<#F66D6D>&lʜ<#F76F6F>&lᴇ<#F77171>&lꜱ<#F87373>&lᴛ<#F87575>&lᴘ<#F97777>&lʟ<#F97979>&lᴀ<#FA7B7B>&lᴛ<#FA7D7D>&lᴇ'
+  Enchantments:
+  - PROTECTION_ENVIRONMENTAL:4
+  - DURABILITY:4
+  - MENDING:1
+  Hide:
+  - ENCHANTS
+  Trim:
+    Material: redstone
+    Pattern: silence
+  Attributes:
+    Chest:
+      Armor: 8
+      ArmorToughness: 3
+      Damage: 0.25%
+  CustomDurability:
+    Durability: 1184
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#F25C5C>&l&m= &r <#FA7D7D>Skill: <#FF6B6B>&f(Imprison)'
+  - '&8&l&m▏&r &7[Attack]&f ➤&7 Has a chance to temporarily freeze your opponent.'
+  - '&8▏&7(FULL SET SKILL)'
+  - ''
+  - '<#F25C5C>&l&m= &r <#FA7D7D>Enchants:'
+  - '&8&l&m▏&r <#FF6B6B>Protection &fIV'
+  - '&8&l&m▏&r <#FF6B6B>Unbreaking &fIV'
+  - '&8&l&m▏&r <#FF6B6B>Mending &fI'
+  - '&7<italic><#FF7E79>"Worn for conquest."'
+  - '&f&l&m*---=---=---=---=---=---*'
+malignleggings:
+  Id: iron_leggings
+  EquipmentSet: Malign
+  Display: '<#F25C5C>&lᴍ<#F35E5E>&lᴀ<#F36161>&lʟ<#F46363>&lɪ<#F46565>&lɢ<#F56868>&lɴ <#F66D6D>&lʟ<#F76F6F>&lᴇ<#F77171>&lɢ<#F87474>&lɢ<#F87676>&lɪ<#F97878>&lɴ<#F97B7B>&lɢ<#FA7D7D>&lꜱ'
+  Enchantments:
+  - PROTECTION_ENVIRONMENTAL:4
+  - DURABILITY:4
+  - MENDING:1
+  Hide:
+  - ENCHANTS
+  Trim:
+    Material: redstone
+    Pattern: silence
+  Attributes:
+    Legs:
+      Armor: 6
+      ArmorToughness: 3
+      Damage: 0.25%
+  CustomDurability:
+    Durability: 1110
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#F25C5C>&l&m= &r <#FA7D7D>Skill: <#FF6B6B>&f(Imprison)'
+  - '&8&l&m▏&r &7[Attack]&f ➤&7 Has a chance to temporarily freeze your opponent.'
+  - '&8▏&7(FULL SET SKILL)'
+  - ''
+  - '<#F25C5C>&l&m= &r <#FA7D7D>Enchants:'
+  - '&8&l&m▏&r <#FF6B6B>Protection &fIV'
+  - '&8&l&m▏&r <#FF6B6B>Unbreaking &fIV'
+  - '&8&l&m▏&r <#FF6B6B>Mending &fI'
+  - '&7<italic><#FF7E79>"Worn for conquest."'
+  - '&f&l&m*---=---=---=---=---=---*'
+malignboots:
+  Id: iron_boots
+  EquipmentSet: Malign
+  Display: '<#F25C5C>&lᴍ<#F35F5F>&lᴀ<#F36262>&lʟ<#F46565>&lɪ<#F56868>&lɢ<#F66B6B>&lɴ <#F77171>&lʙ<#F87474>&lᴏ<#F97777>&lᴏ<#F97A7A>&lᴛ<#FA7D7D>&lꜱ'
+  Enchantments:
+  - PROTECTION_ENVIRONMENTAL:4
+  - DURABILITY:4
+  - MENDING:1
+  Hide:
+  - ENCHANTS
+  Trim:
+    Material: redstone
+    Pattern: silence
+  Attributes:
+    Feet:
+      Armor: 3
+      ArmorToughness: 3
+      Damage: 0.25%
+  CustomDurability:
+    Durability: 962
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#F25C5C>&l&m= &r <#FA7D7D>Skill: <#FF6B6B>&f(Imprison)'
+  - '&8&l&m▏&r &7[Attack]&f ➤&7 Has a chance to temporarily freeze your opponent.'
+  - '&8▏&7(FULL SET SKILL)'
+  - ''
+  - '<#F25C5C>&l&m= &r <#FA7D7D>Enchants:'
+  - '&8&l&m▏&r <#FF6B6B>Protection &fIV'
+  - '&8&l&m▏&r <#FF6B6B>Unbreaking &fIV'
+  - '&8&l&m▏&r <#FF6B6B>Mending &fI'
+  - '&7<italic><#FF7E79>"Worn for conquest."'
+  - '&f&l&m*---=---=---=---=---=---*'
+malignsword:
+  Id: diamond_sword
+  Display: '<#F25C5C>&lᴍ<#F35F5F>&lᴀ<#F36262>&lʟ<#F46464>&lɪ<#F56767>&lɢ<#F56A6A>&lɴ <#F76F6F>&lꜱ<#F77272>&lᴡ<#F87575>&lᴏ<#F97878>&lʀ<#F97A7A>&lᴅ'
+  Enchantments:
+  - DAMAGE_ALL:5
+  - DURABILITY:3
+  - FIRE_ASPECT:2
+  Hide:
+  - ENCHANTS
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#F25C5C>&l&m= &r <#FA7D7D>Skill: <#FF6B6B>&f(Shrine Technique V1)'
+  - '&8&l&m▏&r &7[Right-click]&f ➤&7 Shoots out slashes from where you stand'
+  - ''
+  - '<#F25C5C>&l&m= &r <#FA7D7D>Enchants:'
+  - '&8&l&m▏&r <#FF6B6B>Sharpness &fV'
+  - '&8&l&m▏&r <#FF6B6B>Unbreaking &fIII'
+  - '&8&l&m▏&r <#FF6B6B>Fire Aspect &fII'
+  - '&7<italic><#FF7E79>"Your sacred technique"'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Skills:
+ # - effect:itemspray{item=heavy_core;amount=3;velocity=0.3;duration=15} @self ~onTimer:30
+  - skill{s=SlashTech} ~onUse
+blightflame:
+  Id: diamond_hoe
+  Display: '<#F25C5C>&lʙ<#F35F5F>&lʟ<#F46363>&lɪ<#F46666>&lɢ<#F56969>&lʜ<#F66D6D>&lᴛ<#F77070>&lꜰ<#F87373>&lʟ<#F87676>&lᴀ<#F97A7A>&lᴍ<#FA7D7D>&lᴇ'
+  Enchantments:
+  - DAMAGE_ALL:5
+  - DURABILITY:3
+  Hide:
+  - ENCHANTS
+  Attributes:
+    Hand:
+      Damage: 6.8
+      AttackSpeed: -0.5
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#F25C5C>&l&m= &r <#FA7D7D>Skill: <#FF6B6B>&f(Fire Flame Flow)'
+  - '&8&l&m▏&r &7[Right-click]&f ➤&7 Blasts out a strong fire'
+  - ''
+  - '<#F25C5C>&l&m= &r <#FA7D7D>Enchants:'
+  - '&8&l&m▏&r <#FF6B6B>Sharpness &fV'
+  - '&8&l&m▏&r <#FF6B6B>Unbreaking &fIII'
+  - '&7<italic><#FF7E79>"Havent used this since the dragon age"'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Skills:
+  - skill{s=fireflameflow} ~onUse
+
+greatrepel:
+  Id: blue_dye
+  Display: '<#5D6BBC>&lɢ<#5A69BE>&lʀ<#5766C0>&lᴇ<#5464C3>&lᴀ<#5162C5>&lᴛ <#4A5DC9>&lʀ<#475BCB>&lᴇ<#4459CD>&lᴘ<#4157D0>&lᴇ<#3E54D2>&lʟ'
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#5D6BBC>&l&m= &r <#5464C3>Skill: <#3E54D2>(Great Repel)'
+  - '&8&l&m▏&r &7[Right click]&f ➤&7 Launches nearby players away'
+  - '&7<italic><#5464C3>"a weaker shinra tensei"'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Options:
+    HideFlags: true
+  Enchantments:
+  - DURABILITY:1
+  Hide:
+    - ENCHANTS
+  Skills:
+  - skill{s=greatrepel} ~onUse
+lumenbloom:
+  Id: yellow_dye
+  Display: '<gradient:#FFD93D:#FFEA00>&lʟᴜᴍᴇɴ ʙʟᴏᴏᴍ</gradient>'
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#FFD93D>&l&m= &r <#FFEA00>Skill: <#FAF261>(Lumen Bloom)'
+  - '&8&l&m▏&r &7[Right Click]&f ➤&7 Shoots a strong light particle at someone'
+  - '&7<italic><#FFDD57>"whats pika pika 222 nika nika"</italic>'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Options:
+    HideFlags: true
+  Enchantments:
+  - DURABILITY:1
+  Hide:
+    - ENCHANTS
+  Skills:
+  - skill{s=kizaru} ~onUse
+overheat:
+  Id: red_dye
+  Display: '<gradient:#FF6A00:#FFA94D>&lᴏᴠᴇʀʜᴇᴀᴛ</gradient>'
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#FF4F00>&l&m= &r <#FF6A00>Skill: <#FFA94D>(Overheat)'
+  - '&8&l&m▏&r &7[Right Click]&f ➤&7 Deals half of your health and damages players nearby'
+  - '&7<italic><#FF9248>"used to get solod in pokemon w/ this"</italic>'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Options:
+    HideFlags: true
+  Enchantments:
+  - DURABILITY:1
+  Hide:
+    - ENCHANTS
+  Skills:
+  - skill{s=overheat} ~onUse
+empowerment:
+  Id: black_dye
+  Display: '<gradient:#8B0000:#A30000>&lᴇᴍᴘᴏᴡᴇʀᴍᴇɴᴛ</gradient>'
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#8B0000>&l&m= &r <#A30000>Skill: <#D32F2F>(Empowerment)'
+  - '&8&l&m▏&r &7[Right Click]&f ➤&7 Triples your damage on the next hit'
+  - '&7<italic><#BF3B3B>"maybe this is the real haki"</italic>'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Options:
+    HideFlags: true
+  Enchantments:
+  - DURABILITY:1
+  Hide:
+    - ENCHANTS
+  Skills:
+  - skill{s=ConqHaki} ~onUse

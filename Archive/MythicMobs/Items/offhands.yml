@@ -1,0 +1,136 @@
+peony:
+  Id: player_head
+  Display: '<#EF9A9A>&lᴘ<#F097A0>&lᴇ<#F295A6>&lᴏ<#F392AB>&lɴ<#F48FB1>&lʏ'
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#e15b64>&m= &r <#e15b64>Offhand'
+  - '&8&l&m▏&r <#ef9a9a>Damage <#ffffff>+0.2'
+  - '&8&l&m▏&r <#ef9a9a>Health <#ffffff>+2'
+  - '&8&l&m▏&r <#ef9a9a>Armor <#ffffff>+0.5%'
+  - '&7<italic><#f48fb1>"Embrace the flowers"</#f48fb1></italic>'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Attributes:
+    OffHand:
+      Health: 2
+      Damage: 0.2
+      Armor: 0.5%
+  Options:
+    SkinTexture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDMzMTFjZTQ4MDdlZmNmMzk5Mjk5ZmFkYzk1ZjMyYjQzOGY1MTBjOThlZmRmNjM5Y2U5MTdmMjdlYjVlMDg0OSJ9fX0
+    HideFlags: true
+lessergrimoire:
+  Id: player_head
+  #Display: '<#5C0A0A>&lʟ<#5E0B0B>&lᴇ<#5F0C0C>&lꜱ<#610D0D>&lꜱ<#620E0E>&lᴇ<#640F0F>&lʀ <#671111>&lᴋ<#681212>&lᴇ<#6A1313>&lʏ <#6D1515>&lᴏ<#6F1616>&lꜰ <#721818>&lꜱ<#731919>&lᴏ<#751A1A>&lʟ<#761B1B>&lᴏ<#781C1C>&lᴍ<#791D1D>&lᴏ<#7B1E1E>&lɴ'
+  Display: '<gradient:#5C0A0A:#7B1E1E>&lʟᴇꜱꜱᴇʀ ɢʀɪᴍᴏɪʀᴇ</gradient>'
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#5c0a0a>&m= &r <#5c0a0a>Offhand'
+  - '&8&l&m▏&r <#7b1e1e>Damage <#ffffff>+0.4'
+  - '&8&l&m▏&r <#7b1e1e>Health <#ffffff>+3'
+  - '&8&l&m▏&r <#7b1e1e>Armor <#ffffff>+1%'
+  - '&7<italic><#8b0000>"Very sinister"</#8b0000></italic>'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Skills:
+  - skill{s=lksantiplace} ~onBlockPlace
+  Attributes:
+    OffHand:
+      Health: 3
+      Damage: 0.4
+      Armor: 1%
+  Options:
+    SkinTexture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTkwZmViNWNmNDNmOTQ1YWU4OWE5OGE1NTZhMWNlNzNmOTdhNDEzZmIxNjZjZjExYzVmM2Q1NDlmMWIzM2E5NCJ9fX0
+    HideFlags: true
+duskberries:
+  Id: player_head
+  Display: '<#3A1B40>&lᴅ<#3F1B49>&lᴜ<#441B52>&lꜱ<#481B5B>&lᴋ<#4D1B64>&lʙ<#521B6D>&lᴇ<#571B76>&lʀ<#5C1B7F>&lʀ<#601B88>&lɪ<#651B91>&lᴇ<#6A1B9A>&lꜱ'
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#3a1b40>&m= &r <#3a1b40>Offhand'
+  - '&8&l&m▏&r <#6a1b9a>Damage <#ffffff>+0.6'
+  - '&8&l&m▏&r <#6a1b9a>Health <#ffffff>+4'
+  - '&8&l&m▏&r <#6a1b9a>Speed <#ffffff>+3%'
+  - '&8&l&m▏&r <#6a1b9a>Armor <#ffffff>+1.5%'
+
+  - '&7<italic><#8e24aa>"The true devil fruit"</italic>'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Attributes:
+    OffHand:
+      Health: 4
+      Damage: 0.6
+      MovementSpeed: 3%
+      Armor: 1.5%
+  Options:
+    SkinTexture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTNjNTM3OGQ0ZTBmMTQyMmJmMjZjYjU1YTBhZmRkOGViODljYjgyZDA2MjA1MDMzZmE1MmFiYmIwZDEwZDBlNiJ9fX0
+    HideFlags: true
+stormcore:
+  Id: player_head
+  #Display: '<#CFD8DC>&lᴛ<#C7D2D6>&lᴇ<#BFCBD1>&lꜱ<#B7C5CB>&lʟ<#B0BEC5>&lᴀ<#A8B8BF>&lᴄ<#A0B1BA>&lᴏ<#98ABB4>&lɪ<#90A4AE>&lʟ'
+  Display: '<gradient:#CFD8DC:#90A4AE>&lꜱᴛᴏʀᴍᴄᴏʀᴇ</gradient>'
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#cfd8dc>&m= &r <#cfd8dc>Offhand'
+  - '&8&l&m▏&r <#90a4ae>Damage <#ffffff>+0.8'
+  - '&8&l&m▏&r <#90a4ae>Health <#ffffff>+5'
+  - '&8&l&m▏&r <#90a4ae>Speed <#ffffff>+4%'
+  - '&8&l&m▏&r <#90a4ae>Armor <#ffffff>+2%'
+
+  - '&7<italic><#b0bec5>"German super science!"</#b0bec5></italic>'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Attributes:
+    OffHand:
+      Health: 5
+      Damage: 0.8
+      MovementSpeed: 4%
+      Armor: 2%
+  Options:
+    SkinTexture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzQxOTI2M2Y5ZWJjOTMxN2RjNWFiYjg3OWNkNTk3MzhkNzZlMmEyM2RjMWFjYmNiOTRlOWRjMzYyZmZjNGIifX19
+    HideFlags: true
+hallowedmantle:
+  Id: player_head
+  Display: '<#4FC3F7>&lʜ<#56C5F7>&lᴀ<#5DC8F8>&lʟ<#64CAF8>&lʟ<#6CCDF8>&lᴏ<#73CFF9>&lᴡ<#7AD2F9>&lᴇ<#81D4FA>&lᴅ <#8FD9FA>&lᴍ<#96DBFB>&lᴀ<#9EDEFB>&lɴ<#A5E0FB>&lᴛ<#ACE3FC>&lʟ<#B3E5FC>&lᴇ'
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#b3e5fc>&m= &r <#b3e5fc>Offhand'
+  - '&8&l&m▏&r <#4fc3f7>Damage <#ffffff>+1'
+  - '&8&l&m▏&r <#4fc3f7>Health <#ffffff>+6'
+  - '&8&l&m▏&r <#4fc3f7>Speed <#ffffff>+5%'
+  - '&8&l&m▏&r <#4fc3f7>Armor <#ffffff>+2.5%'
+
+  - '&7<italic><#81d4fa>"Only for the honored ones"</#81d4fa></italic>'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Attributes:
+    OffHand:
+      Health: 6
+      MovementSpeed: 5%
+      Damage: 1
+      Armor: 2.5%
+  Options:
+    SkinTexture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGNkMzMwNTJjNTIyZGExZDRmNWFmMTMyMDg2YmI2ZTkwZGRmNjU2OWVmMGExNWMwZmMxY2QyYmNmYjVmYzZiNCJ9fX0
+    HideFlags: true
+    
+finalrelease:
+  Id: player_head
+  Display: '<gradient:#CFD8DC:#90A4AE>&lꜰɪɴᴀʟ ʀᴇʟᴇᴀꜱᴇ</gradient>'
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#6ECFF6>&l&m= &r <#9BDBF9>Skill: <#49B2E6>&f(Bankai: First Form)'
+  - '&8&l&m▏&r &7[Shift+Left-Click]&f ➤&7 Boosts your attack and defense'
+  - '<#6ECFF6>&m= &r <#9BDBF9>Requires you to hold la espada'
+  - ''
+  - '<#6ECFF6>&m= &r <#9BDBF9>Offhand'
+  - '&8&l&m▏&r <#49B2E6>Damage <#ffffff>+1'
+  - '&8&l&m▏&r <#49B2E6>Health <#ffffff>+6'
+  - '&8&l&m▏&r <#49B2E6>Speed <#ffffff>+5%'
+  - '&8&l&m▏&r <#49B2E6>Armor <#ffffff>+2.5%'
+  - '&7<italic><#A3DAFF>"卍解"</#A3DAFF></italic>'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Attributes:
+    OffHand:
+      Health: 6
+      MovementSpeed: 5%
+      Damage: 1
+      Armor: 2.5%
+  Options:
+    SkinTexture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGE3Yjk0NTliNTlhNjAwMDc5OTkyNzc1ZjRkYWRkMmVkMDE3NDQ2N2FkNjlhOTNjNzFjZWU1YmYzNDNiZjU3ZCJ9fX0
+    HideFlags: true
+  Skills:
+  - skill{s=BankaiSkill} ~onSwing

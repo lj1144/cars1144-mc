@@ -1,0 +1,356 @@
+Voltmaw:
+  Id: iron_axe
+  Display: '<#00C8FF>&lᴠᴏʟᴛᴍᴀᴡ'
+  Hide:
+  - ENCHANTS
+  Enchantments:
+  - DAMAGE_ALL:5
+  - DURABILITY:3
+  - DAMAGE_UNDEAD:5
+  Attributes:
+    Hand:
+      Damage: 9
+      AttackSpeed: -0.7
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#7EC8E3>&l&m= &r <#A8EAFE>Skill: <#52B5F3>&f(Smite)'
+  - '&8&l&m▏&r &7[Passive]&f ➤&7 Chance to strike opponent doing extra damage'
+  - ''
+  - '<#7EC8E3>&l&m= &r <#A8EAFE>Enchants:'
+  - '&8&l&m▏&r <#52B5F3>Sharpness &fV'
+  - '&8&l&m▏&r <#52B5F3>Durability &fIII'
+  - '&8&l&m▏&r <#52B5F3>Smite &fV'
+  - '&7<italic><#8FD6FF>"when thor 1 shot ppl"'
+  - '&f&l&m*---=---=---=---=---=---*'
+
+  Skills:
+  - skill{s=smite} 0.3 @Attacker ~onAttack
+  
+colossushelmet:
+  Id: leather_helmet
+  EquipmentSet: Colossus
+  Options:
+    Color: 106,112,115
+  Trim:
+    Material: iron
+    Pattern: silence
+  Display: '<gradient:#8C8C8C:#737272>&lᴄᴏʟᴏꜱꜱᴜꜱ ʜᴇʟᴍᴇᴛ</gradient>'
+  Enchantments:
+  - PROTECTION_ENVIRONMENTAL:4
+  - DURABILITY:5
+  - MENDING:1
+  Hide:
+  - ENCHANTS
+  Attributes:
+    Head:
+      Armor: 3
+      ArmorToughness: 3
+      Damage: 0.25%
+  CustomDurability:
+    Durability: 814
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#8C8C8C>&l&m= &r <#A9A9A9>Skill: <#C0C0C0>&f(Immortality)'
+  - '&8&l&m▏&r &7[Damaged]&f ➤&7 Chance to give resistance for short amount of time'
+  - '&8▏&7(FULL SET SKILL)'
+  - ''
+  - '<#8C8C8C>&l&m= &r <#A9A9A9>Enchants:'
+  - '&8&l&m▏&r <#C0C0C0>Protection &fIV'
+  - '&8&l&m▏&r <#C0C0C0>Unbreaking &fV'
+  - '&8&l&m▏&r <#C0C0C0>Mending &fI'
+  - '&7<italic><#AAAAAA>"shinzou wo sasageyo"'
+  - '&f&l&m*---=---=---=---=---=---*'
+colossuschestplate:
+  Id: leather_chestplate
+  EquipmentSet: Colossus
+  Options:
+    Color: 106,112,115
+  Trim:
+    Material: iron
+    Pattern: silence
+  Display: '<gradient:#8C8C8C:#737272>&lᴄᴏʟᴏꜱꜱᴜꜱ ᴄʜᴇꜱᴛᴘʟᴀᴛᴇ</gradient>'
+  Enchantments:
+  - PROTECTION_ENVIRONMENTAL:4
+  - DURABILITY:5
+  - MENDING:1
+  Hide:
+  - ENCHANTS
+  Attributes:
+    Chest:
+      Armor: 8
+      ArmorToughness: 3
+      Damage: 0.25%
+  CustomDurability:
+    Durability: 1184
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#8C8C8C>&l&m= &r <#A9A9A9>Skill: <#C0C0C0>&f(Immortality)'
+  - '&8&l&m▏&r &7[Damaged]&f ➤&7 Chance to give resistance for short amount of time'
+  - '&8▏&7(FULL SET SKILL)'
+  - ''
+  - '<#8C8C8C>&l&m= &r <#A9A9A9>Enchants:'
+  - '&8&l&m▏&r <#C0C0C0>Protection &fIV'
+  - '&8&l&m▏&r <#C0C0C0>Unbreaking &fV'
+  - '&8&l&m▏&r <#C0C0C0>Mending &fI'
+  - '&7<italic><#AAAAAA>"shinzou wo sasageyo"'
+  - '&f&l&m*---=---=---=---=---=---*'
+colossusleggings:
+  Id: leather_leggings
+  EquipmentSet: Colossus
+  Options:
+    Color: 106,112,115
+  Trim:
+    Material: iron
+    Pattern: silence
+  Display: '<gradient:#8C8C8C:#737272>&lᴄᴏʟᴏꜱꜱᴜꜱ ʟᴇɢɢɪɴɢꜱ</gradient>'
+  Enchantments:
+  - PROTECTION_ENVIRONMENTAL:4
+  - DURABILITY:5
+  - MENDING:1
+  Hide:
+  - ENCHANTS
+  Attributes:
+    Legs:
+      Armor: 6
+      ArmorToughness: 3
+      Damage: 0.25%
+  CustomDurability:
+    Durability: 1110
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#8C8C8C>&l&m= &r <#A9A9A9>Skill: <#C0C0C0>&f(Immortality)'
+  - '&8&l&m▏&r &7[Damaged]&f ➤&7 Chance to give resistance for short amount of time'
+  - '&8▏&7(FULL SET SKILL)'
+  - ''
+  - '<#8C8C8C>&l&m= &r <#A9A9A9>Enchants:'
+  - '&8&l&m▏&r <#C0C0C0>Protection &fIV'
+  - '&8&l&m▏&r <#C0C0C0>Unbreaking &fV'
+  - '&8&l&m▏&r <#C0C0C0>Mending &fI'
+  - '&7<italic><#AAAAAA>"shinzou wo sasageyo"'
+  - '&f&l&m*---=---=---=---=---=---*'
+colossusboots:
+  Id: leather_boots
+  EquipmentSet: Colossus
+  Options:
+    Color: 106,112,115
+  Trim:
+    Material: iron
+    Pattern: silence
+  Display: '<gradient:#8C8C8C:#737272>&lᴄᴏʟᴏꜱꜱᴜꜱ ʙᴏᴏᴛꜱ</gradient>'
+  Enchantments:
+  - PROTECTION_ENVIRONMENTAL:4
+  - DURABILITY:5
+  - MENDING:1
+  Hide:
+  - ENCHANTS
+  Attributes:
+    Feet:
+      Armor: 3
+      ArmorToughness: 3
+      Damage: 0.25%
+  CustomDurability:
+    Durability: 962
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#8C8C8C>&l&m= &r <#A9A9A9>Skill: <#C0C0C0>&f(Immortality)'
+  - '&8&l&m▏&r &7[Damaged]&f ➤&7 Chance to give resistance for short amount of time'
+  - '&8▏&7(FULL SET SKILL)'
+  - ''
+  - '<#8C8C8C>&l&m= &r <#A9A9A9>Enchants:'
+  - '&8&l&m▏&r <#C0C0C0>Protection &fIV'
+  - '&8&l&m▏&r <#C0C0C0>Unbreaking &fV'
+  - '&8&l&m▏&r <#C0C0C0>Mending &fI'
+  - '&7<italic><#AAAAAA>"shinzou wo sasageyo"'
+  - '&f&l&m*---=---=---=---=---=---*'
+colossussword:
+  Id: diamond_sword
+  Display: '<gradient:#8C8C8C:#737272>&lᴄᴏʟᴏꜱꜱᴜꜱ ꜱᴡᴏʀᴅ</gradient>'
+  Hide:
+  - ENCHANTS
+  Enchantments:
+  - DAMAGE_ALL:5
+  - DURABILITY:3
+  - FIRE_ASPECT:2
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#8C8C8C>&l&m= &r <#A9A9A9>Skill: <#C0C0C0>&f(Shrine Technique V2: Dismantle)'
+  - '&8&l&m▏&r &7[Damaged]&f ➤&7 Shoots a slash attack forward'
+  - ''
+  - '<#8C8C8C>&l&m= &r <#A9A9A9>Enchants:'
+  - '&8&l&m▏&r <#C0C0C0>Sharpness &fV'
+  - '&8&l&m▏&r <#C0C0C0>Unbreaking &fIII'
+  - '&8&l&m▏&r <#C0C0C0>Fire Aspect &fII'
+  - '&7<italic><#AAAAAA>"you can see my cursed technique!"'
+  - '&f&l&m*---=---=---=---=---=---*'
+
+  Skills:
+  - skill{s=Dismantle} ~onSwing
+colossusaxe:
+  Id: diamond_axe
+  Display: '<gradient:#8C8C8C:#737272>&lᴄᴏʟᴏꜱꜱᴜꜱ ᴀxᴇ</gradient>'
+  Hide:
+  - ENCHANTS
+  Enchantments:
+  - DAMAGE_ALL:5
+  - DURABILITY:3
+  - DAMAGE_UNDEAD:6
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#8C8C8C>&l&m= &r <#A9A9A9>Skill: <#C0C0C0>&f(Grandslam)'
+  - '&8&l&m▏&r &7[Shift-Hit]&f ➤&7 Does additional onhit damage'
+  - ''
+  - '<#8C8C8C>&l&m= &r <#A9A9A9>Enchants:'
+  - '&8&l&m▏&r <#C0C0C0>Sharpness &fV'
+  - '&8&l&m▏&r <#C0C0C0>Unbreaking &fIII'
+  - '&8&l&m▏&r <#C0C0C0>Fire Aspect &fII'
+  - '&7<italic><#AAAAAA>"whitebeard how im stomping"'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Skills:
+  - skill{s=gramslam} 1 @Attacker ~onAttack
+
+ferric:
+  Id: chain
+  Display: '<#494949>ꜰᴇʀʀɪᴄ'
+  Lore:
+  - '&7Drops from the mobs at Lush Cave'
+  Hide:
+  - ENCHANTS
+  Enchantments:
+  - INFINITY 10
+ironheart:
+  Id: quartz
+  Display: '<#494949>&lɪʀᴏɴ ʜᴇᴀʀᴛ'
+  Lore:
+  - '&7Can be dropped from Eidolon (Lush cave)'
+  Hide:
+  - ENCHANTS
+  Enchantments:
+  - INFINITY 10
+  
+colossusbow:
+  Id: bow
+  Display: '<#5B1A74>&lᴜ<#67207F>&lʟ<#722789>&lᴛ<#7E2D94>&lʀ<#8534A3>&lᴀ<#8D3CB2>&lᴠ<#9443C0>&lɪ<#9B4ACF>&lᴏ<#944CC0>&lʟ<#8E4EB0>&lᴇ<#8750A1>&lᴛ'
+  Enchantments:
+  - ARROW_DAMAGE:5
+  - ARROW_INFINITE:1
+  - ARROW_FIRE:1
+  - DURABILITY:4
+  Hide:
+  - ENCHANTS
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#5B1A74>&l&m= &r <#7E2D94>Skill: <#9B4ACF>(Gloomy tentacles)'
+  - '&8&l&m▏&r &7[Left click]&f ➤&7 Summon a ring of tentacles'
+  - '<#5B1A74>&l&m= &r <#7E2D94>Skill: <#9B4ACF>(Arrow swarm)'
+  - '&8&l&m▏&r &7[Normal use]&f ➤&7 Shoots a swarm of arrow'
+  - ''
+  - '<#5B1A74>&l&m= &r <#7E2D94>Enchants:'
+  - '&8&l&m▏&r <#9B4ACF>Power V'
+  - '&8&l&m▏&r <#9B4ACF>Infinity I'
+  - '&8&l&m▏&r <#9B4ACF>Flame I'
+  - '&8&l&m▏&r <#9B4ACF>Unbreaking IV'
+  - '&7<italic><#8750A1>"Beyond the spectrum"'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Skills:
+ # - effect:particles{p=reddust;amount=16;speed=0.01;y=0.8;hs=0.5;vs=0.8;color=#ff00ae} @self ~onTimer:15
+  - skill{s=arrowswarm} ~onShoot
+  
+asura:
+  Id: orange_dye
+  Display: '<gradient:#FF6A00:#FF7F11>&lᴀꜱᴜʀᴀ</gradient>'
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - ' &8(<#F8F4FF>ᴍᴀɢɴᴏʟɪᴀ&8)'
+  - '<#FF6A00>&l&m= &r <#FF7F11>Skill: <#FF9B27>(Asura)'
+  - '&8&l&m▏&r &7[Right Click]&f ➤&7 Shoots a strong homing missile'
+  - '&7<italic><#FF8C42>"we launches lasers w/ this one"</italic>'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Options:
+    HideFlags: true
+  Enchantments:
+  - DURABILITY:1
+  Hide:
+    - ENCHANTS
+  Skills:
+  - skill{s=AsuraPath} ~onUse
+almightypush:
+  Id: white_dye
+  Display: '<gradient:#E6E6E6:#F2F2F2>&lᴀʟᴍɪɢʜᴛʏ ᴘᴜꜱʜ</gradient>'
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - ' &8(<#F8F4FF>ᴍᴀɢɴᴏʟɪᴀ&8)'
+  - '<#E6E6E6>&l&m= &r <#F2F2F2>Skill: <#FFFFFF>(Almighty Push)'
+  - '&8&l&m▏&r &7[Right Click]&f ➤&7 Very strong repulsive force'
+  - '&7<italic><#EDEDED>"lets go destroy a nation"</italic>'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Options:
+    HideFlags: true
+  Enchantments:
+  - DURABILITY:1
+  Hide:
+    - ENCHANTS
+  Skills:
+  - skill{s=almightypush} ~onUse
+cryocorecascade:
+  Id: light_blue_dye
+  Display: '<gradient:#A8D0DB:#BEE9E8>&lᴄʀʏᴏ ᴄᴏʀᴇ ᴄᴀꜱᴄᴀᴅᴇ</gradient>'
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#A8D0DB>&l&m= &r <#BEE9E8>Skill: <#DFF6FF>(Cryo Core Cascade)'
+  - '&8&l&m▏&r &7[Right Click]&f ➤&7 Creates a circle, slowing everyone inside'
+  - '&7<italic><#C9E4F6>"freeze criminal!"</italic>'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Options:
+    HideFlags: true
+  Enchantments:
+  - DURABILITY:1
+  Hide:
+    - ENCHANTS
+  Skills:
+  - skill{s=snowflake} ~onUse
+lapseblue:
+  Id: tube_coral
+  Display: '<gradient:#A8D0DB:#BEE9E8>&lʟᴀᴘꜱᴇ ʙʟᴜᴇ</gradient>'
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - ' &8(<#F8F4FF>ᴍᴀɢɴᴏʟɪᴀ&8)'
+  - '<#48639C>&l&m= &r <#5B7DB1>Skill: <#8CB4F2>(Lapse Blue)'
+  - '&8&l&m▏&r &7[Right Click]&f ➤&7 Shoots a powerful attractive force'
+  - '&7<italic><#9DBEF8>"is your swag limitless?"</italic>'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Options:
+    HideFlags: true
+  Enchantments:
+  - DURABILITY:1
+  Hide:
+    - ENCHANTS
+  Skills:
+  - skill{s=LapseBlueSkill} ~onUse
+  
+laespada:
+  Id: golden_sword
+  Display: '<gradient:#EEC643:#F7D774>&lʟᴀ ᴇꜱᴘᴀᴅᴀ</gradient>'
+  Options:
+    Unbreakable: true
+  Enchantments:
+  - DAMAGE_ALL:6
+  - SMITE:7
+  - BANE_OF_ARTHROPODS:7
+  - FIRE_ASPECT:3
+  Attributes:
+    Hand:
+      Damage: 7.1
+      AttackSpeed: -0.58
+  Hide:
+  - ENCHANTS
+  Lore:
+  - '&f&l&m*---=---=---=---=---=---*'
+  - '<#EEC643>&l&m= &r <#F7D774>Enchants:'
+  - '&8&l&m▏&r <#FFD700>Sharpness VI'
+  - '&8&l&m▏&r <#FFD700>Smite VII'
+  - '&8&l&m▏&r <#FFD700>Bane of Arthropods VII'
+  - '&8&l&m▏&r <#FFD700>Fire Aspect III'
+  - '&7<italic><#FCE38A>"where are the swords?"'
+  - '&f&l&m*---=---=---=---=---=---*'
+  Skills:
+  - skill{s=getsugatensho} ~onSwing

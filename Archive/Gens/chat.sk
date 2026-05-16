@@ -1,0 +1,28 @@
+on join:
+    set {_v} to placeholder "vanish_vanished" from player
+    if {_v} contains "true":
+        stop
+    set join message to "&7[&a+&7]&7 %player%"
+on first join:
+	set join message to "&7[&e+&7]&7 %player%"
+on quit:
+    set {_v} to placeholder "vanish_vanished" from player
+    if {_v} contains "true":
+        stop
+    set leave message to "&7[&c-&7]&7 %player%"
+
+on death:
+    if victim is not set:
+        set death message to "&c☠ %victim% &7 died"
+        stop
+    set {_m} to random integer between 1 and 4
+    if {_m} is 1:
+        set death message to "&c☠ %victim% &7was dropped by &c%last attacker of victim%"
+    if {_m} is 2:
+        set death message to "&c☠ %victim% &7was killed by &c%last attacker of victim%"
+    if {_m} is 3:
+        set death message to "&c☠ %victim% &7folded against &c%last attacker of victim%"
+    if {_m} is 4:
+        set death message to "&c☠ %victim% &7was slain by &c%last attacker of victim%"
+#    if {_m} is 5:
+#        set death message to "&c☠ %victim% &7was slain by &c%victim%"

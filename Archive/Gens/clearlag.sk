@@ -1,0 +1,18 @@
+options:
+	prefix: <##872CC0>&lʟᴏᴛᴜꜱɢᴇɴꜱ ≫<##AF69E5>
+
+function clearlag():
+    broadcast "{@prefix} Clearing dropped items in 15 seconds"
+    wait 15 seconds
+    broadcast "{@prefix} Cleared %size of dropped items% dropped items"
+    kill dropped items
+
+command clearlag:
+    aliases: cl
+    permission: clearlag
+    permission message: 4&l[ERROR] &7• &cYou do not have permission to execute this command!
+    trigger:
+        clearlag()
+
+every 6.4 minutes:
+    clearlag()

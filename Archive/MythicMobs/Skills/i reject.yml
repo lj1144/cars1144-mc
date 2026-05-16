@@ -1,0 +1,14 @@
+drinkbrightfluid:
+  Cooldown: 30
+  Conditions:
+  - wearing{item=soten;slot=HAND}
+  OnCooldownSkills:
+  - am{m="&cSkill on cooldown for <caster.skill.drinkbrightfluid.cooldown> seconds."} @self
+  Skills:
+  - heal{amount=24;overheal=false} @self
+  - consumeHeldItem{amount=1} @trigger
+  - effect:particles{p=reddust;amount=12;speed=1;hs=0.7;vs=0.8;y=1;color=#FFC800} @self
+  - effect:sound{s=entity.generic.drink;v=1;p=0.7} @self
+  - effect:sound{s=entity.witch.drink;v=1;p=0.7} @self
+  - effect:sound{s=entity.generic.swim;v=0.1;p=2} @self
+  - effect:particles{particle=heart;amount=1;vSpread=0;hSpread=0;Speed=0;yoffset=1.7} @self 

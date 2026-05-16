@@ -1,0 +1,7 @@
+smite:
+  Cooldown: 3
+  Conditions:
+  - holding{m=Voltmaw} true
+  Skills:
+  - lightning{d=10;pi=true}
+  

@@ -1,0 +1,14 @@
+immortal:
+  Cooldown: 45
+  Skills:
+  #- cancelevent @self
+  - particles{p=reddust;color=#8C8C8C;a=370;hS=1.5;vS=1.5;speed=2} @self
+  - potion{type=INVISIBILITY;d=180;lvl=1} @self
+  - potion{type=RESISTANCE;duration=180;level=1} @self
+  - onDamaged{cancelEvent=false;d=180;onHit=immortalproc} @self
+immortalproc:
+  Skills:
+  - particles{p=reddust;color=#8C8C8C;a=170;hS=1;vS=1;speed=2}
+  - particles{p=flash;a=5}
+  #- potion{type=POISON;d=40;lvl=1} @EIR{r=6}
+  - particle{color=#35dc18;hS=2;a=32}

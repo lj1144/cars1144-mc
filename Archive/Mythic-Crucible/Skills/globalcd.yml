@@ -1,0 +1,4 @@
+globalcooldown:
+  Cooldown: 10
+  Skills:
+  - delay 1

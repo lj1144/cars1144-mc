@@ -1,0 +1,65 @@
+# Requires the KOTH Schems
+# Download here https://github.com/lj1144/cars1144-mc/blob/main/Archive/Extra/kothschematics.zip
+options:
+	prefix: <##872CC0>&lʟᴏᴛᴜꜱɢᴇɴꜱ ≫<##AF69E5> 
+
+
+command /kothbuild:
+    permission: op
+    executable by: console
+    trigger:
+        set {_a} to 1
+        play sound "entity.warden.emerge" with volume 10 and pitch 0.5 at location(46, 100, 0, world("world"))
+        loop 8 times:
+            paste schematic "koth%{_a}%" at location(71, 100, 0, world("world"))
+            wait 0.2 seconds
+            loop all players:
+                if "%region at loop-player%" contains "koth":
+                    set {_y} to loop-player's y-coordinate
+                    set {_x} to loop-player's x-coordinate
+                    set {_z} to loop-player's z-coordinate
+                    teleport loop-player to location(loop-player's x-coordinate, loop-player's y-coordinate+2, loop-player's z-coordinate, world "world", yaw of loop-player, pitch of loop-player)
+                    #make console execute command "/essentials:tp %player% %{_x}% %{_y}+5% %{_z}%"
+            loop 5 times:
+                if {_a} is less than 7:
+                    make console execute command "/particle block{block_state:{Name:blackstone}} 71 100 0 5 0 5 0.1 5000 force"
+                wait 0.2 seconds
+            add 1 to {_a}
+on step on slime block:
+  "%region at player%" contains "box"
+  if {koth::bounce::*} does not contain player:
+    push player upwards with speed 2
+    add player to {koth::bounce::*}
+    wait 30 seconds
+    clear {koth::bounce::%player%}
+    remove player from {koth::bounce::*}
+  else:
+    send "&cYou are on cooldown for the launchpad"
+
+on skript start:
+    clear {koth::bounce::*}
+
+command /kothend:
+    executable by: console
+    trigger:
+        set {_a} to 8
+        play sound "block.beacon.deactivate" with volume 10 and pitch 0.05 at location(46, 100, 0, world("world"))
+        loop 8 times:
+            paste schematic "koth%{_a}%" at location(71, 100, 0, world("world"))
+            subtract 1 from {_a}
+            wait 0.8 seconds
+
+command /startkoth:
+    permission: lotusgens.kothstart
+    aliases: /kothstart
+    permission message: &cYou must have &c&lEspada rank&c to use this command!
+    cooldown: 8 hours
+    cooldown storage: {koth::startcd::%player%}
+    cooldown message: &cYou last started KoTH %elapsed time% ago. You can start another in %remaining time%.
+    trigger:
+        broadcast ""
+        broadcast "{@prefix} %player% has started KoTH!"
+        broadcast ""
+        play sound "block.note_block.bit" at volume 1 at pitch 3 to player
+        wait 8 seconds
+        make console execute command "/ukoth start KoTH"

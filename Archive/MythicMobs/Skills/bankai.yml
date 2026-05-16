@@ -1,0 +1,52 @@
+BankaiSkill:
+  Cooldown: 1
+  Conditions:
+  - crouching true
+  - skillOnCooldown{skill=globalcooldown} false
+  - holding{m=laespada} true
+  Skills:
+  - skill{s=BankaiTransformation} @self
+BankaiTransformation:
+  Skills:
+    - stun{d=20} @self
+    - potion{type=RESISTANCE;d=800;l=1} @self
+    - potion{type=FIRE_RESISTANCE;d=800;l=1} @self
+    - potion{type=ABSORPTION;d=800;l=1} @self
+    - effect:particles{p=redstone;amount=150;radius=4;hS=3;vS=3;color=#FF0000;speed=1.5} @self
+    - effect:particles{p=redstone;amount=80;radius=3;hS=2;vS=2;color=#FFD700;speed=1} @self
+    - effect:particles{p=redstone;amount=80;radius=3;hS=2;vS=2;color=#00BFFF;speed=1} @self
+    - effect:particles{p=redstone;amount=80;radius=3;hS=2;vS=2;color=#FF69B4;speed=1} @self
+    - effect:particles{p=ash;amount=30;radius=3;hS=2;vS=4;speed=0.7} @self
+    - effect:particles{p=smoke;amount=50;radius=4;hS=4;vS=5;speed=0.9} @self
+    - effect:particles{p=cloud;amount=40;radius=5;hS=3;vS=3;speed=0.5} @self
+    - effect:particles{p=totem;amount=25;radius=3;hS=2;vS=2;speed=0.5} @self
+    - effect:particles{p=end_rod;amount=30;radius=3;hS=2;vS=2;color=#FFD700;speed=0.6} @self
+    - effect:particles{p=spell;amount=30;radius=3;hS=2;vS=2;color=#FF69B4;speed=0.6} @self
+    - effect:lightning @self
+    - effect:particles{p=glow;amount=30;radius=3;hS=2;vS=2;color=#FF4500;speed=0.8} @self
+    - effect:particles{p=fireworks_spark;amount=50;radius=5;hS=3;vS=3;speed=1.2} @self
+    - sound{s=entity.generic.explode;volume=3;pitch=0.5} @self
+    - sound{s=entity.ender_dragon.growl;volume=2.5;pitch=0.4} @self
+    - sound{s=entity.lightning_bolt.thunder;volume=2;pitch=0.6} @self
+    - delay 20
+    - skill{s=BankaiSlash} @self
+
+BankaiSlash:
+  Skills:
+    - throw{velocity=6;velocityY=6} @PlayersInRadius{r=12;conditions=[  - notinregion{r=spawn} true  - notinregion{r=portalroom}  - notinregion{r=afk}]}
+    - damage{a=42;pi=false;pk=false} @PIR{r=12}
+    - effect:particles{p=explosion;amount=20;radius=12;hS=4;vS=4;speed=2.5;duration=150} @origin
+    - effect:particles{p=redstone;amount=80;radius=10;hS=4;vS=4;color=#FF4500;speed=1.5} @origin
+    - effect:particles{p=soul;amount=50;radius=9;hS=3;vS=3;speed=1.2} @origin
+    - effect:particles{p=portal;amount=50;radius=10;hS=3;vS=4;speed=1.8} @origin
+    - effect:particles{p=flash;amount=30;radius=9;hS=3;vS=3;speed=1.3} @origin
+    - effect:particles{p=fireworks_spark;amount=60;radius=10;hS=4;vS=4;color=#FFD700;speed=1.5} @origin
+    - effect:particles{p=spell;amount=40;radius=9;hS=3;vS=3;color=#00BFFF;speed=1} @origin
+    - effect:particles{p=sweep_attack;amount=50;radius=10;hS=4;vS=4;speed=1} @origin
+    - effect:particles{p=enchanted_hit;amount=60;radius=9;hS=3;vS=3;color=#FF69B4;speed=1.7} @origin
+    - sound{s=entity.generic.explode;volume=4;pitch=0.6} @origin
+    - sound{s=block.end_portal.spawn;volume=2;pitch=0.5} @origin
+    - sound{s=entity.ender_dragon.flap;volume=3;pitch=0.7} @origin
+    - sound{s=entity.blaze.shoot;volume=3;pitch=0.6} @origin
+    - effect:particles{p=campfire_cosy_smoke;amount=40;radius=10;hS=3;vS=4;speed=1.2} @origin
+    - effect:particles{p=glow;amount=30;radius=10;hS=4;vS=4;color=#FFD700;speed=1} @origin

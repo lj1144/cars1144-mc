@@ -1,0 +1,46 @@
+ConqHaki:
+  Cooldown: 180
+  OnCooldownSkills:
+  - am{m="&cSkill on cooldown for <caster.skill.ConqHaki.cooldown> seconds."} @self
+  Conditions:
+  - skillOnCooldown{skill=globalcooldown} false
+  - holding{m=empowerment} true
+  Skills:
+  - skill{s=globalcooldown}
+  - effect:sound{s=entity.phantom.death;v=0.5;p=0.5} @self
+  - effect:sound{s=block.respawn_anchor.set_spawn;v=0.5;p=0.5} @self
+  - effect:sound{s=entity.wither.death;v=0.5;p=0.5} @self
+  - effect:sound{s=ambient.crimson_forest.mood;v=0.5;p=2} @self
+  - effect:sound{s=item.trident.thunder;v=0.5;p=0.5} @self
+  - effect:sound{s=block.end_portal.spawn;v=0.5;p=0.5} @self
+  - delay 6
+  - modifytargetscore{objective=armhakismack;action=set;value=1} @self
+  - Aura{onTick=conqhaki-tick;interval=4;duration=300} @self
+  - onAttack{auraName=ArmamentHaki;onHit=HakiHit;d=300;multiplier=1.6} @self
+  - delay 300
+  - modifytargetscore{objective=armhakismack;action=set;value=0} @self
+conqhaki-tick:
+  Conditions:
+  - score{o=armhakismack;value=1} true
+  Skills:
+  - sound{s=entity.ender_dragon.growl;v=0.2;p=0.5} @self
+  - sound{s=entity.lightning_bolt.thunder;v=0.2;p=0.8} @self
+  - sound{s=entity.wither.spawn;v=0.2;p=0.6} @self
+  - sound{s=block.portal.ambient;v=0.2;p=0.7} @self
+  - particle{color=#550000;offset=2;a=16}
+  - particle{color=#0F0F0F;offset=2;a=16}
+  - particle{color=#550000;offset=6;a=32}
+  - particle{color=#0F0F0F;offset=6;a=32}
+  - particle{color=#550000;offset=8;a=65}
+  - particle{color=#0F0F0F;offset=8;a=65}
+  
+HakiHit:
+  Conditions:
+  - score{o=armhakismack;value=1} true
+  Skills:
+  - modifytargetscore{objective=armhakismack;action=set;value=0} @self
+#  - effect:lightning{localized=false;localizedradius=32} @origin
+  - blockwave{r=3;d=20;v=3;radiusy=1} @origin
+  - effect:particles{color=#550000;amount=100;hS=1;vS=3;speed=0.5} @origin
+  - sound{s=entity.generic.explode;p=0.4;v=4} @origin
+  

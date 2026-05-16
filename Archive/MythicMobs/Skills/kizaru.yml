@@ -1,0 +1,37 @@
+kizaru:
+  Cooldown: 30
+  Conditions:
+  - skillOnCooldown{skill=globalcooldown} false
+  - holding{m=lumenbloom} true
+  OnCooldownSkills:
+  - am{m="&cSkill on cooldown for <caster.skill.kizaru.cooldown> seconds."} @self
+  Skills:
+  - potion{t=SLOW;d=30;l=5} @self
+  - skill{s=globalcooldown}
+  - skill{s=logiacharge;repeat=45;repeatInterval=1}
+  - delay 40
+  - missile{ot=PikaTick;oh=PikaHit;v=20;i=1;hR=2;vR=2;in=0.10;syo=3;md=400;mr=100} @PIR{r=10}
+ # - delay 5
+ # - missile{ot=PikaTick;oh=PikaHit;v=20;i=1;hR=2;vR=2;in=0.10;syo=3;md=400;mr=100} @T
+
+logiacharge:
+  Skills:
+  - effect:sound{s=entity.blaze.shoot;p=2;v=0.5} @self
+  - effect:sound{s=block.beacon.ambient;v=0.8;p=1.8} @self
+  - effect:particles{p=reddust;a=40;offset=0.3;color=#eedd82} @Forward{a=1;uel=true}
+  - effect:particles{p=reddust;a=40;offset=0.3;color=#E2DE8F} @Forward{a=1;uel=true}
+
+PikaTick:
+  Skills:
+  - effect:particles{p=reddust;a=20;offset=0.2;color=#eedd82} @origin
+  - effect:particles{p=reddust;a=20;offset=0.2;color=#E2DE8F} @origin
+
+PikaHit:
+  Skills:
+  - effect:particles{p=reddust;color=#E2DE8F;a=3;hS=1;vS=1;speed=0.1}
+  - effect:sound{s=block.glass.break;p=1.3;v=0.5} @T
+  - effect:sound{s=entity.generic.explode;v=0.8;p=1} @T
+  - effect:sound{s=block.fire.extinguish;p=1.5;v=0.5} @T
+  - effect:sound{s=entity.evoker.cast_spell;v=0.8;p=1.8} @T
+  #- damage{a=40;pi=true;pk=true;ignore=players}
+  - damage{a=20;ie=true;pi=false;pk=true}

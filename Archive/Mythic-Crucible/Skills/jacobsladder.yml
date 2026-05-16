@@ -1,0 +1,43 @@
+SunnyDay:
+  Skills:
+  #- stun{d=100} @self
+  - projectile{onTick=SunnyDTick;v=15.1;mr=100;pitch=90;sE=false;hnp=true;syo=60;sB=true;onHitBlockSkill=hyperbeam} @origin
+#  - orbital{onTick=hyperorbit;r=3;p=10;duration=100} @origin
+  - sendtitle{title="";subtitle="&c&o<caster.name> used Sunny Day!";d=100;fi=10;fo=10} @PlayersInRadius{r=45}
+  - sendtitle{title="";subtitle="&c&o<caster.name> used Sunny Day!";d=100;fi=10;fo=10} @self
+hyperorbit:
+  Skills:
+  - particle{a=22}
+
+hyperbeam:
+  Skills:
+#  - blockwave{r=20;d=80;v=5}
+  - sound{s=entity.generic.explode;v=20} @origin
+  - sound{s=block.ancient_debris.break;v=20} @origin
+  - sound{s=entity.lightning_bolt.impact;v=20} @origin
+  - sound{s=block.lava.pop;v=20} @origin
+  - sound{s=block.blastfurnace.fire_crackle;v=20} @origin
+#  - damage{a=70;pi=true} @PlayersNearOrigin{r=6}
+  - projectile{onTick=hyperbeamtick;onHit=hyperhit;v=20;mr=50;i=1;syo=0.2;vR=4;hR=1.5} @ring{radius=360;points=45}
+hyperbeamtick:
+  Skills:
+  - effect:particlesphere{particle=reddust;color=#FDB813;a=10;r=0.1;hs=2} 
+  - effect:particlesphere{particle=reddust;color=#FDB813;a=10;r=0.1;hs=2}
+#  - blockwave{r=1;d=20;v=3}
+  
+hyperhit:
+  Skills:
+  - damage{a=26;pi=false;ie=true}
+  
+SunnyDTick:
+  Skills:
+  - sound{s=entity.ghast.scream;p=0.1;v=32}
+  - sound{s=entity.phantom.ambient;v=32}
+  - sound{s=block.fire.ambient;v=32}
+  - sound{s=item.firecharge.use;v=32}
+  - sound{s=entity.shulker_bullet.hurt}
+  - effect:particlesphere{particle=reddust;color=#FDB813;a=255;r=10;y=1;offset=1}
+  - effect:particlesphere{particle=reddust;color=#FDB813;a=255;r=8;y=1;offset=1}
+  - effect:particlesphere{particle=reddust;color=#FDB813;a=255;r=6;y=1;offset=1}
+  - effect:particlesphere{particle=reddust;color=#FDB813;a=255;r=4;y=1;offset=1}
+  - effect:particlesphere{particle=reddust;color=#FDB813;a=255;r=2;y=1;offset=1}

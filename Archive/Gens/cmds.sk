@@ -1,0 +1,217 @@
+options:
+	prefix: <##872CC0>&lʟᴏᴛᴜꜱɢᴇɴꜱ ≫<##AF69E5> 
+
+command /eventclear:
+  permission: lotusgens.eventcmd
+  trigger:
+    loop all players:
+      loop-player is not player
+      if loop-player's world is "event":
+        clear loop-player's inventory
+
+command /eventgive:
+  permission: lotusgens.eventcmd
+  trigger:
+    loop all players:
+      loop-player is not player
+      if loop-player's world is "event":
+        give loop-player player's tool
+
+command /eventinventory:
+  permission: lotusgens.eventcmd
+  trigger:
+    loop items in player's inventory:
+      loop all players:
+        loop-player is not player
+        if loop-player's world is "event":
+          give loop-player loop-item
+
+
+command /shop [<string>]:
+  cooldown: 1 second
+  trigger:
+    make player execute command "/warp shop"
+
+command /offhand [<string>]:
+  cooldown: 1 second
+  trigger:
+    set {_t} to player's tool
+    set {_o} to player's offhand
+    set player's tool to {_o}
+    set player's offhand to {_t}
+
+command /chatcooldown <number>:
+  permission: lotusgens.chatcooldown
+  trigger:
+    set {chatcd.time} to arg-1
+    clear {chatcd::*}
+    send "{@prefix} Set chat cooldown to %{chatcd.time}%"
+
+on chat:
+  if {chatcd::*} contains player:
+    send "{@prefix} Please do not spam"
+    cancel event
+  else:
+    add player to {chatcd::*}
+    wait "%{chatcd.time}% seconds" parsed as timespan
+    remove player from {chatcd::*}
+
+on load:
+  clear {chatcd::*}
+
+command /daily [<text>]:
+    cooldown: 3 seconds
+    trigger:
+        make console execute command "/crates openfor %player% daily"
+command /clearchat:
+  permission: chat.clear
+  trigger:
+    set {_x} to ""
+    loop 100 times:
+      add "&r " to {_x}
+      broadcast "%{_x}%"
+    send "&cchat has been cleared"
+
+# =====
+# =====
+# =====
+command /discord [<text>]:
+    cooldown: 1 second
+    trigger:
+        send ""
+        send "{@prefix} Join the discord &n<link:https://discord.gg/JspcABGb3T>discord.gg/JspcABGb3T"
+        send ""
+
+command /application [<text>]:
+    cooldown: 1 second
+    trigger:
+        send ""
+        send "{@prefix} Apply for staff on our discord! &n<link:https://discord.gg/JspcABGb3T>discord.gg/JspcABGb3T"
+        send ""
+
+command /broadcast <text>:
+	aliases: /announce, /bc 
+	permission: lotusgens.broadcast
+	trigger:
+		broadcast ""
+		broadcast "{@prefix} %colored arg-1%"
+		broadcast ""
+		play sound "block.note_block.bit" at volume 1 at pitch 3 to all players
+
+
+command /keyall [<string>]:
+  permission: lotusgens.keyall
+  cooldown: 1 day
+  cooldown bypass: lotusgens.keyall.admin
+  cooldown storage: {keyallcd::%player%}
+  cooldown message: {@prefix} You can use this command again in %remaining time%.
+  trigger:
+    if player has permission "lotusgens.keyall.admin":
+      if arg-1 is set:
+        make player execute command "/crates key giveall %arg-1% 1"
+        broadcast "{@prefix} A %arg-1% has been given to everyone"
+        play sound "block.note_block.bit" at volume 1 at pitch 0.5 to all players
+      else:
+        send "&cPlease provide key (/keyall -key-)" to player
+    else:
+      set {_a} to random integer between 0 and 1
+      set {_c} to random integer between 2 and 4
+      set {_l} to random integer between 1 and 2
+      make player execute command "/crates key giveall amaranth %{_a}%"
+      make player execute command "/crates key giveall lavender %{_l}%"
+      make player execute command "/crates key giveall calendula %{_c}%"
+      broadcast "" and "{@prefix} %player% has given a key-all to everyone!" and ""
+      play sound "block.note_block.bit" at volume 1 at pitch 0.5 to all players
+    
+
+command /mutechat:
+    permission: lotusgens.chatmute
+    permission message: &c You don't have the required permission to perform that command.
+    trigger:
+        if {Globalchat} is not set:
+            set {Globalchat} to true
+            broadcast "{@prefix} Chat muted by &r&c%player%"
+            stop trigger
+
+        if {Globalchat} is set:
+            clear {Globalchat}
+            broadcast "{@prefix} Chat unmuted by &r&a%player%"
+
+on chat:
+    if {Globalchat} is true:
+        if player has permission "chat.mute.bypass":
+            stop trigger
+        else:
+            cancel event
+            send "&cChat is currently muted."
+
+#command /rename [<text>]:
+#    permission: advnced.rename
+#    permission message: &cYes I am sorry I do not speak english. ok
+#    trigger:
+#        if arg-1 is set:
+#            if player's tool is not air:
+#                set name of player's tool to formatted "&r%colored arg-1%"
+#                send "{@prefix} Successfully renamed!" to player
+#                play sound "entity.player.levelup" at volume 1 at pitch 1.2 to player
+                
+command /updatenotes [<text>]:
+    permission: lotusgens.updates
+    trigger:
+        clear {updatenotes::msg::*}
+        set {updatenotes::msg::*} to colored arg-1
+        send "{@prefix} Set the update notes to %colored arg-1%"
+        wait 1 second
+        broadcast ""
+        broadcast "{@prefix} &lUPDATE: %{updatenotes::msg::*}%"
+        broadcast ""
+        play sound "block.note_block.bit" at volume 1 at pitch 3 to player
+        loop all players:
+            add loop-player to {updatesnotes::*}
+
+on chat:
+  message contains "staff"
+  {updatenotes::new::*} contains player
+  send "{@prefix} Apply for staff using /application"
+
+on first join:
+    add uuid of player to {updatenotes::new::*}
+    wait 30 seconds
+    remove uuid of player from {updatenotes::new::*}
+ 
+on join:
+    if {updatenotes::new::*} contains uuid of player:
+        stop
+    if {updatesnotes::*} does not contain player:
+        wait 5 seconds
+        send ""
+        send "{@prefix} &lUPDATE: %{updatenotes::msg::*}%"
+        send ""
+        play sound "block.note_block.bit" at volume 1 at pitch 3 to player
+        add player to {updatesnotes::*}
+
+#command /invseetoggle:
+#    cooldown: 10 seconds
+#    trigger:
+#        if {invseeanti::*} contains player:
+#            remove player from {invseeanti::*}
+#            send "&aPlayers can now see your inventory"
+#        else:
+#            add player to {invseeanti::*}
+#            send "&cPlayers can not longer see your inventory"
+
+#command /daily:
+#  cooldown: 5 seconds
+#  trigger:
+#    make console execute command "/crates openfor %player% dailycrate"  
+
+#on command "/invsee" or "einvsee":
+#    send "test"
+#    set {_c} to full command
+#    loop {invseeanti::*}:
+#        if "%{_c}%" contains "%loop-value%":
+#            cancel event
+#            send "&cThis player cannot be checked"
+#        else:
+#            send "no"
+       # send "%loop-value% %{_c}%"

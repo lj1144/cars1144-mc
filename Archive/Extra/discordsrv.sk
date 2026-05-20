@@ -129,8 +129,8 @@ discord command link [<text>]:
     prefixes: !
     aliases: /freerank
     trigger:
-        if discord id of event-channel is not "1376601134567002122":
-            reply with "You can only link your account in https://discord.com/channels/1365463169388253267/1376601134567002122 !"
+        if discord id of event-channel is not "0": # Put link to whwer eu want ur channel to be linked
+            reply with "You can only link your account in (put link to the channel u want link)"
             stop
         if arg-1 is not set:
             reply with "Syntax: !link (code)"
@@ -173,25 +173,6 @@ discord command playerlist:
                     add loop-player to {_plist::*}
             reply with "There are **%{_pcount}%** members online ```%{_plist::*}%```"
 
-#command /logchannel <integer> [<text>]:
-#    permission: console
-#    trigger:
-#        post "%arg-2%" to text channel with id "%arg-1%"
-
-
-#command /report [<player>] [<text>]:
-#    trigger:
-#        if arg-2 is not set:
-#            send "{@prefix} Usage: /report [player] [reason]" to player
-#        else if arg-1 is not set:
-#            send "{@prefix} Usage: &c/report [player] [reason]" to player
-#        else:
-#            make embed:
-#                set description of embed to "**%arg-1%** was reported in ezLavaRising for ""%arg-2%"""
-#                set author of embed to "%player%"
-#            post last embed to channel with id "1275245172703101042"
-#            post last embed to channel with id "1274354650048364637"
-#            send "{@prefix} %arg-1% has been reported for ""%arg-2%""" to all players where [input has the permission "ezlavarising.report"]
 
 discord command execute [<text>]:
     prefixes: !

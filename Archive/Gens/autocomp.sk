@@ -1,0 +1,154 @@
+command /setautocompressor:
+	permission: op
+	trigger:
+		if player's tool isn't air:
+			set {autocompressor} to player's tool
+			send "&aYou have set the Autocompressor Item!" to player
+		else:
+			send "&cYou need to hold the auto compressor item!" to player
+
+command /getautocompressor:
+	permission: op
+	trigger:
+		if {autocompressor} isn't barrier named "&4AUTOCOMPRESSOR NOT SET":
+			give player 1 of {autocompressor}
+			send "&aYou were given &e1x Autocompressor!" to player
+		else:
+			send "&cYou haven't set the autocompressor! /setautocompressor" to player
+
+on load:
+	if {autocompressor} isn't set:
+		set {autocompressor} to barrier named "&4AUTOCOMPRESSOR NOT SET"
+
+on break of diamond ore:
+	player's offhand tool is {autocompressor}
+	if player has 9 diamonds:
+		set {_d} to amount of diamonds in player's inventory
+		set {_d} to floor({_d} / 9)
+		set {_a} to {_d} * 9
+		remove {_a} of diamonds from player's inventory
+		give player {_d} of diamond blocks
+
+on break of emerald ore:
+	player's offhand tool is {autocompressor}
+	if player has 9 emeralds:
+		set {_d} to amount of emeralds in player's inventory
+		set {_d} to floor({_d} / 9)
+		set {_a} to {_d} * 9
+		remove {_a} of emeralds from player's inventory
+		give player {_d} of emerald blocks
+
+on break of lapis ore:
+	player's offhand tool is {autocompressor}
+	if player has 9 lapis lazuli:
+		set {_d} to amount of lapis lazuli in player's inventory
+		set {_d} to floor({_d} / 9)
+		set {_a} to {_d} * 9
+		remove {_a} of lapis lazuli from player's inventory
+		give player {_d} of lapis blocks
+
+on break of gold ore:
+	player's offhand tool is {autocompressor}
+	if player has 9 gold ore:
+		set {_d} to amount of gold ore in player's inventory
+		set {_d} to floor({_d} / 9)
+		set {_a} to {_d} * 9
+		remove {_a} of gold ore from player's inventory
+		give player {_d} of raw gold blocks
+	if player has 9 gold ingots:
+		set {_d} to amount of gold ingots in player's inventory
+		set {_d} to floor({_d} / 9)
+		set {_a} to {_d} * 9
+		remove {_a} of gold ingots from player's inventory
+		give player {_d} of gold blocks
+
+on break of iron ore:
+	player's offhand tool is {autocompressor}
+	if player has 9 iron ore:
+		set {_d} to amount of iron ore in player's inventory
+		set {_d} to floor({_d} / 9)
+		set {_a} to {_d} * 9
+		remove {_a} of iron ore from player's inventory
+		give player {_d} of raw iron blocks
+	if player has 9 iron ingots:
+		set {_d} to amount of iron ingots in player's inventory
+		set {_d} to floor({_d} / 9)
+		set {_a} to {_d} * 9
+		remove {_a} of iron ingots from player's inventory
+		give player {_d} of iron blocks
+
+on break of redstone ore:
+	player's offhand tool is {autocompressor}
+	if player has 9 redstone:
+		set {_d} to amount of redstone in player's inventory
+		set {_d} to floor({_d} / 9)
+		set {_a} to {_d} * 9
+		remove {_a} of redstone from player's inventory
+		give player {_d} of redstone blocks
+
+
+on break of deepslate diamond ore:
+	player's offhand tool is {autocompressor}
+	if player has 9 diamonds:
+		set {_d} to amount of diamonds in player's inventory
+		set {_d} to floor({_d} / 9)
+		set {_a} to {_d} * 9
+		remove {_a} of diamonds from player's inventory
+		give player {_d} of diamond blocks
+
+on break of deepslate emerald ore:
+	player's offhand tool is {autocompressor}
+	if player has 9 emeralds:
+		set {_d} to amount of emeralds in player's inventory
+		set {_d} to floor({_d} / 9)
+		set {_a} to {_d} * 9
+		remove {_a} of emeralds from player's inventory
+		give player {_d} of emerald blocks
+
+on break of deepslate lapis ore:
+	player's offhand tool is {autocompressor}
+	if player has 9 redstone:
+		set {_d} to amount of lapis lazuli in player's inventory
+		set {_d} to floor({_d} / 9)
+		set {_a} to {_d} * 9
+		remove {_a} of lapis lazuli from player's inventory
+		give player {_d} of lapis blocks
+
+on break of deepslate gold ore:
+	player's offhand tool is {autocompressor}
+	if player has 9 gold ore:
+		set {_d} to amount of gold ore in player's inventory
+		set {_d} to floor({_d} / 9)
+		set {_a} to {_d} * 9
+		remove {_a} of gold ore from player's inventory
+		give player {_d} of raw gold blocks
+	if player has 9 gold ingots:
+		set {_d} to amount of gold ingots in player's inventory
+		set {_d} to floor({_d} / 9)
+		set {_a} to {_d} * 9
+		remove {_a} of gold ingots from player's inventory
+		give player {_d} of gold blocks
+
+on break of deepslate iron ore:
+	player's offhand tool is {autocompressor}
+	if player has 9 iron ore:
+		set {_d} to amount of iron ore in player's inventory
+		set {_d} to floor({_d} / 9)
+		set {_a} to {_d} * 9
+		remove {_a} of iron ore from player's inventory
+		give player {_d} of raw iron blocks
+	if player has 9 iron ingots:
+		set {_d} to amount of iron ingots in player's inventory
+		set {_d} to floor({_d} / 9)
+		set {_a} to {_d} * 9
+		remove {_a} of iron ingots from player's inventory
+		give player {_d} of iron blocks
+
+on break of deepslate redstone ore:
+	player's offhand tool is {autocompressor}
+	if player has 9 redstone:
+		set {_d} to amount of redstone in player's inventory
+		set {_d} to floor({_d} / 9)
+		set {_a} to {_d} * 9
+		remove {_a} of redstone from player's inventory
+		give player {_d} of redstone blocks

@@ -1,0 +1,92 @@
+options:
+    prefix: <##12121D>&lᴅᴜᴘᴇ07 ≫<##A4A4C3>
+
+on join:
+    send player title "&8&lWelcome!" with subtitle "&7Use &8/dupe &7and or &8/rtp&7 to get started!" for 4 seconds
+
+
+#-------------------------------- Kill Rewards --------------------------------#
+
+on death of player:
+    if victim's world does not contain "world":
+        stop
+    if attacker's ip contains victim's ip:
+        make console execute command "/warp %attacker% -s Alt Farming"
+        make console execute command "/warp %victim% -s Alt Farming"
+    if victim is not wearing any armor:
+        stop
+    else:
+        set {_a} to attacker
+        if {lasthitcrystal::%attacker%} is set:
+            set {_a} to {lasthitcrystal::%attacker%}
+        if "%region at {_a}%" contains "mosh":
+            add 1 to {moshstreak::%attacker%}
+            delete {moshstreak::%victim%}
+            set {_t} to 50 * {moshstreak::%attacker%}
+            make console execute command "/ta give %{_a}% %{_t}%"
+            if attacker has permission "dupe07.multiplier":
+                make console execute command "/ta give %{_a}% %{_t}%"
+            make console execute command "/ta remove %victim% %{_t}%"
+            stop
+        else:
+            make console execute command "/ta give %{_a}% 15"
+            if attacker has permission "dupe07.multiplier":
+                make console execute command "/ta give %{_a}% %{_t}%"
+            make console execute command "/ta remove %victim% 15"
+            stop
+
+every 3 minutes:
+    loop all players:
+        set {_afkcheck} to placeholder "essentials_afk" from loop-player
+#        send "%{_afkcheck}%" to loop-player
+        {_afkcheck} is "no"
+        if "%region at loop-player%" contains "moshpit" or "cpvpmosh":
+            loop-player is wearing any armor
+            if {moshtime::%uuid of loop-player%} is not set:
+                set {moshtime::%uuid of loop-player%} to 1
+            if {moshtime::%uuid of loop-player%} is less than 7:
+                add 1 to {moshtime::%uuid of loop-player%}
+            set {_t} to 50 * {moshtime::%uuid of loop-player%}
+            make console execute command "/ta give %loop-player% %{_t}%"
+
+on load:
+    clear {moshtime::*}
+    clear {moshstreak::*}
+
+on quit:
+    delete {moshtime::%uuid of player%}
+    delete {moshstreak::%player%}
+
+on region exit:
+    wait 1 tick
+    if "%region at player%" does not contain "mosh":
+        delete {moshtime::%uuid of player%}
+        delete {moshstreak::%player%}
+
+
+
+
+#-------------------------------- DEATH CHECK --------------------------------#
+
+
+on damage of player:
+	if "%region at victim%" contains "moshpit":
+		set damage to damage * 1.2
+
+
+#-------------------------------- Wither CHECK --------------------------------#
+
+on spawning of wither:
+    wait 2 minute
+    kill event-entity
+    kill all monsters where [input is in region "spawn"]
+
+on block place:
+	if "%region at event-block%" contains "cpvpmosh":
+		wait 25 seconds
+		set event-block to air
+
+on anvil damage:
+    cancel event
+
+#-------------------------------- wELCOME --------------------------------#

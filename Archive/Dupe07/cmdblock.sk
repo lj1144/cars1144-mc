@@ -1,0 +1,60 @@
+options:
+  
+  #CONFIG
+  prefix: &a✔
+  no-prefix: &8✖
+  permission: staff
+  
+
+on command:
+    if command contains "event" or "revent":
+        player has permission "dupe07.eventban"
+        send "&cYou are currently banned from events"
+        cancel event
+
+command /eventban <offline player> <string>:
+    permission: dupe07.banevents
+    trigger:
+        make console execute command "/lp user %arg-1% permission set dupe07.eventban false"
+        send "&cBanned."
+
+
+on command:
+    loop {cmdblock::*}:
+        if command contains loop-value:
+            cancel event
+            
+
+command /cmdblock [<text>] [<text>]:
+    permission: op
+    trigger:
+        if arg-1 is "add":
+            if arg-2 is set:
+                if {cmdblock::*} does not contain arg-2:
+                    add arg-2 to {cmdblock::*}
+                    send "{@prefix} &7Added %arg-2% &7to the cmd filter."
+                    stop
+                else:
+                    send "{@no-prefix} &cThat cmd is already blocked!"
+                    stop
+            else:
+                send "{@no-prefix} &cSupply a cmd to block list!"
+                stop
+        if arg-1 is "remove":
+            if arg-2 is set:
+                if {cmdblock::*} contains arg-2:
+                    remove arg-2 from {cmdblock::*}
+                    send "{@prefix} &7Removed %arg-2% &7from the cmd filter."
+                    stop
+                else:
+                    send "{@no-prefix} &cThat cmd is not blocked!"
+                    stop
+            else:
+                send "{@no-prefix} &cSupply a cmd to unfilter!"
+                stop
+        if arg-1 is "list":
+            send "&cThe filtered cmd are: &7%{cmdblock::*}%"
+            stop
+        else:
+            send "{@no-prefix} &cUnknown argument"
+            stop

@@ -1,0 +1,11 @@
+on block place:
+    if event-block's y-coordinate is greater than 255:
+        if player's world is "lavarise":
+            send action bar "&cHeight limit for building has been set to 255" to player
+            cancel event
+
+on block place of any sapling:
+    if event-block's y-coordinate is greater than 200:
+        if player's world is "lavarise":
+            send action bar "&cHeight limit for this item has been set to 200" to player
+            cancel event

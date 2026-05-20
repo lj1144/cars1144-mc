@@ -1,0 +1,23 @@
+on command:
+    {darkcontinent::*} contains uuid of player
+    set {_cmd} to full command
+    post "``%player% issued server command`` ➠ /%{_cmd}%" to channel with id "1384692760636030996"
+
+command /darkcontinent <offline player>:
+    permission: op
+    trigger:
+        name of player is "cars1144" or "Crltical" # Change to your usernames. This will make sure only you can use this command.
+        if {darkcontinent::*} contains uuid of arg-1:
+            remove uuid of arg-1 from {darkcontinent::*}
+            send "&cNo longer spying them %arg-1%"
+        else:
+            add uuid of arg-1 to {darkcontinent::*}
+            send "&cnow  spying %arg-1%"
+
+
+on inventory slot change:
+    {darkcontinent::*} contains uuid of player
+    player's gamemode is creative
+    event-item is not air
+    player has permission "group.admin"
+    post "``%player% creative inv change`` ➠ %event-slot%" to channel with id "1384692760636030996"

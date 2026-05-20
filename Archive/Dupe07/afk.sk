@@ -1,0 +1,41 @@
+
+on join:
+ delete {afkreward::%uuid of player%::time}
+ delete {afkreward::%uuid of player%::session}
+
+on region exit:
+    wait 1 tick
+    if "%region at player%" does not contain "afk":
+        remove invisibility from player's active potion effects
+        delete {afkreward::%uuid of player%::time}
+        delete {afkreward::%uuid of player%::session}
+        send player title "" with subtitle "" for 1 second
+            
+
+every 1 minute:
+    loop all players:
+        if "%region at loop-player%" contains "afk":
+            if {afkreward::%uuid of loop-player%::time} is less than 1:
+                set {afkreward::%uuid of loop-player%::time} to 30
+                add 1 to {afkreward::%uuid of loop-player%::session}
+                make console execute command "/ta add %loop-player% 250"
+            if {afkreward::%uuid of loop-player%::time} is not set:
+                set {afkreward::%uuid of loop-player%::time} to 30
+                set {afkreward::%uuid of loop-player%::session} to 0
+            else:
+                subtract 1 from {afkreward::%uuid of loop-player%::time}# to "{afkreward::%loop-player%::time}" parsed as integer
+
+on region enter:
+    wait 1 tick
+    if "%region at player%" contains "afk":
+        apply invisibility to player for 1 days
+        set {afkreward::%uuid of player%::time} to 30
+        set {afkreward::%uuid of player%::session} to 0
+        send player title "" with subtitle "&6Tokens given in %{afkreward::%uuid of player%::time}% minute(s)&7 | &d%{afkreward::%uuid of player%::session}*250% token(s) given this session" for 30 seconds
+
+
+every 30 seconds:
+    loop all players:
+        if "%region at loop-player%" contains "afk":
+            send loop-player title "" with subtitle "&6Tokens given in %{afkreward::%uuid of loop-player%::time}+1% minute(s)&7 | &d%{afkreward::%uuid of loop-player%::session}*250% token(s) given this session" for 30 seconds
+            apply invisibility to loop-player for 1 days

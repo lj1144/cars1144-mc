@@ -1,0 +1,205 @@
+#-------------------------------------------------------------------------------
+#									VERIFY
+#-------------------------------------------------------------------------------
+
+
+define new bot named "x":
+    token: "x"
+    intents: default intents
+    policy: all
+    auto reconnect: true
+    compression: none
+on quit:
+    set the presence of the bot named "x" to watching "%online player count-1%/%max players% Players"
+on join:
+    set the presence of the bot named "x" to watching "%online player count%/%max players% Players"
+
+
+#-------------------------------------------------------------------------------
+#									CHAT LINK
+#-------------------------------------------------------------------------------
+
+
+options:
+	botName: x
+	relayChannel: 0
+	logChannel: 0
+	announceChannel: 0
+	serverName: x
+	botId: x
+	serverType: x
+	unloadImage: https://i.ibb.co/QXW4qGC/Whomps-Fortress-painting.webp
+	loadImage: https://i.ibb.co/zRswtT1/Wet-Dry-World-painting.webp
+	iconImage: https://i.ibb.co/mFhzyRj/artworks-000182396470-0cqwkm-original.jpg
+	prefix: <##872CC0>&lʟᴏᴛᴜꜱɢᴇɴꜱ ≫<##AF69E5>
+    
+#-------------------------------------------------------------------------------
+#									RELAY
+#-------------------------------------------------------------------------------
+
+on join:
+    set {_v} to placeholder "vanish_vanished" from player
+    if {_v} contains "true":
+        stop
+    make embed and store it in {_embed}:
+        set author of embed to "{@serverType}"
+        set author icon of embed to "https://minotar.net/avatar/%player's uuid%"
+        set title of embed to "``%player%`` Has joined"
+        set embed color of the embed to green
+    post {_embed} to text channel with id "{@relayChannel}"
+
+    
+on quit:
+	make embed and store it in {_embed}:
+		set author of embed to "{@serverType}"
+		set author icon of embed to "https://minotar.net/avatar/%player's uuid%"
+		set title of embed to "``%player%`` Has Left"
+		set embed color of the embed to red
+	post last made embed to text channel with id "{@relayChannel}"
+	
+
+
+every 5 minutes:
+    make console execute command "skript reload discordsrv.sk"
+
+on chat:
+    {staffchat::%uuid of player%} is not set
+    set {_msg} to message
+    replace all "@" in {_msg} with ""
+    post "``%player%`` ➠ %{_msg}%" to channel with id "{@relayChannel}"
+
+on death:
+	if victim is a player:
+		if attacker is a player:
+			make embed:
+				set author of embed to death message
+				set author icon of embed to "https://minotar.net/avatar/%victim's uuid%"
+				set embed color of the embed to gray
+			post last embed to channel with id "{@relayChannel}"
+		else:
+			make embed:
+				set author of embed to "%victim% Died"
+				set author icon of embed to "https://minotar.net/avatar/%victim's uuid%"
+				set embed color of the embed to gray
+			post last embed to channel with id "{@relayChannel}"
+
+on message received:
+    if discord id of event-channel is "{@relayChannel}":
+        if event-member is a discord bot:
+            stop
+        else:
+            broadcast "&8[&9&lDISCORD&8] &f%discord name of event-member% &8➜ &7%uncolored event-message%" 
+#-------------------------------------------------------------------------------
+#									LINK
+#-------------------------------------------------------------------------------
+
+command link:
+    aliases: /freerank
+    trigger:
+        if player has permission "group.linked":
+            send "&cYou have already linked your account!"
+            stop
+        set {_code} to a random integer between 11111 and 99999
+        set {code::%{_code}%} to player
+        send "&aYour unique code is %{_code}%. Run the command !link %{_code}% on our discord to link your account &5(/discord)&a. This code will be deleted in 3 minutes."
+        wait 3 minutes
+        delete {code::%{_code}%}
+
+discord command usernamecheck [<integer>]:
+    prefixes: !
+    trigger:
+        if event-member has discord permission administrator:
+            if arg-1 is not set:
+                reply with "Syntax: !usernamecheck (console command)"
+                stop
+            if event-member has discord permission administrator:
+                if {discord::%discord id of event-member%::username} is not set:
+                    reply with "Username not found"
+                    stop
+                else:
+                    reply with "``%{discord::%discord id of event-member%::username}%"
+#on first join:
+#  wait 40 seconds
+#  send "" to player
+#  send " {@prefix} Dxsmond0 has just linked their account for &lLinked Rank and a kit!<##AF69E5> Run /freerank to do it yourself!" to player
+#  send "" to player
+
+
+discord command link [<text>]:
+    prefixes: !
+    aliases: /freerank
+    trigger:
+        if discord id of event-channel is not "1376601134567002122":
+            reply with "You can only link your account in https://discord.com/channels/1365463169388253267/1376601134567002122 !"
+            stop
+        if arg-1 is not set:
+            reply with "Syntax: !link (code)"
+            stop
+        if {code::%arg-1%} is not set:
+            reply with "Invalid code"
+            stop
+        if {discord::*} contains discord id of event-member:
+            reply with "You are already linked to %{discord::%discord id of event-member%::username}%"
+            stop
+        if {discord::name::*} contains discord id of event-member:
+            reply with "You have already linked before"
+            stop
+        set {discord::%discord id of event-member%::username} to {code::%arg-1%}
+        set {discord::name::%{code::%arg-1%}%} to discord id of event-member
+        reply with "You have linked with the Minecraft account %{code::%arg-1%}%."
+        make console execute command "lp user %{code::%arg-1%}% parent add linked"
+        make console execute command "crates key give %{code::%arg-1%}% authentic 3"
+        give {code::%arg-1%} 1 of {compore.comeup}
+        send "" to all players
+        send " {@prefix} %{code::%arg-1%}% has just linked their account for &lLinked Rank! and a kit!!<##AF69E5> Run /freerank to do it yourself!" to all players
+        send "" to all players
+        delete {code::%arg-1%}
+
+on member leave:
+  {discord::%discord id of event-member%::username} has permission "group.linked"
+  delete {discord::%discord id of event-member%::username}
+  delete {discord::%discord id of event-member%}
+  delete {discord::name::%{discord::%discord id of event-member%::username}%}
+  make console execute command "/lp user %{discord::%discord id of event-member%::username}% parent remove linked"
+
+discord command playerlist:
+    prefixes: !
+    trigger:
+        if discord id of event-channel is "{@relayChannel}":
+            loop all players:
+                set {_v} to placeholder "vanish_vanished" from loop-player
+                if {_v} does not contain "true":
+                    add 1 to {_pcount}
+                    add loop-player to {_plist::*}
+            reply with "There are **%{_pcount}%** members online ```%{_plist::*}%```"
+
+#command /logchannel <integer> [<text>]:
+#    permission: console
+#    trigger:
+#        post "%arg-2%" to text channel with id "%arg-1%"
+
+
+#command /report [<player>] [<text>]:
+#    trigger:
+#        if arg-2 is not set:
+#            send "{@prefix} Usage: /report [player] [reason]" to player
+#        else if arg-1 is not set:
+#            send "{@prefix} Usage: &c/report [player] [reason]" to player
+#        else:
+#            make embed:
+#                set description of embed to "**%arg-1%** was reported in ezLavaRising for ""%arg-2%"""
+#                set author of embed to "%player%"
+#            post last embed to channel with id "1275245172703101042"
+#            post last embed to channel with id "1274354650048364637"
+#            send "{@prefix} %arg-1% has been reported for ""%arg-2%""" to all players where [input has the permission "ezlavarising.report"]
+
+discord command execute [<text>]:
+    prefixes: !
+    trigger:
+        if event-member has discord permission administrator:
+            if arg-1 is not set:
+                reply with "Syntax: !execute (console command)"
+                stop
+            if event-member has discord permission administrator:
+                make console execute command arg-1
+                reply with "Executed ``%arg-1%`` ingame"

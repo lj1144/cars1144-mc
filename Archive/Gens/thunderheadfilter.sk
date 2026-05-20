@@ -1,0 +1,117 @@
+# Not my proudest filter
+options:
+    prefix: <##B71C1C>&lꜰʟᴀʀᴇɢᴇɴᴢᴢ ≫<##E63946>
+    no-prefix: &8✖
+
+command /thunderheadfilter [<text>] [<integer>] [<text>]:
+    permission: advancedbox.admin
+    trigger:
+        if arg-1 is "add":
+            if arg-3 is set:
+                if arg-2 is not set:
+                    stop
+                if arg-2 is not between 0 and 4:
+                    stop
+                if {thunderfilter::%arg-2%::*} does not contain arg-3:
+                    add arg-3 to {thunderfilter::%arg-2%::*}
+                    send "{@prefix} &7Added %arg-3% &7to the chat filter."
+                    stop
+                else:
+                    send "{@no-prefix} &cThat chat is already blocked!"
+                    stop
+            else:
+                send "{@no-prefix} &cSupply a chat to filter!"
+                stop
+        if arg-1 is "remove":
+            if arg-3 is set:
+                if arg-2 is not set:
+                    stop
+                if arg-2 is not between 0 and 4:
+                    stop
+                if {thunderfilter::%arg-2%::*} contains arg-3:
+                    remove arg-3 from {thunderfilter::%arg-2%::*}
+                    send "{@prefix} &7Removed %arg-3% &7from the chat filter."
+                    stop
+                else:
+                    send "{@no-prefix} &cThat chat is not blocked!"
+                    stop
+            else:
+                send "{@no-prefix} &cSupply a chat to unfilter!"
+                stop
+        if arg-1 is "list":
+            send "&cThe filtered chat are: &7&l0: &7%{thunderfilter::0::*}% &7l1: &7%{thunderfilter::1::*}% &7&l2: &7%{thunderfilter::2::*}% &7l3: &7%{thunderfilter::3::*}% &7l4: &7%{thunderfilter::4::*}%"
+            stop
+        else:
+            send "{@no-prefix} &cUnknown argument"
+            stop
+            
+on chat:
+    loop {thunderfilter::4::*}:
+        if message contains loop-value:
+            set {_msg} to message
+            make console execute command "/tempmute %player% -s 1w Muted by the Thunderhead - MSG: '%{_msg}%'"
+            cancel event
+            stop
+    loop {thunderfilter::3::*}:
+        if message contains loop-value:
+            set {_msg} to message
+            make console execute command "/tempmute %player% -s 3d Thunderhead Filter - MSG: '%{_msg}%'"
+            cancel event
+            stop
+    loop {thunderfilter::2::*}:
+        if message contains loop-value:
+            set {_msg} to message
+            make console execute command "/tempmute %player% -s 1h Excessive Toxicty - MSG: '%{_msg}%'"
+            cancel event
+            stop
+    loop {thunderfilter::1::*}:
+        if message contains loop-value:
+            set {_msg} to message
+            make console execute command "/tempmute %player% -s 10m A bit of toxicity - MSG: '%{_msg}%'"
+            cancel event
+            stop
+    loop {thunderfilter::0::*}:
+        if message contains loop-value:
+            cancel event
+            send "&6[&8&l&oThunderhead&6 -> &cme&6] &f&oPlease dont say that. Thankyou"
+            stop
+            
+on command:
+    loop {cmdblocks::*}:
+        if command contains loop-value:
+            cancel event
+            send "&c command blocked"
+
+command /cmdblock [<text>] [<text>]:
+    permission: op
+    trigger:
+        if arg-1 is "add":
+            if arg-2 is set:
+                if {cmdblocks::*} does not contain arg-2:
+                    add arg-2 to {cmdblocks::*}
+                    send "{@prefix} &7Added %arg-2% &7to the swear filter."
+                    stop
+                else:
+                    send "{@no-prefix} &cThat word is already blocked!"
+                    stop
+            else:
+                send "{@no-prefix} &cSupply a word to filter!"
+                stop
+        if arg-1 is "remove":
+            if arg-2 is set:
+                if {cmdblocks::*} contains arg-2:
+                    remove arg-2 from {cmdblocks::*}
+                    send "{@prefix} &7Removed %arg-2% &7from the swear filter."
+                    stop
+                else:
+                    send "{@no-prefix} &cThat word is not blocked!"
+                    stop
+            else:
+                send "{@no-prefix} &cSupply a word to unfilter!"
+                stop
+        if arg-1 is "list":
+            send "&cThe filtered cmds are: &7%{cmdblocks::*}%"
+            stop
+        else:
+            send "{@no-prefix} &cUnknown argument"
+            stop

@@ -1,0 +1,72 @@
+options:
+	prefix: <##872CC0>&lʟᴏᴛᴜꜱɢᴇɴꜱ ≫<##AF69E5> 
+
+on block place:
+    "%region at event-block%" contains "box"
+    "%region at event-block%" does not contain "spawn"
+    player's gamemode is survival
+    add event-block to {mapblocks::*}
+
+every 1 day :
+    broadcast ""
+    broadcast "{@prefix} Map will reset in 1 hour"
+    broadcast ""
+    wait 30 minutes
+    broadcast ""
+    broadcast "{@prefix} Map will reset in 30 minutes"
+    broadcast ""
+    wait 25 minutes
+    broadcast ""
+    broadcast "{@prefix} Map will reset in 5 minutes"
+    broadcast ""
+    wait 4 minutes
+    broadcast ""
+    broadcast "{@prefix} Map will reset in 1 minutes"
+    broadcast ""
+    wait 1 minute
+    loop {mapblocks::*}:
+        set block at loop-value to air
+    clear {mapblocks::*}
+
+on block place:
+    "%region at event-block%" contains "vscob"
+    wait 15 seconds
+    set event-block to air
+
+#on block break:
+#    "%region at event-block%" contains "box"
+#    "%region at event-block%" does not contain "mine"
+#    "%region at event-block%" does not contain "pvpmines"
+#    player's gamemode is survival
+#    if {mapblocks::*} does not contain event-block:
+#        cancel event
+    
+command /mapclear:
+    permission: op
+    trigger:
+        loop {mapblocks::*}:
+            set block at loop-value to air
+        clear {mapblocks::*}
+        loop {mapblocks::arena::*}:
+            set block at loop-value to air
+        clear {mapblocks::arena::*}
+
+on block break:
+  player's world contains "arena"
+  {mapblocks::arena::*} does not contain event-block
+  cancel event
+
+on block place:
+    player's world contains "arena"
+    player's gamemode is survival
+    add event-block to {mapblocks::arena::*}
+    wait 5 seconds
+    if {mapblocks::arena::*} contains event-block:
+        set event-block to air
+        remove event-block from {mapblocks::arena::*}
+
+on block break:
+    if {mapblocks::*} contains event-block:
+        remove event-block from {mapblocks::*}
+    else if {mapblocks::arena::*} contains event-block:
+        remove event-block from {mapblocks::arena::*}

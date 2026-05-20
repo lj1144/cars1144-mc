@@ -1,0 +1,258 @@
+options:
+    prefix: <##12121D>&lᴅᴜᴘᴇ07 ≫<##A4A4C3>
+    announcement-prefix: <##12121D>&lᴀɴɴᴏᴜɴᴄᴇᴍᴇɴᴛ ≫<##A4A4C3>
+
+# =====
+# =====
+# =====
+
+command /broadcast [<text>]:
+	aliases: /announce
+	permission: ezlavarising.broadcast
+	trigger:
+		if arg-1 is set:
+			broadcast ""
+			broadcast "{@announcement-prefix} %colored arg-1%"
+			broadcast ""
+			play sound "block.note_block.bit" at volume 1 at pitch 3 to all players
+
+command /announce [<text>]:
+    permission: ezlavarising.broadcast
+    trigger:
+        if arg-1 is set:
+            make console execute command "/broadcast %arg-1%"
+
+command /bc [<text>]:
+    permission: ezlavarising.broadcast
+    trigger:
+        if arg-1 is set:
+            make console execute command "/broadcast %arg-1%"
+
+command /rename [<text>]:
+    permission: dupe07.rename
+    permission message: &cYes I am sorry I do not speak english. ok
+    trigger:
+        if arg-1 is set:
+            if player's tool is not air:
+                set name of player's tool to formatted "&r%colored arg-1%"
+                send "{@prefix} Successfully renamed!" to player
+                play sound "entity.player.levelup" at volume 1 at pitch 1.2 to player
+				
+
+command /shop:
+    cooldown: 1 second
+    trigger:
+        make player execute command "/warp shop"
+
+
+command /discord:
+    trigger:
+        send "{@prefix} Join the discord &f&l&n<link:https://discord.gg/pDARVhStJZ>discord.gg/pDARVhStJZ"
+
+on command "/dupe 3":
+    if player has permission "dupe07.bypassdupe":
+        stop
+    send "&ccrit disabled it. dont question it. use /dupe"
+    cancel event
+on command "/dupe 1":
+    if player has permission "dupe07.bypassdupe":
+        stop
+    send "&ccrit disabled it. dont question it. use /dupe"
+    cancel event
+on command "/dupe 2":
+    if player has permission "dupe07.bypassdupe":
+        stop
+    send "&ccrit disabled it. dont question it. use /dupe"
+    cancel event
+on command "/dupe:dupe":
+    if player has permission "dupe07.bypassdupe":
+        stop
+    send "&ccrit disabled it. dont question it. use /dupe"
+    cancel event
+on command "/dupe:dupe 1":
+    if player has permission "dupe07.bypassdupe":
+        stop
+    send "&ccrit disabled it. dont question it. use /dupe"
+    cancel event
+on command "/dupe:dupe 2":
+    if player has permission "dupe07.bypassdupe":
+        stop
+    send "&ccrit disabled it. dont question it. use /dupe"
+    cancel event
+on command "/dupe:dupe 3":
+    if player has permission "dupe07.bypassdupe":
+        stop
+    send "&ccrit disabled it. dont question it. use /dupe"
+    cancel event
+
+
+
+command /heartset [<text>] [<player>]:
+    permission: op
+    trigger:
+        if arg-1 is "reset":
+            set arg-2's maximum health to 10
+            stop
+        if arg-1 is "update":
+            updatehearts(arg-2)
+
+
+command /clearchat:
+    permission: dupe07.clearchat
+    trigger:
+        set {_l} to 0
+        loop 500 times:
+            add 1 to {_l}
+            broadcast "%{_l}%"
+        broadcast "{@prefix} Chat has been cleared"
+
+command /apply:
+    cooldown: 1 minute
+    trigger:
+        send ""
+        send "{@prefix} Would you like to apply for staff? Join the discord and go to the application channel! <link:https://discord.gg/pDARVhStJZ>discord.gg/pDARVhStJZ"
+        send ""
+
+command /redemote <offline player>:
+    permission: dupe07.srmod
+    trigger:
+        make console execute command "/lp user %arg-1% parent remove reestablishment"
+        make console execute command "/lp user %arg-1% permission clear"
+        send "&cYou have been removed from the re-establishment team. Please rejoin"
+        wait 2 seconds
+        kick arg-1
+
+
+command /rtp:
+    cooldown: 3 seconds
+    aliases: wild
+    trigger:
+        send "{@prefix} Teleporting in 3 second(s). Do not move"
+        set {_locx} to player's x-coordinate
+        set {_locy} to player's y-coordinate
+        wait 1 second
+        if player's x-coordinate is not {_locx}:
+            send "{@prefix} You moved. Cancelled"
+            stop
+        if player's y-coordinate is not {_locy}:
+            send "{@prefix} You moved. Cancelled"
+            stop
+        send "{@prefix} Teleporting in 2 second(s). Do not move"
+        wait 1 second
+        if player's x-coordinate is not {_locx}:
+            send "{@prefix} You moved. Cancelled"
+            stop
+        if player's y-coordinate is not {_locy}:
+            send "{@prefix} You moved. Cancelled"
+            stop
+        send "{@prefix} Teleporting in 1 second(s). Do not move"
+        wait 1 second
+        if player's x-coordinate is not {_locx}:
+            send "{@prefix} You moved. Cancelled"
+            stop
+        if player's y-coordinate is not {_locy}:
+            send "{@prefix} You moved. Cancelled"
+            stop
+        rtp(player)
+
+function rtp(p: player):
+    set {_x} to round(random number between -3500 and 3500)
+    set {_z} to round(random number between -3500 and 3500)
+    if {_x} is between -200 and 200:
+        rtp({_p})
+        stop
+    if {_z} is between -250 and 250:
+        rtp({_p})
+        stop
+    if highest solid block at location({_x}, 0, {_z}, world "world") is water:
+        rtp({_p})
+        stop
+    teleport {_p} to highest solid block at location({_x}, 0, {_z}, world "world")
+#        rtp({_p})
+
+
+
+command /reset <player>:
+    permission: op
+    trigger:
+        clear arg-1's inventory
+        make console execute command "/essentials:tp %arg-1% 2 69 6"
+        wait 10 ticks
+        make console execute command "/kit give starter %arg-1%"
+
+function rtpnew(p: player):
+    set {_x} to round(random number between 500 and 1500)
+    set {_z} to round(random number between 500 and 1500)
+    if highest solid block at location({_x}, 0, {_z}, world "world") is water:
+        rtpnew({_p})
+        stop
+    teleport {_p} to highest solid block at location({_x}, 0, {_z}, world "world")
+command /updatenotes [<text>]:
+    permission: op
+    trigger:
+        clear {updatesnotes::*}
+        set {updatenotes} to colored arg-1
+        send "{@prefix} Set the update notes to %colored arg-1%"
+        wait 1 second
+        broadcast ""
+        broadcast "{@prefix} &lUPDATE: %{updatenotes}%"
+        broadcast ""
+        play sound "block.note_block.bit" at volume 1 at pitch 3 to player
+        loop all players:
+            add loop-player to {updatesnotes::*}
+
+on first join:
+    add uuid of player to {updatenotes::new::*}
+    wait 30 seconds
+    remove uuid of player from {updatenotes::new::*}
+
+command /moshspectate:
+    permission: dupe07.moshspectate
+    permission message: &cYou need at least titan/essentials to use this command
+    trigger:
+        send "{@prefix} Teleporting in 3 second(s). Do not move"
+        set {_locx} to player's x-coordinate
+        set {_locy} to player's y-coordinate
+        wait 1 second
+        if player's x-coordinate is not {_locx}:
+            send "{@prefix} You moved. Cancelled"
+            stop
+        if player's y-coordinate is not {_locy}:
+            send "{@prefix} You moved. Cancelled"
+            stop
+        send "{@prefix} Teleporting in 2 second(s). Do not move"
+        wait 1 second
+        if player's x-coordinate is not {_locx}:
+            send "{@prefix} You moved. Cancelled"
+            stop
+        if player's y-coordinate is not {_locy}:
+            send "{@prefix} You moved. Cancelled"
+            stop
+        send "{@prefix} Teleporting in 1 second(s). Do not move"
+        wait 1 second
+        if player's x-coordinate is not {_locx}:
+            send "{@prefix} You moved. Cancelled"
+            stop
+        if player's y-coordinate is not {_locy}:
+            send "{@prefix} You moved. Cancelled"
+            stop
+        teleport player to location(23, 60, 50, world("world"))
+
+on chat:
+    if {updatenotes::new::*} contains uuid of player:
+        if message contains "life":
+            send ""
+            send "{@prefix} This server is not lifesteal"
+            send ""
+
+on join:
+    if {updatenotes::new::*} contains uuid of player:
+        stop
+    if {updatesnotes::*} does not contain player:
+        wait 5 seconds
+        send ""
+        send "{@prefix} &lUPDATE: %{updatenotes}%"
+        send ""
+        play sound "block.note_block.bit" at volume 1 at pitch 3 to player
+        add player to {updatesnotes::*}
+

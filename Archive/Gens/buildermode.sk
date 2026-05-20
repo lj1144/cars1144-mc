@@ -1,0 +1,24 @@
+on command:
+    {buildermode::*} contains player
+    player's world does not contain "preview"
+    cancel event
+    send "&cYou cannot acces commands here"
+command /buildermode <player>:
+  permission: op
+  trigger:
+    if {buildermode::*} contains arg-1:
+      remove arg-1 from {buildermode::*}
+      send "removed"
+    else:
+      add arg-1 to {buildermode::*}
+      send "&C set player"
+      teleport arg-1 to location(0, 103, 0, world "preview", 180, 0)
+
+on world change:
+  {buildermode::*} contains player
+  wait 1 tick
+  teleport player to location(0, 103, 0, world "preview", 180, 0)
+  clear player's inventory
+on damage:
+    {buildermode::*} contains victim
+    cancel event

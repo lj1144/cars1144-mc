@@ -1,0 +1,36 @@
+options:
+    prefix: <##AB2330>&lᴇᴢʟᴀᴠᴀʀɪꜱɪɴɢ ≫<##A95F66>
+
+on join:
+    if {winload::*} does not contain uuid of player:
+        add uuid of player to {winload::*}
+        set {_amount} to placeholder "luckperms_primary_group_name" from player
+        replace all "a" and "b" and "c" and "d" and "e" and "f" and "g" and "h" and "i" and "j" and "k" and "l" and "m" and "n" and "o" and "p" and "q" and "r" and "s" and "t" and "u" and "v" and "w" and "x" and "y" and "z" in {_amount} with ""
+        wait 3 seconds
+        make console execute command "svar set wins %{_amount}% %player%"
+        send "{@prefix} Your win count has been updated to %{_amount}%"
+
+command /stats [<player>]:
+    cooldown: 5 seconds
+    trigger:
+        if arg-1 is not set:
+            set {_wins} to placeholder "servervariables_value_wins" from player
+            set {_deaths} to placeholder "statistic_deaths" from player
+            set {_kills} to placeholder "statistic_player_kills" from player
+            send ""  to player
+            send "{@prefix} Stats" to player
+            send "<##AB2330>&lWins: <##A95F66>%{_wins}%"
+            send "<##AB2330>&lKills: <##A95F66>%{_kills}%"
+            send "<##AB2330>&lDeaths: <##A95F66>%{_deaths}%"
+            send "" to player
+        else:
+            set {_wins} to placeholder "servervariables_value_wins" from arg-1
+            set {_deaths} to placeholder "statistic_deaths" from arg-1
+            set {_kills} to placeholder "statistic_player_kills" from arg-1
+            send ""  to player
+            send "{@prefix} Stats of %arg-1%" to player
+            send "<##AB2330>&lWins: <##A95F66>%{_wins}%"
+            send "<##AB2330>&lKills: <##A95F66>%{_kills}%"
+            send "<##AB2330>&lDeaths: <##A95F66>%{_deaths}%"
+            send "" to player
+            send "&c%player% is checking your stats!" to arg-1

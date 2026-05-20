@@ -1,0 +1,40 @@
+# Permissions:
+# - staff.chat: Access to view and send messages in the staff chat.
+# - staff.chat.toggle: Ability to toggle staff chat mode.
+
+options:
+    prefix: &7[&bStaff Chat&7]&r
+    permission: staff.chat
+    togglePermission: staff.chat.toggle
+
+# Command to use staff chat with /sc <message>
+command /sc [<text>]:
+    permission: {@permission}
+    permission message: &cYou do not have permission to use the staff chat!
+    trigger:
+        if arg-1 is set:
+            loop all players:
+                if loop-player has permission "{@permission}":
+                    send "{@prefix} &a%player%: &f%arg-1%" to loop-player
+        else:
+            send "&cPlease enter a message to send to staff chat."
+
+# Toggle staff chat mode with /sctoggle
+command /sctoggle:
+    permission: {@togglePermission}
+    permission message: &cYou do not have permission to toggle staff chat!
+    trigger:
+        if {staffchat::%uuid of player%} is set:
+            delete {staffchat::%uuid of player%}
+            send "&cStaff chat toggled off."
+        else:
+            set {staffchat::%uuid of player%} to true
+            send "&aStaff chat toggled on."
+
+# On chat event to handle automatic staff chat when toggled
+on chat:
+    if {staffchat::%uuid of player%} is set:
+        cancel event
+        loop all players:
+            if loop-player has permission "{@permission}":
+                send "{@prefix} &a%player%: &f%message%" to loop-player
